@@ -4,6 +4,7 @@
  */
 
 import { NOTIFICATIONS, SEARCH_ITEMS } from './mock-data.js';
+import { getInitials, logout } from './auth-client.js';
 
 /** Navigation routes for sidebar */
 const NAV_ITEMS = [
@@ -74,10 +75,14 @@ function renderSidebar(activePage) {
 /**
  * Render top navigation bar HTML
  * @param {string} pageTitle - Current page title
+ * @param {Object} [user] - Authenticated user
  * @returns {string}
  */
-function renderTopbar(pageTitle) {
+function renderTopbar(pageTitle, user) {
   const unreadCount = NOTIFICATIONS.filter((n) => n.unread).length;
+  const displayName = user?.fullName || 'VEXORA User';
+  const displayRole = user?.role || 'Viewer';
+  const initials = getInitials(displayName);
 
   return `
     <header class="topbar" id="topbar">
@@ -116,14 +121,14 @@ function renderTopbar(pageTitle) {
 
         <div class="topbar__dropdown-wrap">
           <button class="topbar__profile" id="profile-trigger" type="button" aria-label="User menu" aria-expanded="false">
-            <span class="topbar__avatar" aria-hidden="true">KK</span>
+            <span class="topbar__avatar" aria-hidden="true">${initials}</span>
             <span class="topbar__profile-info">
-              <span class="topbar__profile-name">Krish Kapuriya</span>
-              <span class="topbar__profile-role">Admin</span>
+              <span class="topbar__profile-name">${displayName}</span>
+              <span class="topbar__profile-role">${displayRole}</span>
             </span>
             <span class="topbar__profile-chevron" aria-hidden="true">▾</span>
           </button>
-          ${renderProfileMenu()}
+          ${renderProfileMenu(user)}
         </div>
       </div>
     </header>
@@ -210,16 +215,21 @@ function renderNotificationPanel() {
 
 /**
  * Render profile dropdown menu
+ * @param {Object} [user]
  * @returns {string}
  */
-function renderProfileMenu() {
+function renderProfileMenu(user) {
+  const displayName = user?.fullName || 'VEXORA User';
+  const displayEmail = user?.email || 'user@vexora.ai';
+  const initials = getInitials(displayName);
+
   return `
     <div class="dropdown-panel profile-panel" id="profile-panel" hidden>
       <div class="profile-panel__header">
-        <span class="profile-panel__avatar" aria-hidden="true">KK</span>
+        <span class="profile-panel__avatar" aria-hidden="true">${initials}</span>
         <div>
-          <div class="profile-panel__name">Krish Kapuriya</div>
-          <div class="profile-panel__email">krish@vexora.ai</div>
+          <div class="profile-panel__name">${displayName}</div>
+          <div class="profile-panel__email">${displayEmail}</div>
         </div>
       </div>
       <nav class="profile-panel__nav" aria-label="Profile menu">
@@ -229,7 +239,7 @@ function renderProfileMenu() {
         <a href="settings.html#billing" class="profile-panel__link">💳 Billing</a>
       </nav>
       <div class="profile-panel__divider"></div>
-      <a href="../index.html" class="profile-panel__link profile-panel__link--logout">↩ Back to Website</a>
+      <button type="button" class="profile-panel__link profile-panel__link--logout" id="logout-btn">↩ Sign Out</button>
     </div>
   `;
 }
@@ -263,14 +273,15 @@ function renderSidebarOverlay() {
  * @param {Object} config
  * @param {string} config.activePage - Page id for nav highlighting
  * @param {string} config.pageTitle - Display title for breadcrumb
+ * @param {Object} [config.user] - Authenticated user profile
  */
-export function initShell({ activePage, pageTitle }) {
+export function initShell({ activePage, pageTitle, user }) {
   const sidebarSlot = document.getElementById('sidebar-slot');
   const topbarSlot = document.getElementById('topbar-slot');
   const modalsSlot = document.getElementById('modals-slot');
 
   if (sidebarSlot) sidebarSlot.innerHTML = renderSidebar(activePage);
-  if (topbarSlot) topbarSlot.innerHTML = renderTopbar(pageTitle);
+  if (topbarSlot) topbarSlot.innerHTML = renderTopbar(pageTitle, user);
 
   if (modalsSlot) {
     modalsSlot.innerHTML =
@@ -407,6 +418,12 @@ export function bindShellEvents() {
 
   notifyPanel?.addEventListener('click', (e) => e.stopPropagation());
   profilePanel?.addEventListener('click', (e) => e.stopPropagation());
+
+  document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await logout();
+  });
 
   /* Mark all notifications read → empty state */
   notifyPanel?.querySelector('.btn--ghost')?.addEventListener('click', (e) => {

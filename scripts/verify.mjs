@@ -15,6 +15,8 @@ const passed = [];
 
 const REQUIRED_PAGES = [
   'index.html',
+  'pages/login.html',
+  'pages/signup.html',
   'pages/dashboard.html',
   'pages/analytics.html',
   'pages/insights.html',
@@ -24,6 +26,7 @@ const REQUIRED_PAGES = [
 
 const REQUIRED_JS = [
   'js/app.js',
+  'js/auth-client.js',
   'js/dashboard-app.js',
   'js/shell.js',
   'js/mock-data.js',
@@ -35,6 +38,8 @@ const REQUIRED_JS = [
   'js/pages/insights.js',
   'js/pages/reports.js',
   'js/pages/settings.js',
+  'js/pages/login.js',
+  'js/pages/signup.js',
   'js/micro-interactions.js',
 ];
 
@@ -47,6 +52,7 @@ const REQUIRED_CSS = [
   'css/pages.css',
   'css/upgrade.css',
   'css/polish.css',
+  'css/auth.css',
 ];
 
 function checkExists(relativePath, label) {
@@ -137,6 +143,8 @@ const baseUrl = `http://localhost:${port}`;
 async function checkHttp() {
   const urls = [
     '/',
+    '/pages/login.html',
+    '/pages/signup.html',
     '/pages/dashboard.html',
     '/pages/analytics.html',
     '/pages/insights.html',

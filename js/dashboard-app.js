@@ -6,6 +6,7 @@
 import VexoraTheme from './theme.js';
 import VexoraAnimations from './animations.js';
 import { initMicroInteractions } from './micro-interactions.js';
+import { validateSession, applyUserToShell, getStoredUser } from './auth-client.js';
 import {
   initShell,
   bindShellEvents,
@@ -21,13 +22,17 @@ import {
  * @param {string} config.pageTitle
  * @param {Function} [config.onReady] - Page-specific init callback
  */
-export function initApp({ activePage, pageTitle, onReady }) {
+export async function initApp({ activePage, pageTitle, onReady }) {
+  const user = await validateSession();
+  if (!user) return;
+
   VexoraTheme.init();
-  initShell({ activePage, pageTitle });
+  initShell({ activePage, pageTitle, user: user || getStoredUser() });
   bindShellEvents();
   initRippleEffect();
   initSkeletonLoader();
   initPageTransition();
+  applyUserToShell(user);
 
   /* Theme toggle handler */
   document.addEventListener('vexora:toggle-theme', () => {

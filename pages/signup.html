@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your VEXORA account — AI-Powered Business Intelligence Platform">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Create Account — VEXORA</title>
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/landing.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/upgrade.css">
+  <link rel="stylesheet" href="../css/polish.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body class="auth-page">
+
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--secondary"></div>
+    <div class="bg-orb bg-orb--accent"></div>
+  </div>
+  <div class="mesh-bg" aria-hidden="true"></div>
+
+  <header id="navbar" class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo brand-logo" aria-label="VEXORA Home">
+        <img src="../assets/icons/logo-mark.svg" alt="" class="brand-logo__mark" width="36" height="36">
+        <span>VEXORA</span>
+      </a>
+      <div class="navbar__actions">
+        <a href="login.html" class="btn btn--ghost">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-main" id="main-content">
+    <div class="auth-card glass-card premium-border">
+      <div class="auth-card__header">
+        <h1 class="auth-card__title">Start your free trial</h1>
+        <p class="auth-card__subtitle">Create an account to access the VEXORA platform</p>
+      </div>
+
+      <div id="auth-error" class="auth-error" role="alert" hidden></div>
+
+      <form id="signup-form" class="auth-form" novalidate>
+        <div class="settings-row">
+          <label class="settings-row__label" for="fullName">Full Name</label>
+          <input class="settings-input" type="text" id="fullName" name="fullName" placeholder="Your full name" autocomplete="name" required minlength="2">
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-row__label" for="email">Email</label>
+          <input class="settings-input" type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" required>
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-row__label" for="password">Password</label>
+          <input class="settings-input" type="password" id="password" name="password" placeholder="Minimum 8 characters" autocomplete="new-password" required minlength="8">
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-row__label" for="confirmPassword">Confirm Password</label>
+          <input class="settings-input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password" required minlength="8">
+        </div>
+
+        <button class="btn btn--primary btn--lg" type="submit" id="signup-submit">Create Account</button>
+      </form>
+
+      <p class="auth-footer">
+        Already have an account? <a href="login.html">Sign in</a>
+      </p>
+    </div>
+  </main>
+
+  <script type="module" src="../js/pages/signup.js"></script>
+</body>
+</html>

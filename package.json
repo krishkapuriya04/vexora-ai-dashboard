@@ -3,23 +3,41 @@
   "version": "1.0.0",
   "description": "VEXORA — AI-Powered Business Intelligence & Analytics Platform",
   "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
     "serve": "npx serve . -p 3456",
     "screenshots": "node portfolio-assets/capture-screenshots.mjs",
     "verify": "node scripts/verify.mjs",
-    "verify:paths": "node scripts/verify-paths.mjs"
+    "verify:paths": "node scripts/verify-paths.mjs",
+    "test:auth": "node scripts/test-auth.mjs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/krishkapuriya04/vexora-ai-dashboard.git"
   },
-  "keywords": [],
+  "keywords": [
+    "business-intelligence",
+    "analytics",
+    "dashboard",
+    "jwt",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/krishkapuriya04/vexora-ai-dashboard/issues"
   },
   "homepage": "https://krishkapuriya04.github.io/vexora-ai-dashboard/",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1"
+  },
   "devDependencies": {
     "playwright": "^1.60.0"
   }
