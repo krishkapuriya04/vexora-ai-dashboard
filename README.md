@@ -76,4 +76,4 @@ Fonts: **Inter** (body), **Plus Jakarta Sans** (headings)
 
 ## License
 
-Proprietary — All rights reserved.
+MIT License — see [LICENSE](LICENSE) for details.
