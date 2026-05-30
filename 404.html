@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — VEXORA</title>
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: var(--color-bg);
+    }
+    .error-page { max-width: 420px; }
+    .error-page__code {
+      font-family: var(--font-secondary);
+      font-size: 4rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .error-page__title { margin-bottom: 0.5rem; }
+    .error-page__text { color: var(--color-text-muted); margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="error-page">
+    <div class="error-page__code">404</div>
+    <h1 class="error-page__title">Page not found</h1>
+    <p class="error-page__text">The page you're looking for doesn't exist or has been moved.</p>
+    <a id="home-link" href="index.html" class="btn btn--primary">Return to VEXORA</a>
+  </div>
+  <script>
+    /* Resolve home URL for GitHub Pages project sites and local serve */
+    (function () {
+      var link = document.getElementById('home-link');
+      if (location.hostname.endsWith('github.io')) {
+        var parts = location.pathname.split('/').filter(Boolean);
+        if (parts.length > 0) {
+          link.href = '/' + parts[0] + '/';
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

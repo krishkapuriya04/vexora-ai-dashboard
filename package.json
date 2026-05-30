@@ -4,7 +4,9 @@
   "description": "VEXORA — AI-Powered Business Intelligence & Analytics Platform",
   "scripts": {
     "serve": "npx serve . -p 3456",
-    "screenshots": "node portfolio-assets/capture-screenshots.mjs"
+    "screenshots": "node portfolio-assets/capture-screenshots.mjs",
+    "verify": "node scripts/verify.mjs",
+    "verify:paths": "node scripts/verify-paths.mjs"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/krishkapuriya04/vexora-ai-dashboard/issues"
   },
-  "homepage": "https://github.com/krishkapuriya04/vexora-ai-dashboard#readme",
+  "homepage": "https://krishkapuriya04.github.io/vexora-ai-dashboard/",
   "devDependencies": {
     "playwright": "^1.60.0"
   }

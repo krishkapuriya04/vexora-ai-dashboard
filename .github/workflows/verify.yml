@@ -1,0 +1,29 @@
+name: Verify GitHub Pages Compatibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Path audit for GitHub Pages
+        run: node scripts/verify-paths.mjs
+
+      - name: Install serve
+        run: npm install -g serve
+
+      - name: Start server and run QA
+        run: |
+          serve . -p 3456 &
+          sleep 3
+          QA_PORT=3456 node scripts/verify.mjs
