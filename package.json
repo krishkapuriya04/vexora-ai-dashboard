@@ -17,6 +17,7 @@
     "test:ai": "node scripts/test-ai.mjs",
     "audit:e2e": "node scripts/audit-e2e.mjs",
     "audit:ui": "node scripts/audit-ui.mjs",
+    "verify:deploy": "node scripts/verify-deployment.mjs",
     "seed": "node scripts/seed.mjs"
   },
   "repository": {

@@ -1,0 +1,35 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: connect repo → Render detects render.yaml → set secret env vars in dashboard
+
+services:
+  - type: web
+    name: vexora
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health/ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: JWT_REMEMBER_EXPIRES_IN
+        value: 30d
+      - key: CORS_ORIGIN
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash

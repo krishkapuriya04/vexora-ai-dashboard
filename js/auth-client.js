@@ -22,11 +22,26 @@ function isStaticOnlyHost(hostname) {
   return STATIC_HOSTS.some((h) => hostname.includes(h));
 }
 
-/** @returns {string} */
-export function getApiBase() {
-  if (typeof window !== 'undefined' && window.VEXORA_API_BASE) {
+function readConfiguredApiBase() {
+  if (typeof window === 'undefined') return '';
+
+  if (window.VEXORA_API_BASE) {
     return String(window.VEXORA_API_BASE).replace(/\/$/, '');
   }
+
+  const meta = document.querySelector('meta[name="vexora-api-base"]');
+  const fromMeta = meta?.getAttribute('content')?.trim();
+  if (fromMeta) {
+    return fromMeta.replace(/\/$/, '');
+  }
+
+  return '';
+}
+
+/** @returns {string} */
+export function getApiBase() {
+  const configured = readConfiguredApiBase();
+  if (configured) return configured;
 
   const { protocol, hostname, port } = window.location;
   const pagePort = port || '';
@@ -39,7 +54,7 @@ export function getApiBase() {
   }
 
   if (isStaticOnlyHost(hostname)) {
-    return `http://localhost:${BACKEND_PORT}`;
+    return '';
   }
 
   return `${protocol}//${hostname}${pagePort ? `:${pagePort}` : ''}`;
@@ -122,17 +137,22 @@ export function getInitials(name = '') {
 function formatApiError(response, data, path) {
   if (data?.message) return data.message;
 
+  const base = getApiBase();
+  if (!base) {
+    return 'API URL not configured. Set window.VEXORA_API_BASE in js/api-config.js (see DEPLOYMENT-PRODUCTION.md).';
+  }
+
   if (response.status === 503) {
-    return 'Database unavailable. Start MongoDB and run npm start.';
+    return 'Database unavailable. Check server logs and MONGODB_URI.';
   }
 
   if (response.status === 404 || response.status === 405) {
-    return `API not found at ${getApiBase()}${path}. Run npm start (port ${BACKEND_PORT}) and open http://localhost:${BACKEND_PORT}/pages/signup.html`;
+    return `API not found at ${base}${path}. Ensure the backend is deployed and VEXORA_API_BASE is correct.`;
   }
 
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.includes('application/json')) {
-    return `Server returned an invalid response (${response.status}). Ensure the VEXORA backend is running: npm start`;
+    return `Server returned an invalid response (${response.status}). Check VEXORA_API_BASE: ${base}`;
   }
 
   return `Request failed (${response.status})`;
@@ -143,7 +163,14 @@ function formatApiError(response, data, path) {
  * @param {RequestInit} [options]
  */
 async function apiRequest(path, options = {}) {
-  const url = `${getApiBase()}${path}`;
+  const base = getApiBase();
+  if (!base) {
+    throw new Error(
+      'VEXORA API URL is not configured. Set window.VEXORA_API_BASE in js/api-config.js before loading the app.',
+    );
+  }
+
+  const url = `${base}${path}`;
   const token = getToken();
   const headers = {
     'Content-Type': 'application/json',
@@ -159,7 +186,7 @@ async function apiRequest(path, options = {}) {
     response = await fetch(url, { ...options, headers });
   } catch {
     throw new Error(
-      `Cannot connect to VEXORA API at ${getApiBase()}. Run npm start and ensure MongoDB is running.`,
+      `Cannot connect to VEXORA API at ${base}. Verify the server is running and CORS_ORIGIN includes your frontend URL.`,
     );
   }
 
@@ -176,7 +203,7 @@ async function apiRequest(path, options = {}) {
  * Verify the backend API is reachable.
  */
 export async function checkApiHealth() {
-  return apiRequest('/api/health');
+  return apiRequest('/api/health/ready');
 }
 
 /**
