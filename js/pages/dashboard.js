@@ -1,18 +1,22 @@
 /**
  * VEXORA Dashboard Page
- * KPI metrics, charts, and product demo video.
+ * KPI metrics, charts, and product demo video — data loaded from API.
  */
 
 import { initApp, registerChart } from '../dashboard-app.js';
-import { KPI_METRICS, DASHBOARD_CHARTS, VIDEO_CONFIG, ACTIVITY_TIMELINE, DASHBOARD_AI_FEED } from '../mock-data.js';
+import { fetchDashboardMetrics, fetchActivities } from '../api-client.js';
+import { VIDEO_CONFIG } from '../app-config.js';
 import { CHART_DEFAULTS, CHART_COLORS, createGradient, initSparkline, getLegendOptions } from '../chart-utils.js';
 import { bindVideoPreview } from '../shell.js';
+
+let kpiMetrics = [];
+let dashboardCharts = {};
 
 function renderKPICards() {
   const grid = document.getElementById('kpi-grid');
   if (!grid) return;
 
-  grid.innerHTML = KPI_METRICS.map((kpi, i) => {
+  grid.innerHTML = kpiMetrics.map((kpi, i) => {
     const animateVal = kpi.format === 'currency' ? (kpi.value / 1000000) : kpi.value;
     const animateSuffix = kpi.format === 'currency' ? 'M' : (kpi.suffix || '');
     const animatePrefix = kpi.format === 'currency' ? '$' : (kpi.prefix || '');
@@ -37,7 +41,7 @@ function renderKPICards() {
     `;
   }).join('');
 
-  KPI_METRICS.forEach((kpi) => {
+  kpiMetrics.forEach((kpi) => {
     const canvas = document.getElementById(`spark-${kpi.id}`);
     if (canvas) registerChart(initSparkline(canvas, kpi.sparkline));
   });
@@ -48,7 +52,7 @@ function initRevenueChart() {
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  const { labels, revenue, profit } = DASHBOARD_CHARTS.revenueTrend;
+  const { labels, revenue, profit } = dashboardCharts.revenueTrend || { labels: [], revenue: [], profit: [] };
   const grad = createGradient(ctx, 'rgba(108, 99, 255, 0.3)', 'rgba(108, 99, 255, 0)');
 
   registerChart(new Chart(ctx, {
@@ -56,35 +60,11 @@ function initRevenueChart() {
     data: {
       labels,
       datasets: [
-        {
-          label: 'Revenue ($K)',
-          data: revenue,
-          borderColor: CHART_COLORS.primary,
-          backgroundColor: grad,
-          borderWidth: 2.5,
-          fill: true,
-          tension: 0.4,
-          pointRadius: 0,
-          pointHoverRadius: 5,
-        },
-        {
-          label: 'Profit ($K)',
-          data: profit,
-          borderColor: CHART_COLORS.accent,
-          backgroundColor: 'transparent',
-          borderWidth: 2,
-          tension: 0.4,
-          pointRadius: 0,
-        },
+        { label: 'Revenue ($K)', data: revenue, borderColor: CHART_COLORS.primary, backgroundColor: grad, borderWidth: 2.5, fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 5 },
+        { label: 'Profit ($K)', data: profit, borderColor: CHART_COLORS.accent, backgroundColor: 'transparent', borderWidth: 2, tension: 0.4, pointRadius: 0 },
       ],
     },
-    options: {
-      ...CHART_DEFAULTS,
-      plugins: {
-        ...CHART_DEFAULTS.plugins,
-        legend: getLegendOptions('top'),
-      },
-    },
+    options: { ...CHART_DEFAULTS, plugins: { ...CHART_DEFAULTS.plugins, legend: getLegendOptions('top') } },
   }));
 }
 
@@ -92,36 +72,18 @@ function initUserGrowthChart() {
   const canvas = document.getElementById('chart-user-growth');
   if (!canvas) return;
 
-  const { labels, newUsers, returning } = DASHBOARD_CHARTS.userGrowth;
+  const { labels, newUsers, returning } = dashboardCharts.userGrowth || { labels: [], newUsers: [], returning: [] };
 
   registerChart(new Chart(canvas.getContext('2d'), {
     type: 'bar',
     data: {
       labels,
       datasets: [
-        {
-          label: 'New Users',
-          data: newUsers,
-          backgroundColor: 'rgba(108, 99, 255, 0.75)',
-          borderRadius: 6,
-          barPercentage: 0.65,
-        },
-        {
-          label: 'Returning',
-          data: returning,
-          backgroundColor: 'rgba(0, 229, 255, 0.45)',
-          borderRadius: 6,
-          barPercentage: 0.65,
-        },
+        { label: 'New Users', data: newUsers, backgroundColor: 'rgba(108, 99, 255, 0.75)', borderRadius: 6, barPercentage: 0.65 },
+        { label: 'Returning', data: returning, backgroundColor: 'rgba(0, 229, 255, 0.45)', borderRadius: 6, barPercentage: 0.65 },
       ],
     },
-    options: {
-      ...CHART_DEFAULTS,
-      plugins: {
-        ...CHART_DEFAULTS.plugins,
-        legend: getLegendOptions('top'),
-      },
-    },
+    options: { ...CHART_DEFAULTS, plugins: { ...CHART_DEFAULTS.plugins, legend: getLegendOptions('top') } },
   }));
 }
 
@@ -129,26 +91,16 @@ function initDeviceChart() {
   const canvas = document.getElementById('chart-devices');
   if (!canvas) return;
 
-  const { labels, values } = DASHBOARD_CHARTS.deviceAnalytics;
+  const { labels, values } = dashboardCharts.deviceAnalytics || { labels: [], values: [] };
 
   registerChart(new Chart(canvas.getContext('2d'), {
     type: 'doughnut',
-    data: {
-      labels,
-      datasets: [{
-        data: values,
-        backgroundColor: CHART_COLORS.palette,
-        borderWidth: 0,
-        hoverOffset: 6,
-      }],
-    },
+    data: { labels, datasets: [{ data: values, backgroundColor: CHART_COLORS.palette, borderWidth: 0, hoverOffset: 6 }] },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       cutout: '65%',
-      plugins: {
-        legend: { display: true, position: 'bottom', labels: { color: '#94A3B8', boxWidth: 10, padding: 12, font: { size: 11 } } },
-      },
+      plugins: { legend: { display: true, position: 'bottom', labels: { color: '#94A3B8', boxWidth: 10, padding: 12, font: { size: 11 } } } },
     },
   }));
 }
@@ -157,18 +109,11 @@ function initTrafficChart() {
   const canvas = document.getElementById('chart-traffic');
   if (!canvas) return;
 
-  const { labels, values } = DASHBOARD_CHARTS.trafficSources;
+  const { labels, values } = dashboardCharts.trafficSources || { labels: [], values: [] };
 
   registerChart(new Chart(canvas.getContext('2d'), {
     type: 'polarArea',
-    data: {
-      labels,
-      datasets: [{
-        data: values,
-        backgroundColor: CHART_COLORS.palette.map((c) => `${c}99`),
-        borderWidth: 0,
-      }],
-    },
+    data: { labels, datasets: [{ data: values, backgroundColor: CHART_COLORS.palette.map((c) => `${c}99`), borderWidth: 0 }] },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -182,7 +127,7 @@ function initFunnelChart() {
   const canvas = document.getElementById('chart-funnel');
   if (!canvas) return;
 
-  const { labels, values } = DASHBOARD_CHARTS.conversionFunnel;
+  const { labels, values } = dashboardCharts.conversionFunnel || { labels: [], values: [] };
 
   registerChart(new Chart(canvas.getContext('2d'), {
     type: 'bar',
@@ -191,19 +136,12 @@ function initFunnelChart() {
       datasets: [{
         label: 'Conversion %',
         data: values,
-        backgroundColor: values.map((_, i) => {
-          const opacity = 1 - i * 0.15;
-          return `rgba(108, 99, 255, ${opacity})`;
-        }),
+        backgroundColor: values.map((_, i) => `rgba(108, 99, 255, ${1 - i * 0.15})`),
         borderRadius: 8,
         barPercentage: 0.7,
       }],
     },
-    options: {
-      indexAxis: 'y',
-      ...CHART_DEFAULTS,
-      plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false } },
-    },
+    options: { indexAxis: 'y', ...CHART_DEFAULTS, plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false } } },
   }));
 }
 
@@ -211,33 +149,25 @@ function initGeographyChart() {
   const canvas = document.getElementById('chart-geography-dashboard');
   if (!canvas) return;
 
-  const { labels, values } = DASHBOARD_CHARTS.geography;
+  const { labels, values } = dashboardCharts.geography || { labels: [], values: [] };
 
   registerChart(new Chart(canvas.getContext('2d'), {
     type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Traffic Share (%)',
-        data: values,
-        backgroundColor: CHART_COLORS.palette,
-        borderRadius: 8,
-        barPercentage: 0.65,
-      }],
-    },
-    options: {
-      indexAxis: 'y',
-      ...CHART_DEFAULTS,
-      plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false } },
-    },
+    data: { labels, datasets: [{ label: 'Traffic Share (%)', data: values, backgroundColor: CHART_COLORS.palette, borderRadius: 8, barPercentage: 0.65 }] },
+    options: { indexAxis: 'y', ...CHART_DEFAULTS, plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false } } },
   }));
 }
 
-function renderActivityTimeline() {
+function renderActivityTimeline(activities) {
   const container = document.getElementById('activity-timeline');
   if (!container) return;
 
-  container.innerHTML = ACTIVITY_TIMELINE.map((item) => `
+  if (!activities.length) {
+    container.innerHTML = '<p class="settings-row__hint">No recent activity.</p>';
+    return;
+  }
+
+  container.innerHTML = activities.map((item) => `
     <article class="timeline__item">
       <span class="timeline__icon" aria-hidden="true">${item.icon}</span>
       <div class="timeline__content">
@@ -249,11 +179,26 @@ function renderActivityTimeline() {
   `).join('');
 }
 
-function renderAIFeed() {
+function renderAIFeed(activities) {
   const container = document.getElementById('ai-feed-compact');
   if (!container) return;
 
-  container.innerHTML = DASHBOARD_AI_FEED.map((item) => `
+  const aiItems = activities
+    .filter((item) => item.type === 'ai' || item.type === 'alert')
+    .slice(0, 3)
+    .map((item) => ({
+      tag: item.type === 'ai' ? 'Opportunity' : 'Alert',
+      type: item.type === 'ai' ? 'opportunity' : 'alert',
+      title: item.title,
+      text: item.desc,
+    }));
+
+  if (!aiItems.length) {
+    container.innerHTML = '<p class="settings-row__hint">No AI insights yet.</p>';
+    return;
+  }
+
+  container.innerHTML = aiItems.map((item) => `
     <article class="ai-feed-compact__item">
       <span class="ai-insight-item__tag ai-insight-item__tag--${item.type}">${item.tag}</span>
       <h3 class="ai-feed-compact__title">${item.title}</h3>
@@ -262,7 +207,15 @@ function renderAIFeed() {
   `).join('');
 }
 
-function initDashboard() {
+async function initDashboard() {
+  const [metrics, activities] = await Promise.all([
+    fetchDashboardMetrics(),
+    fetchActivities(),
+  ]);
+
+  kpiMetrics = metrics.kpis || [];
+  dashboardCharts = metrics.charts || {};
+
   renderKPICards();
   initRevenueChart();
   initUserGrowthChart();
@@ -270,8 +223,8 @@ function initDashboard() {
   initTrafficChart();
   initFunnelChart();
   initGeographyChart();
-  renderActivityTimeline();
-  renderAIFeed();
+  renderActivityTimeline(activities);
+  renderAIFeed(activities);
   bindVideoPreview('#video-play-btn', VIDEO_CONFIG.videoUrl);
 }
 

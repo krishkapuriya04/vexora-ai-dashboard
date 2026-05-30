@@ -13,6 +13,7 @@ import {
   initRippleEffect,
   initSkeletonLoader,
   initPageTransition,
+  refreshNotifications,
 } from './shell.js';
 
 /**
@@ -34,6 +35,12 @@ export async function initApp({ activePage, pageTitle, onReady }) {
   initPageTransition();
   applyUserToShell(user);
 
+  try {
+    await refreshNotifications();
+  } catch (error) {
+    console.warn('[vexora] Notifications unavailable:', error.message);
+  }
+
   /* Theme toggle handler */
   document.addEventListener('vexora:toggle-theme', () => {
     VexoraTheme.toggle();
@@ -47,7 +54,7 @@ export async function initApp({ activePage, pageTitle, onReady }) {
 
   /* Page-specific initialization (charts must exist before reveal) */
   if (typeof onReady === 'function') {
-    onReady();
+    await onReady();
   }
 
   /* Premium micro-interactions */

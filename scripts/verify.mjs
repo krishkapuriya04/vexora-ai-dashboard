@@ -27,6 +27,8 @@ const REQUIRED_PAGES = [
 const REQUIRED_JS = [
   'js/app.js',
   'js/auth-client.js',
+  'js/api-client.js',
+  'js/app-config.js',
   'js/dashboard-app.js',
   'js/shell.js',
   'js/mock-data.js',

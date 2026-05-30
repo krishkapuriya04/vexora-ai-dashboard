@@ -3,8 +3,9 @@
  * Injects sidebar, topbar, and global modals into dashboard pages.
  */
 
-import { NOTIFICATIONS, SEARCH_ITEMS } from './mock-data.js';
+import { SEARCH_ITEMS } from './app-config.js';
 import { getInitials, logout } from './auth-client.js';
+import { fetchNotifications, markAllNotificationsRead } from './api-client.js';
 
 /** Navigation routes for sidebar */
 const NAV_ITEMS = [
@@ -78,8 +79,8 @@ function renderSidebar(activePage) {
  * @param {Object} [user] - Authenticated user
  * @returns {string}
  */
-function renderTopbar(pageTitle, user) {
-  const unreadCount = NOTIFICATIONS.filter((n) => n.unread).length;
+function renderTopbar(pageTitle, user, notifications = []) {
+  const unreadCount = notifications.filter((n) => n.unread).length;
   const displayName = user?.fullName || 'VEXORA User';
   const displayRole = user?.role || 'Viewer';
   const initials = getInitials(displayName);
@@ -116,7 +117,7 @@ function renderTopbar(pageTitle, user) {
             <span aria-hidden="true">🔔</span>
             ${unreadCount > 0 ? `<span class="topbar__badge">${unreadCount}</span>` : ''}
           </button>
-          ${renderNotificationPanel()}
+          ${renderNotificationPanel(notifications)}
         </div>
 
         <div class="topbar__dropdown-wrap">
@@ -180,9 +181,9 @@ function renderSearchModal() {
  * Render notification center panel
  * @returns {string}
  */
-function renderNotificationPanel() {
-  const items = NOTIFICATIONS.map((n) => `
-    <article class="notify-item${n.unread ? ' notify-item--unread' : ''}" data-type="${n.type}">
+function renderNotificationPanel(notifications = []) {
+  const items = notifications.map((n) => `
+    <article class="notify-item${n.unread ? ' notify-item--unread' : ''}" data-type="${n.type}" data-id="${n.id}">
       <div class="notify-item__dot" aria-hidden="true"></div>
       <div class="notify-item__content">
         <h4 class="notify-item__title">${n.title}</h4>
@@ -192,14 +193,16 @@ function renderNotificationPanel() {
     </article>
   `).join('');
 
+  const hasItems = notifications.length > 0;
+
   return `
     <div class="dropdown-panel notify-panel" id="notify-panel" hidden>
       <div class="dropdown-panel__header">
         <h3>Notifications</h3>
-        <button class="btn btn--ghost btn--sm" type="button">Mark all read</button>
+        <button class="btn btn--ghost btn--sm" type="button" id="notify-mark-read">Mark all read</button>
       </div>
-      <div class="dropdown-panel__body" id="notify-body">${items}</div>
-      <div id="notify-empty" class="notify-panel__empty" hidden>
+      <div class="dropdown-panel__body" id="notify-body"${hasItems ? '' : ' hidden'}>${items}</div>
+      <div id="notify-empty" class="notify-panel__empty"${hasItems ? ' hidden' : ''}>
         <div class="empty-state" role="status">
           <div class="empty-state__illustration" aria-hidden="true">🔔</div>
           <h3 class="empty-state__title">All caught up</h3>
@@ -426,13 +429,18 @@ export function bindShellEvents() {
   });
 
   /* Mark all notifications read → empty state */
-  notifyPanel?.querySelector('.btn--ghost')?.addEventListener('click', (e) => {
+  document.getElementById('notify-mark-read')?.addEventListener('click', async (e) => {
     e.stopPropagation();
-    const body = document.getElementById('notify-body');
-    const empty = document.getElementById('notify-empty');
-    if (body) { body.innerHTML = ''; body.hidden = true; }
-    if (empty) empty.hidden = false;
-    notifyTrigger?.querySelector('.topbar__badge')?.remove();
+    try {
+      await markAllNotificationsRead();
+      await refreshNotifications();
+    } catch {
+      const body = document.getElementById('notify-body');
+      const empty = document.getElementById('notify-empty');
+      if (body) { body.innerHTML = ''; body.hidden = true; }
+      if (empty) empty.hidden = false;
+      notifyTrigger?.querySelector('.topbar__badge')?.remove();
+    }
   });
 
   /* Modal close handlers */
@@ -547,4 +555,42 @@ export function initPageTransition() {
   requestAnimationFrame(() => {
     content?.classList.add('page-enter-active');
   });
+}
+
+/**
+ * Fetch notifications from API and refresh topbar UI.
+ */
+export async function refreshNotifications() {
+  const notifications = await fetchNotifications();
+  const body = document.getElementById('notify-body');
+  const empty = document.getElementById('notify-empty');
+  const trigger = document.getElementById('notify-trigger');
+
+  if (body) {
+    body.innerHTML = notifications.map((n) => `
+      <article class="notify-item${n.unread ? ' notify-item--unread' : ''}" data-type="${n.type}" data-id="${n.id}">
+        <div class="notify-item__dot" aria-hidden="true"></div>
+        <div class="notify-item__content">
+          <h4 class="notify-item__title">${n.title}</h4>
+          <p class="notify-item__text">${n.text}</p>
+          <time class="notify-item__time">${n.time}</time>
+        </div>
+      </article>
+    `).join('');
+    body.hidden = notifications.length === 0;
+  }
+
+  if (empty) empty.hidden = notifications.length > 0;
+
+  const unreadCount = notifications.filter((n) => n.unread).length;
+  const badge = trigger?.querySelector('.topbar__badge');
+
+  if (unreadCount > 0) {
+    if (badge) badge.textContent = String(unreadCount);
+    else trigger?.insertAdjacentHTML('beforeend', `<span class="topbar__badge">${unreadCount}</span>`);
+  } else {
+    badge?.remove();
+  }
+
+  return notifications;
 }

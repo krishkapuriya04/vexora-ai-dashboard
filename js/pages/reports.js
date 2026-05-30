@@ -1,16 +1,18 @@
 /**
  * VEXORA Reports Page
- * Reports library, executive summaries, export UI.
+ * Reports library loaded from API.
  */
 
 import { initApp } from '../dashboard-app.js';
-import { REPORTS } from '../mock-data.js';
+import { fetchReports, fetchDashboardMetrics } from '../api-client.js';
+
+let reportsData = [];
 
 function renderReportsLibrary() {
   const grid = document.getElementById('reports-grid');
   if (!grid) return;
 
-  grid.innerHTML = REPORTS.map((report, i) => `
+  const cards = reportsData.map((report, i) => `
     <article class="report-card glass-card glow-border magnetic-card reveal" data-type="${report.type.toLowerCase()}" style="transition-delay: ${i * 70}ms">
       <div class="report-card__thumbnail">
         <img src="${report.thumbnail}" alt="" loading="lazy" width="400" height="225">
@@ -36,16 +38,31 @@ function renderReportsLibrary() {
       </div>
     </article>
   `).join('');
+
+  const emptyEl = document.getElementById('reports-empty');
+  grid.querySelectorAll('.report-card').forEach((el) => el.remove());
+  if (emptyEl) emptyEl.hidden = reportsData.length > 0;
+
+  if (reportsData.length === 0) {
+    if (emptyEl) emptyEl.hidden = false;
+    return;
+  }
+
+  grid.insertAdjacentHTML('afterbegin', cards);
 }
 
-function renderExecutiveSummaries() {
+function renderExecutiveSummaries(kpis) {
   const container = document.getElementById('exec-summaries');
   if (!container) return;
 
+  const revenue = kpis.find((k) => k.id === 'revenue');
+  const users = kpis.find((k) => k.id === 'users');
+  const growth = kpis.find((k) => k.id === 'growth');
+
   const summaries = [
-    { title: 'Revenue Performance', metric: '$2.85M', change: '+12.4%', trend: 'up', icon: '💰' },
-    { title: 'Customer Growth', metric: '+1,680', change: '+18.2%', trend: 'up', icon: '👥' },
-    { title: 'Net Retention', metric: '118%', change: '+3pts', trend: 'up', icon: '🔄' },
+    { title: 'Revenue Performance', metric: revenue ? `$${(revenue.value / 1000000).toFixed(2)}M` : '—', change: revenue?.change || '+0%', trend: revenue?.trend || 'up', icon: '💰' },
+    { title: 'Customer Growth', metric: users ? `+${Math.round(users.value * 0.09).toLocaleString()}` : '—', change: users?.change || '+0%', trend: users?.trend || 'up', icon: '👥' },
+    { title: 'Net Retention', metric: growth ? `${Math.round(growth.value * 5)}%` : '—', change: growth?.change || '+0%', trend: growth?.trend || 'up', icon: '🔄' },
     { title: 'Operating Margin', metric: '34.2%', change: '-1.1%', trend: 'down', icon: '📊' },
   ];
 
@@ -146,9 +163,15 @@ function bindFilterChips() {
   });
 }
 
-function initReports() {
+async function initReports() {
+  const [reports, metrics] = await Promise.all([
+    fetchReports(),
+    fetchDashboardMetrics(),
+  ]);
+
+  reportsData = reports;
   renderReportsLibrary();
-  renderExecutiveSummaries();
+  renderExecutiveSummaries(metrics.kpis || []);
   bindExportUI();
   bindFilterChips();
 }

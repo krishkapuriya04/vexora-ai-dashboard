@@ -4,7 +4,7 @@
  */
 
 import { initApp } from '../dashboard-app.js';
-import { SETTINGS_SECTIONS, INTEGRATIONS } from '../mock-data.js';
+import { SETTINGS_SECTIONS, INTEGRATIONS } from '../app-config.js';
 import VexoraTheme from '../theme.js';
 
 function renderSettingsNav() {

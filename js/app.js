@@ -7,7 +7,7 @@ import VexoraTheme from './theme.js';
 import VexoraAnimations from './animations.js';
 import { initMicroInteractions } from './micro-interactions.js';
 import { CHART_DEFAULTS, createGradient } from './chart-utils.js';
-import { LANDING_MOCK_DATA as MOCK_DATA } from './mock-data.js';
+import { LANDING_MOCK_DATA as MOCK_DATA } from './app-config.js';
 
 /**
  * Initialize showcase revenue chart (Product Showcase section)

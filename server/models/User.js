@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema(
       enum: ROLES,
       default: 'Viewer',
     },
+    organization: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Organization',
+      index: true,
+    },
   },
   {
     timestamps: true,
@@ -55,6 +60,7 @@ userSchema.methods.toPublicJSON = function toPublicJSON() {
     fullName: this.fullName,
     email: this.email,
     role: this.role,
+    organization: this.organization?.toString() || null,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };

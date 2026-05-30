@@ -80,7 +80,7 @@ function verifyHtml(relativePath) {
 }
 
 function verifyJsImports() {
-  const jsFiles = ['js/app.js', 'js/auth-client.js', 'js/dashboard-app.js', 'js/shell.js', 'js/chart-utils.js',
+  const jsFiles = ['js/app.js', 'js/auth-client.js', 'js/api-client.js', 'js/app-config.js', 'js/dashboard-app.js', 'js/shell.js', 'js/chart-utils.js',
     'js/mock-data.js', 'js/micro-interactions.js', 'js/theme.js', 'js/animations.js',
     'js/pages/dashboard.js', 'js/pages/analytics.js', 'js/pages/insights.js',
     'js/pages/reports.js', 'js/pages/settings.js', 'js/pages/login.js', 'js/pages/signup.js'];

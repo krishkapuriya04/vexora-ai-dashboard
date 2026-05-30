@@ -9,7 +9,9 @@
     "screenshots": "node portfolio-assets/capture-screenshots.mjs",
     "verify": "node scripts/verify.mjs",
     "verify:paths": "node scripts/verify-paths.mjs",
-    "test:auth": "node scripts/test-auth.mjs"
+    "test:auth": "node scripts/test-auth.mjs",
+    "test:data": "node scripts/test-data.mjs",
+    "seed": "node scripts/seed.mjs"
   },
   "repository": {
     "type": "git",

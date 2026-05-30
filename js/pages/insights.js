@@ -4,7 +4,7 @@
  */
 
 import { initApp, registerChart } from '../dashboard-app.js';
-import { AI_INSIGHTS, FORECAST_DATA } from '../mock-data.js';
+import { AI_INSIGHTS, FORECAST_DATA } from '../app-config.js';
 import { CHART_DEFAULTS, CHART_COLORS, createGradient } from '../chart-utils.js';
 
 function renderInsightsFeed() {
