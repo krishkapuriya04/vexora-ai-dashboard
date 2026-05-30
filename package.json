@@ -14,6 +14,7 @@
     "test:export": "node scripts/test-export.mjs",
     "test:admin": "node scripts/test-admin.mjs",
     "test:billing": "node scripts/test-billing.mjs",
+    "test:ai": "node scripts/test-ai.mjs",
     "seed": "node scripts/seed.mjs"
   },
   "repository": {
@@ -35,6 +36,7 @@
   },
   "homepage": "https://krishkapuriya04.github.io/vexora-ai-dashboard/",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@json2csv/plainjs": "^7.0.6",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",

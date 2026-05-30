@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../css/pages.css">
   <link rel="stylesheet" href="../css/upgrade.css">
   <link rel="stylesheet" href="../css/polish.css">
+  <link rel="stylesheet" href="../css/insights-ai.css">
 </head>
 <body class="app">
 
@@ -48,11 +49,43 @@
         <div class="page-content">
           <header class="page-header reveal">
             <h1 class="page-header__title">AI Insights</h1>
-            <p class="page-header__subtitle">Intelligent recommendations powered by machine learning — updated continuously</p>
+            <p class="page-header__subtitle">Intelligent recommendations powered by Google Gemini — analyze your real business data</p>
             <div class="page-header__actions">
-              <span class="badge badge--accent">✦ AI Engine Active</span>
+              <span class="badge badge--accent" id="ai-engine-badge">✦ AI Engine Active</span>
             </div>
           </header>
+
+          <!-- AI Generation Toolbar -->
+          <div class="ai-toolbar glass-card reveal" id="ai-toolbar">
+            <button class="btn btn--primary btn--sm ai-gen-btn" type="button" data-type="summary">
+              <span class="ai-gen-btn__icon" aria-hidden="true">📋</span> Generate Summary
+            </button>
+            <button class="btn btn--secondary btn--sm ai-gen-btn" type="button" data-type="forecast">
+              <span class="ai-gen-btn__icon" aria-hidden="true">📈</span> Generate Forecast
+            </button>
+            <button class="btn btn--secondary btn--sm ai-gen-btn" type="button" data-type="recommendations">
+              <span class="ai-gen-btn__icon" aria-hidden="true">💡</span> Generate Recommendations
+            </button>
+            <button class="btn btn--secondary btn--sm ai-gen-btn" type="button" data-type="risk">
+              <span class="ai-gen-btn__icon" aria-hidden="true">⚠</span> Generate Risk Analysis
+            </button>
+          </div>
+
+          <!-- AI Output Panel -->
+          <div class="ai-output-panel glass-card" id="ai-output-panel" hidden>
+            <div class="ai-output-panel__header">
+              <h2 class="widget__title" id="ai-output-title">AI Response</h2>
+              <div class="ai-output-panel__actions">
+                <button class="btn btn--ghost btn--sm" type="button" id="ai-copy-btn" title="Copy response">Copy</button>
+                <button class="btn btn--ghost btn--sm" type="button" id="ai-close-btn" title="Close">✕</button>
+              </div>
+            </div>
+            <div class="ai-thinking" id="ai-thinking" hidden>
+              <div class="ai-thinking__dots"><span></span><span></span><span></span></div>
+              <p class="ai-thinking__text">Gemini is analyzing your business data…</p>
+            </div>
+            <div class="ai-output-panel__body" id="ai-output-body"></div>
+          </div>
 
           <div class="insights-layout">
             <div>
@@ -67,8 +100,8 @@
                      aria-hidden="true">
                 <div style="position: relative; z-index: 1;">
                   <div class="ai-hero-banner__icon" aria-hidden="true">✦</div>
-                  <h2 class="ai-hero-banner__title">6 New Insights Detected</h2>
-                  <p class="ai-hero-banner__text">VEXORA AI analyzed 2.4M data points in the last hour and surfaced actionable intelligence for your team.</p>
+                  <h2 class="ai-hero-banner__title" id="ai-hero-title">AI Business Intelligence</h2>
+                  <p class="ai-hero-banner__text" id="ai-hero-text">Generate executive summaries, forecasts, recommendations, and risk analysis from your live VEXORA data using Google Gemini.</p>
                 </div>
               </div>
 
@@ -77,6 +110,14 @@
             </div>
 
             <aside class="insights-sidebar">
+              <!-- AI History -->
+              <section aria-label="AI generation history">
+                <h2 class="widget__title" style="margin-bottom: var(--space-4);">Recent Generations</h2>
+                <div class="ai-history-list" id="ai-history-list">
+                  <p class="ai-history-empty">No AI generations yet. Use the buttons above to get started.</p>
+                </div>
+              </section>
+
               <!-- Risk Analysis -->
               <section aria-label="Risk analysis">
                 <h2 class="widget__title" style="margin-bottom: var(--space-4);">Risk Analysis</h2>

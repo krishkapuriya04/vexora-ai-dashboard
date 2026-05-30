@@ -61,6 +61,7 @@ const REQUIRED_CSS = [
   'css/auth.css',
   'css/admin.css',
   'css/billing.css',
+  'css/insights-ai.css',
 ];
 
 function checkExists(relativePath, label) {

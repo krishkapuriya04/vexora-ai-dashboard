@@ -91,7 +91,15 @@ function renderKpis(stats) {
     { id: 'bill-failed', label: 'Failed Payments', value: billing.failedPayments || 0, icon: '⚠', change: 'Total', trend: billing.failedPayments > 0 ? 'down' : 'up' },
   ];
 
-  const allKpis = [...kpis, ...billingKpis];
+  const ai = stats.ai || {};
+  const aiKpis = [
+    { id: 'ai-total', label: 'Total AI Requests', value: ai.totalAIRequests || 0, icon: '✦', change: 'All time', trend: 'up' },
+    { id: 'ai-forecast', label: 'Forecasts Generated', value: ai.forecastsGenerated || 0, icon: '📈', change: 'AI', trend: 'up' },
+    { id: 'ai-rec', label: 'Recommendations', value: ai.recommendationsGenerated || 0, icon: '💡', change: 'AI', trend: 'up' },
+    { id: 'ai-org', label: 'Most Active Org', value: ai.mostActiveOrganization || '—', icon: '🏢', change: ai.mostActiveCount ? `${ai.mostActiveCount} requests` : 'None', trend: 'up', format: 'text' },
+  ];
+
+  const allKpis = [...kpis, ...billingKpis, ...aiKpis];
 
   grid.innerHTML = allKpis.map((kpi, i) => {
     let display;
@@ -99,6 +107,8 @@ function renderKpis(stats) {
       display = `$${(kpi.value / 1000000).toFixed(2)}M`;
     } else if (kpi.format === 'inr') {
       display = `₹${(kpi.value / 100).toLocaleString('en-IN')}`;
+    } else if (kpi.format === 'text') {
+      display = String(kpi.value);
     } else {
       display = kpi.value.toLocaleString();
     }

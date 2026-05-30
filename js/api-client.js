@@ -205,6 +205,27 @@ export async function verifyBillingPayment(payload) {
   return data;
 }
 
+export async function generateAISummary() {
+  return apiRequest('/api/ai/generate-summary', { method: 'POST' });
+}
+
+export async function generateAIRecommendations() {
+  return apiRequest('/api/ai/generate-recommendations', { method: 'POST' });
+}
+
+export async function generateAIRiskAnalysis() {
+  return apiRequest('/api/ai/generate-risk-analysis', { method: 'POST' });
+}
+
+export async function generateAIForecast() {
+  return apiRequest('/api/ai/generate-forecast', { method: 'POST' });
+}
+
+export async function fetchAIHistory() {
+  const data = await apiRequest('/api/ai/history');
+  return data.insights;
+}
+
 export default {
   fetchDashboardMetrics,
   updateDashboardMetrics,
@@ -232,4 +253,9 @@ export default {
   fetchBillingHistory,
   createBillingOrder,
   verifyBillingPayment,
+  generateAISummary,
+  generateAIRecommendations,
+  generateAIRiskAnalysis,
+  generateAIForecast,
+  fetchAIHistory,
 };

@@ -1,48 +1,181 @@
 /**
  * VEXORA AI Insights Page
- * Recommendations, risk analysis, forecasting, and BI feed.
+ * Gemini-powered BI engine with real business data.
  */
 
 import { initApp, registerChart } from '../dashboard-app.js';
-import { AI_INSIGHTS, FORECAST_DATA } from '../app-config.js';
+import {
+  generateAISummary,
+  generateAIRecommendations,
+  generateAIRiskAnalysis,
+  generateAIForecast,
+  fetchAIHistory,
+} from '../api-client.js';
+import { FORECAST_DATA } from '../app-config.js';
 import { CHART_DEFAULTS, CHART_COLORS, createGradient } from '../chart-utils.js';
+
+const GENERATORS = {
+  summary: { fn: generateAISummary, title: 'Executive Summary', tag: 'Executive Summary' },
+  forecast: { fn: generateAIForecast, title: 'Forecast', tag: 'Forecast' },
+  recommendations: { fn: generateAIRecommendations, title: 'Recommendations', tag: 'Recommendation' },
+  risk: { fn: generateAIRiskAnalysis, title: 'Risk Analysis', tag: 'Risk Analysis' },
+};
+
+let history = [];
+let currentResponse = '';
+let isGenerating = false;
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function showToast(message, isError = false) {
+  document.querySelector('.toast')?.remove();
+  const toast = document.createElement('div');
+  toast.className = `toast${isError ? ' toast--error' : ''}`;
+  toast.setAttribute('role', 'status');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('is-visible'));
+  setTimeout(() => { toast.classList.remove('is-visible'); setTimeout(() => toast.remove(), 300); }, 3500);
+}
+
+function simpleMarkdown(text) {
+  return text
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, (m) => `<ul>${m}</ul>`);
+}
+
+function typewriterEffect(element, text, speed = 12) {
+  return new Promise((resolve) => {
+    element.innerHTML = '';
+    let i = 0;
+    const plain = text;
+    const timer = setInterval(() => {
+      i += 3;
+      const chunk = plain.slice(0, i);
+      element.innerHTML = simpleMarkdown(chunk);
+      if (i >= plain.length) {
+        clearInterval(timer);
+        element.innerHTML = simpleMarkdown(plain);
+        resolve();
+      }
+    }, speed);
+  });
+}
+
+function categoryToType(category) {
+  const map = {
+    'Executive Summary': 'trend',
+    Forecast: 'forecast',
+    Recommendation: 'opportunity',
+    'Risk Analysis': 'alert',
+    'Growth Opportunity': 'opportunity',
+  };
+  return map[category] || 'trend';
+}
 
 function renderInsightsFeed() {
   const feed = document.getElementById('insights-feed');
   if (!feed) return;
 
-  feed.innerHTML = AI_INSIGHTS.map((insight, i) => `
-    <article class="insight-card glass-card glow-border reveal" data-type="${insight.type}" style="transition-delay: ${i * 80}ms">
+  if (!history.length) {
+    feed.innerHTML = `
+      <div class="empty-state glass-card" role="status" style="padding: var(--space-8); text-align: center;">
+        <div class="empty-state__illustration" aria-hidden="true">✦</div>
+        <h3 class="empty-state__title">No AI insights yet</h3>
+        <p class="empty-state__desc">Click a generate button above to create your first AI-powered business intelligence report from live data.</p>
+      </div>
+    `;
+    return;
+  }
+
+  feed.innerHTML = history.map((insight, i) => `
+    <article class="insight-card glass-card glow-border reveal" data-type="${categoryToType(insight.category)}" data-id="${insight.id}" style="transition-delay: ${i * 60}ms; cursor: pointer;">
       <div class="insight-card__glow" aria-hidden="true"></div>
       <header class="insight-card__header">
-        <span class="ai-insight-item__tag ai-insight-item__tag--${insight.type === 'forecast' ? 'trend' : insight.type === 'alert' ? 'alert' : insight.type === 'trend' ? 'trend' : 'opportunity'}">${insight.tag}</span>
-        <time class="insight-card__time">${insight.time}</time>
+        <span class="ai-insight-item__tag ai-insight-item__tag--${categoryToType(insight.category) === 'alert' ? 'alert' : categoryToType(insight.category) === 'forecast' ? 'trend' : 'opportunity'}">${insight.category}</span>
+        <time class="insight-card__time">${formatDate(insight.createdAt)}</time>
       </header>
-      <h3 class="insight-card__title">${insight.title}</h3>
-      <p class="insight-card__text">${insight.text}</p>
+      <h3 class="insight-card__title">${insight.category}</h3>
+      <p class="insight-card__text">${insight.response.slice(0, 200).replace(/[#*]/g, '')}${insight.response.length > 200 ? '…' : ''}</p>
       <footer class="insight-card__footer">
-        <div class="insight-card__metric">
-          <span class="insight-card__metric-label">Confidence</span>
-          <div class="insight-card__confidence">
-            <div class="insight-card__confidence-bar" style="width: ${insight.confidence}%"></div>
-          </div>
-          <span class="insight-card__metric-value">${insight.confidence}%</span>
-        </div>
-        <span class="insight-card__impact insight-card__impact--${insight.impact.toLowerCase()}">${insight.impact} Impact</span>
+        <span class="insight-card__source">Generated by ${insight.createdByName || 'VEXORA AI'}</span>
       </footer>
     </article>
   `).join('');
+
+  feed.querySelectorAll('.insight-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const item = history.find((h) => h.id === card.dataset.id);
+      if (item) showOutput(item.category, item.response, false);
+    });
+  });
+}
+
+function renderHistorySidebar() {
+  const list = document.getElementById('ai-history-list');
+  if (!list) return;
+
+  if (!history.length) {
+    list.innerHTML = '<p class="ai-history-empty">No AI generations yet. Use the buttons above to get started.</p>';
+    return;
+  }
+
+  list.innerHTML = history.slice(0, 10).map((item) => `
+    <article class="ai-history-item" data-id="${item.id}" tabindex="0" role="button">
+      <div class="ai-history-item__category">${item.category}</div>
+      <div class="ai-history-item__date">${formatDate(item.createdAt)}</div>
+      <div class="ai-history-item__preview">${item.response.slice(0, 80).replace(/[#*]/g, '')}…</div>
+    </article>
+  `).join('');
+
+  list.querySelectorAll('.ai-history-item').forEach((el) => {
+    const open = () => {
+      const item = history.find((h) => h.id === el.dataset.id);
+      if (item) showOutput(item.category, item.response, false);
+    };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(); });
+  });
+}
+
+function updateHeroBanner() {
+  const title = document.getElementById('ai-hero-title');
+  const text = document.getElementById('ai-hero-text');
+  if (history.length > 0) {
+    title.textContent = `${history.length} AI Insight${history.length === 1 ? '' : 's'} Generated`;
+    text.textContent = `Latest: ${history[0].category} — ${formatDate(history[0].createdAt)}. Powered by Google Gemini analyzing your live VEXORA data.`;
+  }
 }
 
 function renderRiskCards() {
   const container = document.getElementById('risk-cards');
   if (!container) return;
 
+  const riskInsight = history.find((h) => h.category === 'Risk Analysis');
+  if (riskInsight) {
+    container.innerHTML = `
+      <article class="risk-card glass-card reveal" style="grid-column: 1 / -1;">
+        <p class="insight-card__text" style="font-size: var(--text-sm);">${riskInsight.response.slice(0, 400).replace(/[#*]/g, '')}…</p>
+        <button class="btn btn--ghost btn--sm" type="button" id="view-full-risk">View Full Analysis</button>
+      </article>
+    `;
+    document.getElementById('view-full-risk')?.addEventListener('click', () => {
+      showOutput('Risk Analysis', riskInsight.response, false);
+    });
+    return;
+  }
+
   const risks = [
-    { label: 'Churn Risk', value: 12, level: 'warning', desc: '142 accounts flagged' },
-    { label: 'Revenue at Risk', value: 8, level: 'danger', desc: '$340K potential loss' },
-    { label: 'Compliance Score', value: 96, level: 'success', desc: 'All checks passing' },
-    { label: 'Market Volatility', value: 23, level: 'info', desc: 'Moderate exposure' },
+    { label: 'Churn Risk', value: 12, level: 'warning', desc: 'Generate risk analysis for live data' },
+    { label: 'Revenue at Risk', value: 8, level: 'danger', desc: 'Click Generate Risk Analysis' },
+    { label: 'Compliance Score', value: 96, level: 'success', desc: 'Based on org metrics' },
+    { label: 'Market Volatility', value: 23, level: 'info', desc: 'AI-powered assessment' },
   ];
 
   container.innerHTML = risks.map((r) => `
@@ -60,6 +193,88 @@ function renderRiskCards() {
   `).join('');
 }
 
+async function showOutput(title, response, animate = true) {
+  const panel = document.getElementById('ai-output-panel');
+  const body = document.getElementById('ai-output-body');
+  const titleEl = document.getElementById('ai-output-title');
+  if (!panel || !body) return;
+
+  currentResponse = response;
+  titleEl.textContent = title;
+  panel.removeAttribute('hidden');
+  document.getElementById('ai-thinking')?.setAttribute('hidden', '');
+
+  if (animate) {
+    await typewriterEffect(body, response);
+  } else {
+    body.innerHTML = simpleMarkdown(response);
+  }
+
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function handleGenerate(type) {
+  if (isGenerating) return;
+  const config = GENERATORS[type];
+  if (!config) return;
+
+  isGenerating = true;
+  const panel = document.getElementById('ai-output-panel');
+  const thinking = document.getElementById('ai-thinking');
+  const body = document.getElementById('ai-output-body');
+
+  panel?.removeAttribute('hidden');
+  thinking?.removeAttribute('hidden');
+  if (body) body.innerHTML = '';
+  document.getElementById('ai-output-title').textContent = config.title;
+
+  document.querySelectorAll('.ai-gen-btn').forEach((b) => b.classList.add('is-loading'));
+
+  try {
+    const { insight } = await config.fn();
+    thinking?.setAttribute('hidden', '');
+    currentResponse = insight.response;
+    await typewriterEffect(body, insight.response);
+    showToast(`${config.title} generated and saved`);
+    await loadHistory();
+  } catch (err) {
+    thinking?.setAttribute('hidden', '');
+    panel?.setAttribute('hidden', '');
+    showToast(err.message || 'AI generation failed', true);
+  } finally {
+    isGenerating = false;
+    document.querySelectorAll('.ai-gen-btn').forEach((b) => b.classList.remove('is-loading'));
+  }
+}
+
+async function loadHistory() {
+  history = await fetchAIHistory();
+  renderInsightsFeed();
+  renderHistorySidebar();
+  updateHeroBanner();
+  renderRiskCards();
+}
+
+function bindEvents() {
+  document.querySelectorAll('.ai-gen-btn').forEach((btn) => {
+    btn.addEventListener('click', () => handleGenerate(btn.dataset.type));
+  });
+
+  document.getElementById('ai-copy-btn')?.addEventListener('click', async () => {
+    if (!currentResponse) return;
+    try {
+      await navigator.clipboard.writeText(currentResponse);
+      showToast('Response copied to clipboard');
+    } catch {
+      showToast('Could not copy to clipboard', true);
+    }
+  });
+
+  document.getElementById('ai-close-btn')?.addEventListener('click', () => {
+    document.getElementById('ai-output-panel')?.setAttribute('hidden', '');
+  });
+}
+
 function initForecastChart() {
   const canvas = document.getElementById('chart-forecast');
   if (!canvas) return;
@@ -73,43 +288,10 @@ function initForecastChart() {
     data: {
       labels,
       datasets: [
-        {
-          label: 'Upper Bound',
-          data: upper,
-          borderColor: 'transparent',
-          backgroundColor: 'rgba(108, 99, 255, 0.08)',
-          fill: '+1',
-          pointRadius: 0,
-        },
-        {
-          label: 'Lower Bound',
-          data: lower,
-          borderColor: 'transparent',
-          backgroundColor: 'transparent',
-          fill: false,
-          pointRadius: 0,
-        },
-        {
-          label: 'AI Forecast',
-          data: predicted,
-          borderColor: CHART_COLORS.accent,
-          backgroundColor: grad,
-          borderWidth: 2,
-          borderDash: [6, 4],
-          fill: true,
-          tension: 0.3,
-          pointRadius: 4,
-        },
-        {
-          label: 'Actual',
-          data: actual,
-          borderColor: CHART_COLORS.primary,
-          backgroundColor: 'transparent',
-          borderWidth: 2.5,
-          tension: 0.3,
-          pointRadius: 5,
-          spanGaps: true,
-        },
+        { label: 'Upper Bound', data: upper, borderColor: 'transparent', backgroundColor: 'rgba(108, 99, 255, 0.08)', fill: '+1', pointRadius: 0 },
+        { label: 'Lower Bound', data: lower, borderColor: 'transparent', backgroundColor: 'transparent', fill: false, pointRadius: 0 },
+        { label: 'AI Forecast', data: predicted, borderColor: CHART_COLORS.accent, backgroundColor: grad, borderWidth: 2, borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 4 },
+        { label: 'Actual', data: actual, borderColor: CHART_COLORS.primary, backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.3, pointRadius: 5, spanGaps: true },
       ],
     },
     options: {
@@ -148,9 +330,7 @@ function initOpportunityChart() {
         ...CHART_DEFAULTS.plugins,
         tooltip: {
           ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: {
-            label: (ctx) => `Impact: $${ctx.raw.y}K | Confidence: ${ctx.raw.x}%`,
-          },
+          callbacks: { label: (ctx) => `Impact: $${ctx.raw.y}K | Confidence: ${ctx.raw.x}%` },
         },
       },
       scales: {
@@ -161,11 +341,15 @@ function initOpportunityChart() {
   }));
 }
 
-function initInsights() {
-  renderInsightsFeed();
-  renderRiskCards();
+async function initInsights() {
+  bindEvents();
   initForecastChart();
   initOpportunityChart();
+  try {
+    await loadHistory();
+  } catch (err) {
+    showToast(err.message || 'Failed to load AI history', true);
+  }
 }
 
 initApp({

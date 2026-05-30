@@ -8,6 +8,7 @@ import { logAudit, listAuditLogs } from './auditService.js';
 import { getActiveSessionCount } from './tokenService.js';
 import { seedOrganizationData } from './organizationService.js';
 import { getBillingStats } from './billingService.js';
+import { getAIStats } from './aiService.js';
 
 function scopeQuery(actor, base = {}) {
   if (actor.role === 'Admin') return base;
@@ -33,7 +34,7 @@ export async function getAdminStats(actor) {
   const userQuery = scopeQuery(actor, {});
   const orgQuery = actor.role === 'Admin' ? {} : { _id: actor.organization };
 
-  const [totalUsers, totalOrganizations, reportsGenerated, exportsGenerated, revenueAgg, billingStats] = await Promise.all([
+  const [totalUsers, totalOrganizations, reportsGenerated, exportsGenerated, revenueAgg, billingStats, aiStats] = await Promise.all([
     User.countDocuments(userQuery),
     Organization.countDocuments(orgQuery),
     Report.countDocuments(actor.role === 'Admin' ? {} : { organization: actor.organization }),
@@ -46,6 +47,7 @@ export async function getAdminStats(actor) {
       { $group: { _id: null, total: { $sum: '$revenue' } } },
     ]),
     getBillingStats(actor),
+    getAIStats(actor),
   ]);
 
   return {
@@ -56,6 +58,7 @@ export async function getAdminStats(actor) {
     reportsGenerated,
     exportsGenerated,
     billing: billingStats,
+    ai: aiStats,
     roleDistribution: await User.aggregate([
       { $match: userQuery },
       { $group: { _id: '$role', count: { $sum: 1 } } },

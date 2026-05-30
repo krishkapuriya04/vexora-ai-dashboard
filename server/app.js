@@ -10,6 +10,7 @@ import reportRoutes from './routes/reportRoutes.js';
 import exportRoutes from './routes/exportRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import billingRoutes from './routes/billingRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 import { errorHandler } from './utils/errors.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -32,6 +33,7 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/billing', billingRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use(express.static(rootDir));
 

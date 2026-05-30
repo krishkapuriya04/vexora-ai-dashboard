@@ -254,6 +254,48 @@ npm run test:data
 npm run test:export
 npm run test:admin
 npm run test:billing            # Requires Razorpay test keys in .env
+npm run test:ai                 # Requires GEMINI_API_KEY or GEMINI_MOCK=true
+```
+
+---
+
+## Google Gemini AI Setup
+
+VEXORA uses **Google Gemini** to power the AI Business Intelligence Engine. The API key is loaded from environment variables — never hardcoded.
+
+### 1. Get API Key
+
+1. Visit [Google AI Studio](https://aistudio.google.com/apikey)
+2. Create a free API key
+3. Copy the key
+
+### 2. Configure Environment
+
+Add to your `.env` file:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-2.0-flash
+```
+
+### 3. AI Features
+
+| Feature | Endpoint | Category |
+|---------|----------|----------|
+| Executive Summary | `POST /api/ai/generate-summary` | KPI interpretation, performance overview |
+| Recommendations | `POST /api/ai/generate-recommendations` | Growth, revenue, retention advice |
+| Risk Analysis | `POST /api/ai/generate-risk-analysis` | Risks, weak metrics, concerns |
+| Forecast | `POST /api/ai/generate-forecast` | Revenue, growth, user projections |
+| History | `GET /api/ai/history` | Organization-scoped AI generation log |
+
+AI prompts are built from real VEXORA data: dashboard metrics, reports, activities, and subscription status.
+
+### 4. Run AI QA
+
+```bash
+# Mock mode (no live Gemini API needed)
+GEMINI_MOCK=true npm start
+npm run test:ai
 ```
 
 ---

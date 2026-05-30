@@ -12,6 +12,9 @@ const env = {
   razorpayKeyId: process.env.RAZORPAY_KEY_ID || '',
   razorpayKeySecret: process.env.RAZORPAY_KEY_SECRET || '',
   razorpayMock: process.env.RAZORPAY_MOCK === 'true',
+  geminiApiKey: process.env.GEMINI_API_KEY || '',
+  geminiModel: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
+  geminiMock: process.env.GEMINI_MOCK === 'true',
 };
 
 if (env.nodeEnv === 'production' && env.jwtSecret === 'vexora-dev-secret-change-in-production') {
