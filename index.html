@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEXORA — AI-Powered Business Intelligence & Analytics Platform. Monitor KPIs, visualize analytics, and make data-driven decisions with intelligent insights.">
+  <meta name="keywords" content="business intelligence, analytics, AI insights, KPI dashboard, data visualization, SaaS">
+  <meta name="author" content="VEXORA">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VEXORA — AI-Powered Business Intelligence Platform">
+  <meta property="og:description" content="Transform your data into actionable insights with AI-powered analytics and real-time KPI monitoring.">
+  <meta property="og:url" content="https://vexora.ai">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VEXORA — AI-Powered Business Intelligence">
+  <meta name="twitter:description" content="Transform your data into actionable insights with AI-powered analytics.">
+
+  <title>VEXORA — AI-Powered Business Intelligence & Analytics Platform</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/landing.css">
+
+</head>
+<body>
+
+  <!-- Skip Navigation (Accessibility) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Background Orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--secondary"></div>
+    <div class="bg-orb bg-orb--accent"></div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loader" class="loader" role="status" aria-label="Loading VEXORA">
+    <div class="loader__logo">
+      <div class="loader__logo-icon" aria-hidden="true">V</div>
+      <span class="loader__logo-text">VEXORA</span>
+    </div>
+    <div class="loader__bar">
+      <div class="loader__bar-fill"></div>
+    </div>
+    <p class="loader__text">Initializing analytics engine...</p>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header id="navbar" class="navbar">
+    <div class="container navbar__inner">
+      <a href="#" class="navbar__logo" aria-label="VEXORA Home">
+        <div class="navbar__logo-icon" aria-hidden="true">V</div>
+        <span>VEXORA</span>
+      </a>
+
+      <nav class="navbar__nav" aria-label="Main navigation">
+        <a href="#features" class="navbar__link">Features</a>
+        <a href="#analytics" class="navbar__link">Analytics</a>
+        <a href="#ai-insights" class="navbar__link">AI Insights</a>
+        <a href="#pricing" class="navbar__link">Pricing</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="#" class="btn btn--ghost">Sign In</a>
+        <a href="#cta" class="btn btn--primary">Start Free Trial</a>
+        <button class="navbar__toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+          <span class="navbar__toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" class="navbar__mobile-menu" aria-label="Mobile navigation">
+      <a href="#features" class="navbar__mobile-link">Features</a>
+      <a href="#analytics" class="navbar__mobile-link">Analytics</a>
+      <a href="#ai-insights" class="navbar__mobile-link">AI Insights</a>
+      <a href="#pricing" class="navbar__mobile-link">Pricing</a>
+      <a href="#" class="btn btn--secondary">Sign In</a>
+      <a href="#cta" class="btn btn--primary">Start Free Trial</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero__content">
+          <div class="hero__badge">
+            <span class="badge badge--accent">✦ AI-Powered Analytics Platform</span>
+          </div>
+
+          <h1 id="hero-title" class="hero__title">
+            Transform Data Into<br>
+            <span class="text-gradient">Intelligent Decisions</span>
+          </h1>
+
+          <p class="hero__subtitle">
+            VEXORA combines real-time business intelligence with AI-generated insights
+            to help teams monitor KPIs, visualize trends, and act on data faster than ever.
+          </p>
+
+          <div class="btn-group hero__actions">
+            <a href="#cta" class="btn btn--primary btn--lg">Start Free Trial</a>
+            <a href="#showcase" class="btn btn--secondary btn--lg">Watch Demo →</a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="hero__stat">
+              <div class="hero__stat-value">
+                <span data-count="2.4" data-decimals="1" data-suffix="M+">0</span>
+              </div>
+              <div class="hero__stat-label">Data Points Processed</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-value">
+                <span data-count="99.9" data-decimals="1" data-suffix="%">0</span>
+              </div>
+              <div class="hero__stat-label">Platform Uptime</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-value">
+                <span data-count="500" data-suffix="+">0</span>
+              </div>
+              <div class="hero__stat-label">Enterprise Clients</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-value">
+                <span data-count="47" data-suffix="%">0</span>
+              </div>
+              <div class="hero__stat-label">Faster Decision Making</div>
+            </div>
+          </div>
+
+          <div class="hero__visual">
+            <div class="hero__dashboard-preview" role="img" aria-label="Dashboard preview showing KPI metrics">
+              <div class="hero__dashboard-header">
+                <span class="hero__dashboard-dot hero__dashboard-dot--red"></span>
+                <span class="hero__dashboard-dot hero__dashboard-dot--yellow"></span>
+                <span class="hero__dashboard-dot hero__dashboard-dot--green"></span>
+              </div>
+              <div class="hero__dashboard-body">
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">Total Revenue</div>
+                  <div class="hero__mini-card-value">$2.4M</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 12.5% vs last month</div>
+                </div>
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">Active Users</div>
+                  <div class="hero__mini-card-value">18,429</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 8.3% vs last month</div>
+                </div>
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">Conversion Rate</div>
+                  <div class="hero__mini-card-value">4.82%</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 0.6% vs last month</div>
+                </div>
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">Churn Rate</div>
+                  <div class="hero__mini-card-value">1.2%</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--down">↓ 0.3% vs last month</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted Companies -->
+    <section class="trusted" aria-label="Trusted by leading companies">
+      <div class="container">
+        <p class="trusted__label">Trusted by industry leaders worldwide</p>
+        <div class="trusted__marquee">
+          <div class="trusted__track">
+            <span class="trusted__logo">Stripe</span>
+            <span class="trusted__logo">Linear</span>
+            <span class="trusted__logo">Vercel</span>
+            <span class="trusted__logo">Notion</span>
+            <span class="trusted__logo">Framer</span>
+            <span class="trusted__logo">Arc</span>
+            <span class="trusted__logo">Figma</span>
+            <span class="trusted__logo">Shopify</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="trusted__logo">Stripe</span>
+            <span class="trusted__logo">Linear</span>
+            <span class="trusted__logo">Vercel</span>
+            <span class="trusted__logo">Notion</span>
+            <span class="trusted__logo">Framer</span>
+            <span class="trusted__logo">Arc</span>
+            <span class="trusted__logo">Figma</span>
+            <span class="trusted__logo">Shopify</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section id="showcase" class="section showcase" aria-labelledby="showcase-title">
+      <div class="container">
+        <div class="showcase__grid">
+          <div class="showcase__content reveal reveal--left">
+            <span class="section-label">Product Showcase</span>
+            <h2 id="showcase-title" class="section-title">Real-Time Revenue Intelligence</h2>
+            <p class="section-description">
+              Track revenue performance across every channel with live dashboards
+              that update the moment your data changes.
+            </p>
+
+            <div class="showcase__features-list">
+              <div class="showcase__feature-item">
+                <div class="showcase__feature-icon" aria-hidden="true">📊</div>
+                <div>
+                  <div class="showcase__feature-title">Live Data Streaming</div>
+                  <p class="text-sm text-muted">Sub-second refresh rates across all connected data sources.</p>
+                </div>
+              </div>
+              <div class="showcase__feature-item">
+                <div class="showcase__feature-icon" aria-hidden="true">🎯</div>
+                <div>
+                  <div class="showcase__feature-title">Custom KPI Targets</div>
+                  <p class="text-sm text-muted">Set goals, track progress, and get alerts when metrics deviate.</p>
+                </div>
+              </div>
+              <div class="showcase__feature-item">
+                <div class="showcase__feature-icon" aria-hidden="true">📈</div>
+                <div>
+                  <div class="showcase__feature-title">Trend Forecasting</div>
+                  <p class="text-sm text-muted">AI-powered projections help you plan with confidence.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="showcase__visual reveal reveal--right">
+            <div class="showcase__image-wrapper glass-card">
+              <div class="showcase__chart-container">
+                <canvas id="showcase-chart" aria-label="Revenue trend chart showing 12-month growth"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section" aria-labelledby="features-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Features</span>
+          <h2 id="features-title" class="section-title">Everything You Need to Win with Data</h2>
+          <p class="section-description">
+            A complete analytics suite designed for modern teams who demand clarity, speed, and intelligence.
+          </p>
+        </header>
+
+        <div class="features__grid stagger-children">
+          <article class="feature-card glass-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">⚡</div>
+            <h3 class="feature-card__title">Real-Time Dashboards</h3>
+            <p class="feature-card__description">Build custom dashboards with drag-and-drop widgets. Monitor every KPI that matters to your business in one unified view.</p>
+          </article>
+
+          <article class="feature-card glass-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">🤖</div>
+            <h3 class="feature-card__title">AI-Powered Insights</h3>
+            <p class="feature-card__description">Our AI engine surfaces anomalies, trends, and opportunities automatically — so you never miss what matters most.</p>
+          </article>
+
+          <article class="feature-card glass-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">🔗</div>
+            <h3 class="feature-card__title">50+ Integrations</h3>
+            <p class="feature-card__description">Connect your entire data stack — CRM, ERP, marketing tools, databases — with one-click integrations.</p>
+          </article>
+
+          <article class="feature-card glass-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">📋</div>
+            <h3 class="feature-card__title">Automated Reports</h3>
+            <p class="feature-card__description">Schedule and deliver beautiful reports to stakeholders. PDF, email, or Slack — on your timeline.</p>
+          </article>
+
+          <article class="feature-card glass-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">👥</div>
+            <h3 class="feature-card__title">Team Collaboration</h3>
+            <p class="feature-card__description">Share dashboards, annotate charts, and align your team around the same source of truth.</p>
+          </article>
+
+          <article class="feature-card glass-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">🔒</div>
+            <h3 class="feature-card__title">Enterprise Security</h3>
+            <p class="feature-card__description">SOC 2 compliant with role-based access, SSO, audit logs, and end-to-end encryption for your data.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analytics Preview -->
+    <section id="analytics" class="section analytics-preview" aria-labelledby="analytics-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Analytics</span>
+          <h2 id="analytics-title" class="section-title">Deep Analytics at Your Fingertips</h2>
+          <p class="section-description">
+            Explore multi-dimensional data with interactive charts, filters, and drill-down capabilities.
+          </p>
+        </header>
+
+        <div class="analytics-preview__layout glass-card reveal reveal--scale">
+          <aside class="analytics-preview__sidebar" aria-label="Analytics navigation">
+            <button class="analytics-preview__sidebar-item is-active" type="button">Overview</button>
+            <button class="analytics-preview__sidebar-item" type="button">Traffic</button>
+            <button class="analytics-preview__sidebar-item" type="button">Conversions</button>
+            <button class="analytics-preview__sidebar-item" type="button">Revenue</button>
+            <button class="analytics-preview__sidebar-item" type="button">Retention</button>
+          </aside>
+
+          <div class="analytics-preview__main">
+            <div class="analytics-preview__metrics">
+              <div class="analytics-preview__metric">
+                <div class="analytics-preview__metric-label">Total Sessions</div>
+                <div class="analytics-preview__metric-value">92.4K</div>
+              </div>
+              <div class="analytics-preview__metric">
+                <div class="analytics-preview__metric-label">Avg. Duration</div>
+                <div class="analytics-preview__metric-value">4m 32s</div>
+              </div>
+              <div class="analytics-preview__metric">
+                <div class="analytics-preview__metric-label">Bounce Rate</div>
+                <div class="analytics-preview__metric-value">32.1%</div>
+              </div>
+              <div class="analytics-preview__metric">
+                <div class="analytics-preview__metric-label">Conversion Rate</div>
+                <div class="analytics-preview__metric-value">4.82%</div>
+              </div>
+            </div>
+
+            <div class="analytics-preview__chart-area">
+              <canvas id="analytics-chart" aria-label="Weekly sessions and conversions chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Insights Preview -->
+    <section id="ai-insights" class="section" aria-labelledby="ai-insights-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">AI Insights</span>
+          <h2 id="ai-insights-title" class="section-title">Intelligence That Works for You</h2>
+          <p class="section-description">
+            VEXORA's AI continuously analyzes your data to surface actionable insights before you even ask.
+          </p>
+        </header>
+
+        <div class="ai-insights__grid">
+          <div class="ai-insights__panel glass-card reveal reveal--left">
+            <div class="ai-insights__header">
+              <div class="ai-insights__avatar" aria-hidden="true">✦</div>
+              <div>
+                <h3 class="text-lg">Latest AI Insights</h3>
+                <p class="text-sm text-muted">Updated 2 minutes ago</p>
+              </div>
+            </div>
+
+            <div class="ai-insights__list">
+              <article class="ai-insight-item">
+                <span class="ai-insight-item__tag ai-insight-item__tag--opportunity">Opportunity</span>
+                <h4 class="ai-insight-item__title">Revenue spike in EMEA region</h4>
+                <p class="ai-insight-item__text">EMEA revenue increased 23% this week, driven by enterprise tier upgrades. Consider expanding sales capacity in the region.</p>
+              </article>
+
+              <article class="ai-insight-item">
+                <span class="ai-insight-item__tag ai-insight-item__tag--alert">Alert</span>
+                <h4 class="ai-insight-item__title">Churn risk detected in Segment B</h4>
+                <p class="ai-insight-item__text">142 accounts showing decreased engagement patterns similar to previously churned customers. Recommend proactive outreach.</p>
+              </article>
+
+              <article class="ai-insight-item">
+                <span class="ai-insight-item__tag ai-insight-item__tag--trend">Trend</span>
+                <h4 class="ai-insight-item__title">Mobile traffic surpassing desktop</h4>
+                <p class="ai-insight-item__text">Mobile sessions now account for 58% of total traffic, up from 45% last quarter. Mobile conversion optimization is recommended.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="ai-insights__chart-panel glass-card reveal reveal--right">
+            <h3 class="text-lg" style="margin-bottom: var(--space-4);">AI Forecast vs Actual</h3>
+            <div class="ai-insights__chart-container">
+              <canvas id="ai-insights-chart" aria-label="Quarterly AI forecast compared to actual performance"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section id="dashboard" class="section" aria-labelledby="dashboard-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Dashboard</span>
+          <h2 id="dashboard-title" class="section-title">Your Command Center</h2>
+          <p class="section-description">
+            A unified workspace where every metric, chart, and insight comes together beautifully.
+          </p>
+        </header>
+
+        <div class="dashboard-preview__wrapper reveal reveal--scale">
+          <div class="dashboard-preview__topbar">
+            <div class="dashboard-preview__tabs" role="tablist">
+              <button class="dashboard-preview__tab is-active" role="tab" aria-selected="true">Overview</button>
+              <button class="dashboard-preview__tab" role="tab" aria-selected="false">Sales</button>
+              <button class="dashboard-preview__tab" role="tab" aria-selected="false">Marketing</button>
+              <button class="dashboard-preview__tab" role="tab" aria-selected="false">Product</button>
+            </div>
+            <span class="badge">Live</span>
+          </div>
+
+          <div class="dashboard-preview__body">
+            <div class="dashboard-preview__widget dashboard-preview__widget--wide">
+              <div class="dashboard-preview__widget-header">
+                <span class="dashboard-preview__widget-title">KPI Performance Trend</span>
+                <span class="text-sm text-muted">Last 7 months</span>
+              </div>
+              <div class="dashboard-preview__widget-chart">
+                <canvas id="dashboard-line-chart" aria-label="KPI performance trend line chart"></canvas>
+              </div>
+            </div>
+
+            <div class="dashboard-preview__widget">
+              <div class="dashboard-preview__widget-header">
+                <span class="dashboard-preview__widget-title">Revenue by Product</span>
+              </div>
+              <div class="dashboard-preview__widget-chart">
+                <canvas id="dashboard-doughnut-chart" aria-label="Revenue distribution doughnut chart"></canvas>
+              </div>
+            </div>
+
+            <div class="dashboard-preview__widget dashboard-preview__widget--full">
+              <div class="dashboard-preview__widget-header">
+                <span class="dashboard-preview__widget-title">Key Metrics Summary</span>
+              </div>
+              <div class="hero__dashboard-body" style="padding: 0;">
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">MRR</div>
+                  <div class="hero__mini-card-value">$847K</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 6.2%</div>
+                </div>
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">NPS Score</div>
+                  <div class="hero__mini-card-value">72</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 4 pts</div>
+                </div>
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">LTV / CAC</div>
+                  <div class="hero__mini-card-value">4.8x</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 0.3x</div>
+                </div>
+                <div class="hero__mini-card">
+                  <div class="hero__mini-card-label">Support CSAT</div>
+                  <div class="hero__mini-card-value">96%</div>
+                  <div class="hero__mini-card-change hero__mini-card-change--up">↑ 2%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section section--sm" aria-labelledby="testimonials-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Testimonials</span>
+          <h2 id="testimonials-title" class="section-title">Loved by Data-Driven Teams</h2>
+          <p class="section-description">
+            See why leading companies trust VEXORA to power their most critical decisions.
+          </p>
+        </header>
+
+        <div class="testimonials__grid stagger-children">
+          <article class="testimonial-card glass-card reveal">
+            <div class="testimonial-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="testimonial-card__quote">"VEXORA transformed how our executive team consumes data. What used to take days of report building now happens in real-time. The AI insights alone have saved us countless hours."</blockquote>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">SK</div>
+              <div>
+                <div class="testimonial-card__name">Sarah Kim</div>
+                <div class="testimonial-card__role">VP of Analytics, TechFlow Inc.</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card glass-card reveal">
+            <div class="testimonial-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="testimonial-card__quote">"The predictive analytics capabilities are genuinely impressive. We identified a market shift three weeks before our competitors thanks to VEXORA's AI engine. That's real competitive advantage."</blockquote>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">MR</div>
+              <div>
+                <div class="testimonial-card__name">Marcus Rivera</div>
+                <div class="testimonial-card__role">CEO, GrowthStack</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card glass-card reveal">
+            <div class="testimonial-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="testimonial-card__quote">"Implementation took less than a day. Our entire sales team now has visibility into pipeline health, and our forecast accuracy improved by 34%. VEXORA is indispensable."</blockquote>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">EP</div>
+              <div>
+                <div class="testimonial-card__name">Elena Petrov</div>
+                <div class="testimonial-card__role">Director of Ops, Nexus Digital</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Preview -->
+    <section id="pricing" class="section" aria-labelledby="pricing-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">Pricing</span>
+          <h2 id="pricing-title" class="section-title">Simple, Transparent Pricing</h2>
+          <p class="section-description">
+            Start free, scale as you grow. No hidden fees, no surprises.
+          </p>
+        </header>
+
+        <div class="pricing__grid stagger-children">
+          <article class="pricing-card glass-card reveal">
+            <h3 class="pricing-card__name">Starter</h3>
+            <p class="pricing-card__description">Perfect for small teams getting started with analytics.</p>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">$49</span>
+              <span class="pricing-card__period">/month</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Up to 5 team members
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                3 custom dashboards
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                10 data integrations
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Basic AI insights
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Email support
+              </li>
+            </ul>
+            <button class="btn btn--secondary pricing-card__cta">Get Started</button>
+          </article>
+
+          <article class="pricing-card glass-card pricing-card--featured reveal">
+            <h3 class="pricing-card__name">Professional</h3>
+            <p class="pricing-card__description">For growing teams that need advanced analytics and AI.</p>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">$149</span>
+              <span class="pricing-card__period">/month</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Up to 25 team members
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Unlimited dashboards
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                50+ data integrations
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Advanced AI insights
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Automated reports
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Priority support
+              </li>
+            </ul>
+            <button class="btn btn--primary pricing-card__cta">Get Started</button>
+          </article>
+
+          <article class="pricing-card glass-card reveal">
+            <h3 class="pricing-card__name">Enterprise</h3>
+            <p class="pricing-card__description">Custom solutions for large organizations with complex needs.</p>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">Custom</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Unlimited team members
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Custom integrations
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Dedicated AI models
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                SSO &amp; SAML
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                SLA guarantee
+              </li>
+              <li class="pricing-card__feature">
+                <span class="pricing-card__feature-icon" aria-hidden="true">✓</span>
+                Dedicated account manager
+              </li>
+            </ul>
+            <button class="btn btn--secondary pricing-card__cta">Contact Sales</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call To Action -->
+    <section id="cta" class="section cta" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta__wrapper glass-card reveal reveal--scale">
+          <div class="cta__glow" aria-hidden="true"></div>
+          <div class="cta__content">
+            <h2 id="cta-title" class="cta__title">Ready to Transform Your Analytics?</h2>
+            <p class="cta__description">
+              Join 500+ companies using VEXORA to make smarter, faster business decisions.
+              Start your 14-day free trial — no credit card required.
+            </p>
+            <div class="btn-group cta__actions">
+              <a href="#" class="btn btn--primary btn--lg">Start Free Trial</a>
+              <a href="#" class="btn btn--secondary btn--lg">Schedule Demo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <div class="navbar__logo-icon" aria-hidden="true">V</div>
+            <span>VEXORA</span>
+          </div>
+          <p class="footer__tagline">
+            AI-powered business intelligence for teams that demand clarity, speed, and actionable insights.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer__column-title">Product</h4>
+          <ul class="footer__links">
+            <li><a href="#features" class="footer__link">Features</a></li>
+            <li><a href="#analytics" class="footer__link">Analytics</a></li>
+            <li><a href="#ai-insights" class="footer__link">AI Insights</a></li>
+            <li><a href="#pricing" class="footer__link">Pricing</a></li>
+            <li><a href="#" class="footer__link">Integrations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__column-title">Company</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">About</a></li>
+            <li><a href="#" class="footer__link">Blog</a></li>
+            <li><a href="#" class="footer__link">Careers</a></li>
+            <li><a href="#" class="footer__link">Press</a></li>
+            <li><a href="#" class="footer__link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__column-title">Legal</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">Privacy Policy</a></li>
+            <li><a href="#" class="footer__link">Terms of Service</a></li>
+            <li><a href="#" class="footer__link">Cookie Policy</a></li>
+            <li><a href="#" class="footer__link">Security</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2026 VEXORA. All rights reserved.</p>
+        <div class="footer__social" aria-label="Social media links">
+          <a href="#" class="footer__social-link" aria-label="Twitter">𝕏</a>
+          <a href="#" class="footer__social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="footer__social-link" aria-label="GitHub">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chart.js (loaded before app module) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
