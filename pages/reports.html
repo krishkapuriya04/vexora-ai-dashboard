@@ -71,7 +71,12 @@
               <button class="filter-chip" type="button" role="tab" aria-selected="false">AI</button>
               <button class="filter-chip" type="button" role="tab" aria-selected="false">Marketing</button>
             </div>
-            <button class="btn btn--primary btn--sm" id="export-trigger" type="button">⬇ Export All</button>
+            <div class="reports-export-actions btn-group">
+              <button class="btn btn--secondary btn--sm" id="export-pdf-btn" type="button">Export PDF</button>
+              <button class="btn btn--secondary btn--sm" id="export-excel-btn" type="button">Export Excel</button>
+              <button class="btn btn--secondary btn--sm" id="export-csv-btn" type="button">Export CSV</button>
+              <button class="btn btn--primary btn--sm" id="export-trigger" type="button">⬇ Export All</button>
+            </div>
           </div>
 
           <!-- Reports Library -->
@@ -114,7 +119,7 @@
         </label>
       </div>
       <div class="btn-group">
-        <button class="btn btn--primary" type="button" data-action="export">Start Export</button>
+        <button class="btn btn--primary" type="button" id="export-modal-start">Start Export</button>
         <button class="btn btn--secondary" type="button" data-close-export>Cancel</button>
       </div>
     </div>

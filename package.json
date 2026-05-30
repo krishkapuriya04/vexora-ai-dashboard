@@ -11,6 +11,7 @@
     "verify:paths": "node scripts/verify-paths.mjs",
     "test:auth": "node scripts/test-auth.mjs",
     "test:data": "node scripts/test-data.mjs",
+    "test:export": "node scripts/test-export.mjs",
     "seed": "node scripts/seed.mjs"
   },
   "repository": {
@@ -38,7 +39,10 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.1"
+    "mongoose": "^8.15.1",
+    "pdfkit": "^0.17.1",
+    "exceljs": "^4.4.0",
+    "@json2csv/plainjs": "^7.0.6"
   },
   "devDependencies": {
     "playwright": "^1.60.0"

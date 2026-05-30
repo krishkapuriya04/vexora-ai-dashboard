@@ -1,10 +1,10 @@
 /**
  * VEXORA Reports Page
- * Reports library loaded from API.
+ * Reports library loaded from API with professional export system.
  */
 
 import { initApp } from '../dashboard-app.js';
-import { fetchReports, fetchDashboardMetrics } from '../api-client.js';
+import { fetchReports, fetchDashboardMetrics, downloadExport } from '../api-client.js';
 
 let reportsData = [];
 
@@ -18,7 +18,7 @@ function renderReportsLibrary() {
         <img src="${report.thumbnail}" alt="" loading="lazy" width="400" height="225">
         <div class="report-card__overlay">
           ${report.status === 'ready'
-            ? `<button class="btn btn--primary btn--sm report-card__action" type="button" data-action="download">⬇ Download</button>`
+            ? `<button class="btn btn--primary btn--sm report-card__action" type="button" data-export-format="pdf">⬇ Download</button>`
             : `<span class="report-card__generating"><span class="spinner"></span> Generating...</span>`
           }
         </div>
@@ -33,7 +33,7 @@ function renderReportsLibrary() {
         </div>
         <div class="report-card__actions">
           <button class="btn btn--ghost btn--sm" type="button">Preview</button>
-          <button class="btn btn--secondary btn--sm" type="button" data-action="export">Export PDF</button>
+          <button class="btn btn--secondary btn--sm" type="button" data-export-format="pdf">Export PDF</button>
         </div>
       </div>
     </article>
@@ -78,7 +78,63 @@ function renderExecutiveSummaries(kpis) {
   `).join('');
 }
 
+function showToast(message, isError = false) {
+  const existing = document.querySelector('.toast');
+  existing?.remove();
+
+  const toast = document.createElement('div');
+  toast.className = `toast${isError ? ' toast--error' : ''}`;
+  toast.setAttribute('role', 'status');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => toast.classList.add('is-visible'));
+  setTimeout(() => {
+    toast.classList.remove('is-visible');
+    setTimeout(() => toast.remove(), 300);
+  }, 3200);
+}
+
+function setButtonLoading(button, loading, loadingText = 'Exporting…') {
+  if (!button) return;
+
+  if (loading) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = loadingText;
+    button.disabled = true;
+    button.classList.add('is-loading');
+  } else {
+    button.textContent = button.dataset.originalText || button.textContent;
+    button.disabled = false;
+    button.classList.remove('is-loading');
+  }
+}
+
+async function handleExport(format, triggerButton) {
+  setButtonLoading(triggerButton, true);
+
+  try {
+    const filename = await downloadExport(format);
+    showToast(`${format.toUpperCase()} export ready — ${filename}`);
+    document.getElementById('export-modal')?.setAttribute('hidden', '');
+    document.body.classList.remove('modal-open');
+  } catch (error) {
+    showToast(error.message || 'Export failed. Please try again.', true);
+  } finally {
+    setButtonLoading(triggerButton, false);
+  }
+}
+
 function bindExportUI() {
+  const pdfBtn = document.getElementById('export-pdf-btn');
+  const excelBtn = document.getElementById('export-excel-btn');
+  const csvBtn = document.getElementById('export-csv-btn');
+  const modalStart = document.getElementById('export-modal-start');
+
+  pdfBtn?.addEventListener('click', () => handleExport('pdf', pdfBtn));
+  excelBtn?.addEventListener('click', () => handleExport('excel', excelBtn));
+  csvBtn?.addEventListener('click', () => handleExport('csv', csvBtn));
+
   document.getElementById('export-trigger')?.addEventListener('click', () => {
     document.getElementById('export-modal')?.removeAttribute('hidden');
     document.body.classList.add('modal-open');
@@ -91,29 +147,25 @@ function bindExportUI() {
     });
   });
 
-  document.querySelectorAll('[data-action="export"], [data-action="download"]').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showToast('Report export started. Download will begin shortly.');
+  modalStart?.addEventListener('click', () => {
+    const selected = document.querySelector('input[name="format"]:checked')?.value || 'pdf';
+    const formatMap = { pdf: 'pdf', csv: 'csv', xlsx: 'excel' };
+    handleExport(formatMap[selected] || 'pdf', modalStart);
+  });
+
+  document.getElementById('reports-grid')?.addEventListener('click', (event) => {
+    const btn = event.target.closest('[data-export-format]');
+    if (!btn) return;
+    event.stopPropagation();
+    handleExport(btn.dataset.exportFormat || 'pdf', btn);
+  });
+
+  document.querySelectorAll('.export-option input').forEach((input) => {
+    input.addEventListener('change', () => {
+      document.querySelectorAll('.export-option').forEach((opt) => opt.classList.remove('is-selected'));
+      input.closest('.export-option')?.classList.add('is-selected');
     });
   });
-}
-
-function showToast(message) {
-  const existing = document.querySelector('.toast');
-  existing?.remove();
-
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.setAttribute('role', 'status');
-  toast.textContent = message;
-  document.body.appendChild(toast);
-
-  requestAnimationFrame(() => toast.classList.add('is-visible'));
-  setTimeout(() => {
-    toast.classList.remove('is-visible');
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
 }
 
 function bindFilterChips() {

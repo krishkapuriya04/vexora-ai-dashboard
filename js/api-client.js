@@ -86,6 +86,39 @@ export async function deleteReport(id) {
   return apiRequest(`/api/reports/${id}`, { method: 'DELETE' });
 }
 
+/**
+ * Download organization export file (pdf | csv | excel).
+ * @param {'pdf'|'csv'|'excel'} format
+ */
+export async function downloadExport(format) {
+  const token = getToken();
+  const response = await fetch(`${getApiBase()}/api/export/${format}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.message || `Export failed (${response.status})`);
+  }
+
+  const blob = await response.blob();
+  const disposition = response.headers.get('Content-Disposition') || '';
+  const match = disposition.match(/filename="([^"]+)"/);
+  const ext = format === 'excel' ? 'xlsx' : format;
+  const filename = match?.[1] || `vexora-export-${Date.now()}.${ext}`;
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+
+  return filename;
+}
+
 export default {
   fetchDashboardMetrics,
   updateDashboardMetrics,
@@ -97,4 +130,5 @@ export default {
   createReport,
   updateReport,
   deleteReport,
+  downloadExport,
 };
