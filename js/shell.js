@@ -16,6 +16,7 @@ const NAV_ITEMS = [
 ];
 
 const NAV_SECONDARY = [
+  { id: 'billing', label: 'Billing', href: 'billing.html', icon: '💳' },
   { id: 'settings', label: 'Settings', href: 'settings.html', icon: '⚙' },
   { id: 'help', label: 'Help Center', href: 'settings.html#help', icon: '?' },
 ];
@@ -74,7 +75,7 @@ function renderSidebar(activePage, user) {
         <div class="sidebar__upgrade glass-card">
           <p class="sidebar__upgrade-title">Upgrade to Pro</p>
           <p class="sidebar__upgrade-text">Unlock advanced AI insights</p>
-          <button class="btn btn--primary btn--sm" type="button">Upgrade</button>
+          <button class="btn btn--primary btn--sm sidebar-upgrade-btn" type="button">Upgrade</button>
         </div>
       </div>
     </aside>
@@ -247,7 +248,7 @@ function renderProfileMenu(user) {
         <a href="settings.html#profile" class="profile-panel__link">👤 My Profile</a>
         <a href="settings.html" class="profile-panel__link">⚙ Account Settings</a>
         <a href="settings.html#workspace" class="profile-panel__link">👥 Team Members</a>
-        <a href="settings.html#billing" class="profile-panel__link">💳 Billing</a>
+        <a href="billing.html" class="profile-panel__link">💳 Billing</a>
       </nav>
       <div class="profile-panel__divider"></div>
       <button type="button" class="profile-panel__link profile-panel__link--logout" id="logout-btn">↩ Sign Out</button>
@@ -434,6 +435,10 @@ export function bindShellEvents() {
     e.preventDefault();
     e.stopPropagation();
     await logout();
+  });
+
+  document.querySelector('.sidebar-upgrade-btn')?.addEventListener('click', () => {
+    window.location.href = 'billing.html';
   });
 
   /* Mark all notifications read → empty state */

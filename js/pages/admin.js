@@ -77,16 +77,31 @@ function renderKpis(stats) {
   const kpis = [
     { id: 'users', label: 'Total Users', value: stats.totalUsers, icon: '👥', change: 'Platform', trend: 'up' },
     { id: 'orgs', label: 'Organizations', value: stats.totalOrganizations, icon: '🏢', change: 'Active', trend: 'up' },
-    { id: 'revenue', label: 'Total Revenue', value: stats.totalRevenue, icon: '💰', change: 'Aggregate', trend: 'up', format: 'currency' },
+    { id: 'revenue', label: 'Dashboard Revenue', value: stats.totalRevenue, icon: '📊', change: 'Metrics', trend: 'up', format: 'currency' },
     { id: 'sessions', label: 'Active Sessions', value: stats.activeSessions, icon: '⚡', change: 'Live', trend: 'up' },
     { id: 'reports', label: 'Reports Generated', value: stats.reportsGenerated, icon: '📋', change: 'Total', trend: 'up' },
     { id: 'exports', label: 'Exports Generated', value: stats.exportsGenerated, icon: '⬇', change: 'Total', trend: 'up' },
   ];
 
-  grid.innerHTML = kpis.map((kpi, i) => {
-    const display = kpi.format === 'currency'
-      ? `$${(kpi.value / 1000000).toFixed(2)}M`
-      : kpi.value.toLocaleString();
+  const billing = stats.billing || {};
+  const billingKpis = [
+    { id: 'bill-revenue', label: 'Total Revenue', value: billing.totalRevenue || 0, icon: '💰', change: 'Billing', trend: 'up', format: 'inr' },
+    { id: 'bill-subs', label: 'Active Subscriptions', value: billing.activeSubscriptions || 0, icon: '✓', change: 'Live', trend: 'up' },
+    { id: 'bill-monthly', label: 'Monthly Revenue', value: billing.monthlyRevenue || 0, icon: '📈', change: 'This month', trend: 'up', format: 'inr' },
+    { id: 'bill-failed', label: 'Failed Payments', value: billing.failedPayments || 0, icon: '⚠', change: 'Total', trend: billing.failedPayments > 0 ? 'down' : 'up' },
+  ];
+
+  const allKpis = [...kpis, ...billingKpis];
+
+  grid.innerHTML = allKpis.map((kpi, i) => {
+    let display;
+    if (kpi.format === 'currency') {
+      display = `$${(kpi.value / 1000000).toFixed(2)}M`;
+    } else if (kpi.format === 'inr') {
+      display = `₹${(kpi.value / 100).toLocaleString('en-IN')}`;
+    } else {
+      display = kpi.value.toLocaleString();
+    }
     return `
       <article class="kpi-card glass-card glow-border reveal" style="transition-delay:${i * 50}ms">
         <div class="kpi-card__header">

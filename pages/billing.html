@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEXORA Billing — Manage your subscription and payment history">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Billing — VEXORA</title>
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/upgrade.css">
+  <link rel="stylesheet" href="../css/polish.css">
+  <link rel="stylesheet" href="../css/billing.css">
+</head>
+<body class="app">
+
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-bg__layer aurora-bg__layer--1"></div>
+    <div class="aurora-bg__layer aurora-bg__layer--2"></div>
+  </div>
+  <div class="mesh-bg" aria-hidden="true"></div>
+
+  <div class="app-layout">
+    <div id="sidebar-slot"></div>
+    <div class="app-main">
+      <div id="topbar-slot"></div>
+      <main class="app-content" id="main-content">
+        <div class="page-skeleton" aria-hidden="true">
+          <div class="skeleton-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+          </div>
+        </div>
+
+        <div class="page-content">
+          <header class="page-header reveal">
+            <h1 class="page-header__title">Billing & Subscription</h1>
+            <p class="page-header__subtitle">Manage your plan, renewal, and payment history</p>
+          </header>
+
+          <!-- Current Subscription -->
+          <section class="billing-current glass-card reveal">
+            <div class="billing-current__header">
+              <h2 class="widget__title">Current Plan</h2>
+              <span class="billing-badge" id="billing-status-badge">—</span>
+            </div>
+            <div class="billing-current__grid">
+              <div class="billing-current__item">
+                <span class="billing-current__label">Plan</span>
+                <span class="billing-current__value" id="billing-plan-name">No active plan</span>
+              </div>
+              <div class="billing-current__item">
+                <span class="billing-current__label">Renewal Date</span>
+                <span class="billing-current__value" id="billing-renewal-date">—</span>
+              </div>
+              <div class="billing-current__item">
+                <span class="billing-current__label">Started</span>
+                <span class="billing-current__value" id="billing-start-date">—</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Plans -->
+          <section class="billing-plans reveal" id="billing-plans-section">
+            <h2 class="widget__title">Choose a Plan</h2>
+            <div class="billing-plans__grid" id="billing-plans-grid"></div>
+          </section>
+
+          <!-- Payment History -->
+          <section class="billing-history reveal">
+            <h2 class="widget__title">Payment History</h2>
+            <div class="admin-table-wrap glass-card">
+              <table class="admin-table" id="payments-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Plan</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Order ID</th>
+                  </tr>
+                </thead>
+                <tbody id="payments-table-body">
+                  <tr><td colspan="5" class="billing-empty">No payments yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="modals-slot"></div>
+
+  <!-- Confirm Dialog -->
+  <div class="modal" id="confirm-modal" role="dialog" aria-modal="true" hidden>
+    <div class="modal__backdrop" data-close-confirm></div>
+    <div class="modal__panel" style="max-width:420px">
+      <h3 class="modal__title">Confirm Action</h3>
+      <p id="confirm-message"></p>
+      <div class="modal__actions">
+        <button class="btn btn--secondary" type="button" data-close-confirm>Cancel</button>
+        <button class="btn btn--primary" type="button" id="confirm-yes">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script type="module" src="../js/pages/billing.js"></script>
+</body>
+</html>

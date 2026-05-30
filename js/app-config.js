@@ -46,6 +46,7 @@ export const SEARCH_ITEMS = [
   { label: 'Analytics', href: 'analytics.html', icon: '📈', category: 'Pages' },
   { label: 'AI Insights', href: 'insights.html', icon: '✦', category: 'Pages' },
   { label: 'Reports', href: 'reports.html', icon: '📋', category: 'Pages' },
+  { label: 'Billing', href: 'billing.html', icon: '💳', category: 'Pages' },
   { label: 'Settings', href: 'settings.html', icon: '⚙', category: 'Pages' },
   { label: 'Revenue Report', href: 'reports.html', icon: '💰', category: 'Reports' },
   { label: 'User Growth Chart', href: 'dashboard.html', icon: '👥', category: 'Quick Actions' },

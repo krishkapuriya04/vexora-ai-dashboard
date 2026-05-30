@@ -174,6 +174,37 @@ export async function fetchAdminAuditLogs() {
   return data.logs;
 }
 
+export async function fetchBillingPlans() {
+  const data = await apiRequest('/api/billing/plans');
+  return data.plans;
+}
+
+export async function fetchBillingSubscription() {
+  const data = await apiRequest('/api/billing/subscription');
+  return data.subscription;
+}
+
+export async function fetchBillingHistory() {
+  const data = await apiRequest('/api/billing/history');
+  return data.payments;
+}
+
+export async function createBillingOrder(plan) {
+  const data = await apiRequest('/api/billing/create-order', {
+    method: 'POST',
+    body: JSON.stringify({ plan }),
+  });
+  return data;
+}
+
+export async function verifyBillingPayment(payload) {
+  const data = await apiRequest('/api/billing/verify-payment', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return data;
+}
+
 export default {
   fetchDashboardMetrics,
   updateDashboardMetrics,
@@ -196,4 +227,9 @@ export default {
   createAdminOrganization,
   updateAdminOrganization,
   fetchAdminAuditLogs,
+  fetchBillingPlans,
+  fetchBillingSubscription,
+  fetchBillingHistory,
+  createBillingOrder,
+  verifyBillingPayment,
 };

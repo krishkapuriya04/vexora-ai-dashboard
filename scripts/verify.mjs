@@ -22,6 +22,7 @@ const REQUIRED_PAGES = [
   'pages/insights.html',
   'pages/reports.html',
   'pages/admin.html',
+  'pages/billing.html',
   'pages/settings.html',
 ];
 
@@ -44,6 +45,7 @@ const REQUIRED_JS = [
   'js/pages/login.js',
   'js/pages/signup.js',
   'js/pages/admin.js',
+  'js/pages/billing.js',
   'js/micro-interactions.js',
 ];
 
@@ -58,6 +60,7 @@ const REQUIRED_CSS = [
   'css/polish.css',
   'css/auth.css',
   'css/admin.css',
+  'css/billing.css',
 ];
 
 function checkExists(relativePath, label) {
@@ -155,6 +158,7 @@ async function checkHttp() {
     '/pages/insights.html',
     '/pages/reports.html',
     '/pages/admin.html',
+    '/pages/billing.html',
     '/pages/settings.html',
     '/css/polish.css',
     '/assets/icons/logo-mark.svg',

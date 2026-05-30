@@ -6,6 +6,7 @@
 import VexoraTheme from './theme.js';
 import VexoraAnimations from './animations.js';
 import { initMicroInteractions } from './micro-interactions.js';
+import { getToken } from './auth-client.js';
 import { CHART_DEFAULTS, createGradient } from './chart-utils.js';
 import { LANDING_MOCK_DATA as MOCK_DATA } from './app-config.js';
 
@@ -251,6 +252,23 @@ function initAnalyticsTabs() {
 }
 
 /**
+ * Wire pricing CTAs to billing flow
+ */
+function initPricingCTAs() {
+  const token = getToken();
+  document.querySelectorAll('.pricing-card__cta[data-plan]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const plan = btn.dataset.plan;
+      if (token) {
+        window.location.href = `pages/billing.html?plan=${plan}`;
+      } else {
+        window.location.href = `pages/signup.html?plan=${plan}`;
+      }
+    });
+  });
+}
+
+/**
  * Application bootstrap
  */
 function init() {
@@ -258,6 +276,7 @@ function init() {
   VexoraAnimations.init();
   initNavbar();
   initAnalyticsTabs();
+  initPricingCTAs();
   initShowcaseChart();
   initAnalyticsChart();
   initAIInsightsChart();

@@ -10,6 +10,8 @@ const AUDIT_ACTIONS = [
   'organization_updated',
   'organization_disabled',
   'export_generated',
+  'subscription_activated',
+  'payment_failed',
 ];
 
 const auditLogSchema = new mongoose.Schema(

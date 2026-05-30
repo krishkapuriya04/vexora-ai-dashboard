@@ -249,7 +249,85 @@ npm run screenshots   # Capture portfolio screenshots (requires serve running)
 npx serve . -p 3456
 node scripts/verify.mjs
 node scripts/verify-paths.mjs   # GitHub Pages path audit
+npm run test:auth
+npm run test:data
+npm run test:export
+npm run test:admin
+npm run test:billing            # Requires Razorpay test keys in .env
 ```
+
+---
+
+## Razorpay Billing Setup
+
+VEXORA uses **Razorpay Test Mode** for subscription billing. API keys are loaded from environment variables — never hardcoded.
+
+### 1. Get Test API Keys
+
+1. Create a free account at [Razorpay Dashboard](https://dashboard.razorpay.com/)
+2. Go to **Settings → API Keys**
+3. Generate **Test Mode** keys (`rzp_test_...`)
+
+### 2. Configure Environment
+
+Copy `.env.example` to `.env` and add your keys:
+
+```env
+RAZORPAY_KEY_ID=rzp_test_your_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_test_secret
+```
+
+### 3. Start the Server
+
+```bash
+npm install
+npm run seed    # optional demo data
+npm start       # http://localhost:5000
+```
+
+### 4. Subscription Plans
+
+| Plan | Price | ID |
+|------|-------|-----|
+| Starter | ₹499/month | `starter` |
+| Growth | ₹1,499/month | `growth` |
+| Enterprise | ₹4,999/month | `enterprise` |
+
+### 5. Payment Flow
+
+1. User selects a plan on the landing page or **Billing** page
+2. Backend creates a Razorpay order (`POST /api/billing/create-order`)
+3. Razorpay Checkout modal opens in the browser
+4. On success, payment is verified server-side with HMAC signature check
+5. Subscription activates for 30 days
+
+### 6. Test Payments
+
+Use Razorpay test card details in checkout:
+
+- **Card:** `4111 1111 1111 1111`
+- **Expiry:** any future date
+- **CVV:** any 3 digits
+
+Run automated billing QA:
+
+```bash
+# With mock mode (no live Razorpay API needed)
+RAZORPAY_MOCK=true RAZORPAY_KEY_SECRET=test_qa_billing_secret npm start
+npm run test:billing
+```
+
+### Billing API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/billing/plans` | List subscription plans |
+| POST | `/api/billing/create-order` | Create Razorpay order (Admin/Manager) |
+| POST | `/api/billing/verify-payment` | Verify payment & activate subscription |
+| GET | `/api/billing/subscription` | Current organization subscription |
+| GET | `/api/billing/history` | Payment history |
+
+---
 
 ---
 

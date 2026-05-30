@@ -594,11 +594,11 @@
         </header>
 
         <div class="pricing__grid stagger-children">
-          <article class="pricing-card glass-card reveal">
+          <article class="pricing-card glass-card reveal" data-plan="starter">
             <h3 class="pricing-card__name">Starter</h3>
             <p class="pricing-card__description">Perfect for small teams getting started with analytics.</p>
             <div class="pricing-card__price">
-              <span class="pricing-card__amount">$49</span>
+              <span class="pricing-card__amount">₹499</span>
               <span class="pricing-card__period">/month</span>
             </div>
             <ul class="pricing-card__features">
@@ -623,14 +623,14 @@
                 Email support
               </li>
             </ul>
-            <button class="btn btn--secondary pricing-card__cta">Get Started</button>
+            <button class="btn btn--secondary pricing-card__cta" data-plan="starter" type="button">Start Starter Plan</button>
           </article>
 
-          <article class="pricing-card glass-card pricing-card--featured reveal">
-            <h3 class="pricing-card__name">Professional</h3>
+          <article class="pricing-card glass-card pricing-card--featured reveal" data-plan="growth">
+            <h3 class="pricing-card__name">Growth</h3>
             <p class="pricing-card__description">For growing teams that need advanced analytics and AI.</p>
             <div class="pricing-card__price">
-              <span class="pricing-card__amount">$149</span>
+              <span class="pricing-card__amount">₹1,499</span>
               <span class="pricing-card__period">/month</span>
             </div>
             <ul class="pricing-card__features">
@@ -659,14 +659,15 @@
                 Priority support
               </li>
             </ul>
-            <button class="btn btn--primary pricing-card__cta">Get Started</button>
+            <button class="btn btn--primary pricing-card__cta" data-plan="growth" type="button">Start Growth Plan</button>
           </article>
 
-          <article class="pricing-card glass-card reveal">
+          <article class="pricing-card glass-card reveal" data-plan="enterprise">
             <h3 class="pricing-card__name">Enterprise</h3>
             <p class="pricing-card__description">Custom solutions for large organizations with complex needs.</p>
             <div class="pricing-card__price">
-              <span class="pricing-card__amount">Custom</span>
+              <span class="pricing-card__amount">₹4,999</span>
+              <span class="pricing-card__period">/month</span>
             </div>
             <ul class="pricing-card__features">
               <li class="pricing-card__feature">
@@ -694,7 +695,7 @@
                 Dedicated account manager
               </li>
             </ul>
-            <button class="btn btn--secondary pricing-card__cta">Contact Sales</button>
+            <button class="btn btn--secondary pricing-card__cta" data-plan="enterprise" type="button">Start Enterprise Plan</button>
           </article>
         </div>
       </div>

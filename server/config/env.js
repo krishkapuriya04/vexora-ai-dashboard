@@ -9,6 +9,9 @@ const env = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1d',
   jwtRememberExpiresIn: process.env.JWT_REMEMBER_EXPIRES_IN || '30d',
   nodeEnv: process.env.NODE_ENV || 'development',
+  razorpayKeyId: process.env.RAZORPAY_KEY_ID || '',
+  razorpayKeySecret: process.env.RAZORPAY_KEY_SECRET || '',
+  razorpayMock: process.env.RAZORPAY_MOCK === 'true',
 };
 
 if (env.nodeEnv === 'production' && env.jwtSecret === 'vexora-dev-secret-change-in-production') {
