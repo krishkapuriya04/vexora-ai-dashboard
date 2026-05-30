@@ -98,6 +98,26 @@ npx serve . -p 3456
 node scripts/verify.mjs
 ```
 
+## Portfolio Screenshots
+
+Premium showcase screenshots for README, portfolio, and case studies:
+
+```bash
+npm run serve          # Terminal 1
+npm run screenshots    # Terminal 2
+```
+
+Output: `portfolio-assets/screenshots/` — see [portfolio-assets/README.md](portfolio-assets/README.md) for full guidance.
+
+| Screenshot | Description |
+|------------|-------------|
+| `landing-page.png` | Marketing landing page hero |
+| `dashboard.png` | KPI dashboard with charts |
+| `analytics.png` | Traffic analytics & heatmap |
+| `ai-insights.png` | AI recommendations feed |
+| `reports.png` | Reports library |
+| `settings.png` | Settings panel |
+
 ## Next Steps (Phase 3)
 
 - [ ] Client-side SPA routing
