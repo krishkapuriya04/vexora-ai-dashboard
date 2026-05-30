@@ -28,9 +28,14 @@ const organizationSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['active', 'disabled'],
+      default: 'active',
+    },
   },
   {
-    timestamps: { createdAt: true, updatedAt: false },
+    timestamps: true,
   }
 );
 
@@ -42,7 +47,9 @@ organizationSchema.methods.toPublicJSON = function toPublicJSON() {
     size: this.size,
     logo: this.logo,
     owner: this.owner?.toString(),
+    status: this.status,
     createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
   };
 };
 

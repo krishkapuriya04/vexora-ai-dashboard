@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import { signToken } from '../utils/jwt.js';
 import { AppError } from '../utils/errors.js';
-import { invalidateToken } from './tokenService.js';
+import { invalidateToken, registerSession, removeSession } from './tokenService.js';
 import { createOrganizationForUser, seedOrganizationData, ensureUserOrganization } from './organizationService.js';
 
 /**
@@ -25,6 +25,7 @@ export async function registerUser({ fullName, email, password, role }) {
 
   user = await User.findById(user._id);
   const token = signToken(user._id.toString(), false);
+  registerSession(token);
 
   return {
     token,
@@ -42,12 +43,17 @@ export async function loginUser({ email, password, rememberMe = false }) {
     throw new AppError('Invalid email or password', 401);
   }
 
+  if (user.status === 'disabled') {
+    throw new AppError('Account has been disabled. Contact your administrator.', 403);
+  }
+
   if (!user.organization) {
     await ensureUserOrganization(user);
     user = await User.findById(user._id);
   }
 
   const token = signToken(user._id.toString(), rememberMe);
+  registerSession(token);
 
   return {
     token,

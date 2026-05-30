@@ -12,6 +12,7 @@
     "test:auth": "node scripts/test-auth.mjs",
     "test:data": "node scripts/test-data.mjs",
     "test:export": "node scripts/test-export.mjs",
+    "test:admin": "node scripts/test-admin.mjs",
     "seed": "node scripts/seed.mjs"
   },
   "repository": {

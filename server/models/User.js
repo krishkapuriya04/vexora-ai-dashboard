@@ -36,6 +36,11 @@ const userSchema = new mongoose.Schema(
       ref: 'Organization',
       index: true,
     },
+    status: {
+      type: String,
+      enum: ['active', 'disabled'],
+      default: 'active',
+    },
   },
   {
     timestamps: true,
@@ -60,7 +65,29 @@ userSchema.methods.toPublicJSON = function toPublicJSON() {
     fullName: this.fullName,
     email: this.email,
     role: this.role,
+    status: this.status,
     organization: this.organization?.toString() || null,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
+  };
+};
+
+userSchema.methods.toAdminJSON = async function toAdminJSON() {
+  if (this.organization && !this.organization.name) {
+    await this.populate('organization');
+  }
+
+  const org = this.organization;
+
+  return {
+    id: this._id.toString(),
+    fullName: this.fullName,
+    name: this.fullName,
+    email: this.email,
+    role: this.role,
+    status: this.status,
+    organization: org?._id?.toString() || null,
+    organizationName: org?.name || '—',
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };

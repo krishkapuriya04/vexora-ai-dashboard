@@ -86,10 +86,6 @@ export async function deleteReport(id) {
   return apiRequest(`/api/reports/${id}`, { method: 'DELETE' });
 }
 
-/**
- * Download organization export file (pdf | csv | excel).
- * @param {'pdf'|'csv'|'excel'} format
- */
 export async function downloadExport(format) {
   const token = getToken();
   const response = await fetch(`${getApiBase()}/api/export/${format}`, {
@@ -119,6 +115,65 @@ export async function downloadExport(format) {
   return filename;
 }
 
+export async function fetchAdminStats() {
+  const data = await apiRequest('/api/admin/stats');
+  return data.stats;
+}
+
+export async function fetchAdminUsers(params = {}) {
+  const qs = new URLSearchParams(params).toString();
+  const data = await apiRequest(`/api/admin/users${qs ? `?${qs}` : ''}`);
+  return data.users;
+}
+
+export async function fetchAdminUser(id) {
+  const data = await apiRequest(`/api/admin/users/${id}`);
+  return data.user;
+}
+
+export async function updateAdminUser(id, payload) {
+  const data = await apiRequest(`/api/admin/users/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return data.user;
+}
+
+export async function deleteAdminUser(id) {
+  return apiRequest(`/api/admin/users/${id}`, { method: 'DELETE' });
+}
+
+export async function fetchAdminOrganizations() {
+  const data = await apiRequest('/api/admin/organizations');
+  return data.organizations;
+}
+
+export async function fetchAdminOrganization(id) {
+  const data = await apiRequest(`/api/admin/organizations/${id}`);
+  return data.organization;
+}
+
+export async function createAdminOrganization(payload) {
+  const data = await apiRequest('/api/admin/organizations', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return data.organization;
+}
+
+export async function updateAdminOrganization(id, payload) {
+  const data = await apiRequest(`/api/admin/organizations/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return data.organization;
+}
+
+export async function fetchAdminAuditLogs() {
+  const data = await apiRequest('/api/admin/audit-logs');
+  return data.logs;
+}
+
 export default {
   fetchDashboardMetrics,
   updateDashboardMetrics,
@@ -131,4 +186,14 @@ export default {
   updateReport,
   deleteReport,
   downloadExport,
+  fetchAdminStats,
+  fetchAdminUsers,
+  fetchAdminUser,
+  updateAdminUser,
+  deleteAdminUser,
+  fetchAdminOrganizations,
+  fetchAdminOrganization,
+  createAdminOrganization,
+  updateAdminOrganization,
+  fetchAdminAuditLogs,
 };

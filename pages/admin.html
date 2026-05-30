@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEXORA Admin — User and organization management">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — VEXORA</title>
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/upgrade.css">
+  <link rel="stylesheet" href="../css/polish.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="app">
+
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-bg__layer aurora-bg__layer--1"></div>
+    <div class="aurora-bg__layer aurora-bg__layer--2"></div>
+  </div>
+  <div class="mesh-bg" aria-hidden="true"></div>
+
+  <div class="app-layout">
+    <div id="sidebar-slot"></div>
+    <div class="app-main">
+      <div id="topbar-slot"></div>
+      <main class="app-content" id="main-content">
+        <div class="page-skeleton" aria-hidden="true">
+          <div class="skeleton-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+          </div>
+        </div>
+
+        <div class="page-content">
+          <header class="page-header reveal">
+            <h1 class="page-header__title">Admin Panel</h1>
+            <p class="page-header__subtitle">Manage users, organizations, and platform activity</p>
+          </header>
+
+          <nav class="admin-tabs reveal" aria-label="Admin sections">
+            <button class="admin-tab is-active" type="button" data-tab="overview">Overview</button>
+            <button class="admin-tab" type="button" data-tab="users">Users</button>
+            <button class="admin-tab" type="button" data-tab="organizations">Organizations</button>
+            <button class="admin-tab" type="button" data-tab="audit">Audit Log</button>
+          </nav>
+
+          <!-- Overview -->
+          <section class="admin-panel is-active" id="panel-overview" data-panel="overview">
+            <div class="kpi-grid" id="admin-kpi-grid"></div>
+            <div class="widget-grid" style="margin-top: var(--space-6);">
+              <article class="widget glass-card reveal">
+                <h2 class="widget__title">User Growth</h2>
+                <div class="admin-chart-wrap"><canvas id="admin-chart-growth"></canvas></div>
+              </article>
+              <article class="widget glass-card reveal">
+                <h2 class="widget__title">Role Distribution</h2>
+                <div class="admin-chart-wrap"><canvas id="admin-chart-roles"></canvas></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Users -->
+          <section class="admin-panel" id="panel-users" data-panel="users">
+            <div class="admin-toolbar glass-card" style="padding: var(--space-4);">
+              <div class="admin-filters">
+                <input class="admin-search settings-input" type="search" id="user-search" placeholder="Search users…" aria-label="Search users">
+                <select class="admin-select" id="user-role-filter" aria-label="Filter by role">
+                  <option value="">All Roles</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Viewer">Viewer</option>
+                </select>
+                <select class="admin-select" id="user-status-filter" aria-label="Filter by status">
+                  <option value="">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-table-wrap glass-card">
+              <table class="admin-table" id="users-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Organization</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body"></tbody>
+              </table>
+            </div>
+            <div class="admin-pagination">
+              <span id="users-page-info">Showing 0 users</span>
+              <div class="btn-group">
+                <button class="btn btn--secondary btn--sm" type="button" id="users-prev" disabled>Previous</button>
+                <button class="btn btn--secondary btn--sm" type="button" id="users-next" disabled>Next</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Organizations -->
+          <section class="admin-panel" id="panel-organizations" data-panel="organizations">
+            <div class="admin-toolbar">
+              <h2 class="widget__title">Organizations</h2>
+              <button class="btn btn--primary btn--sm" type="button" id="create-org-btn" hidden>Create Organization</button>
+            </div>
+            <div class="org-grid" id="org-grid"></div>
+          </section>
+
+          <!-- Audit -->
+          <section class="admin-panel" id="panel-audit" data-panel="audit">
+            <h2 class="widget__title" style="margin-bottom: var(--space-4);">Audit Log</h2>
+            <div class="admin-table-wrap glass-card">
+              <table class="admin-table" id="audit-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Target</th>
+                    <th>Organization</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="modals-slot"></div>
+
+  <!-- User Modal -->
+  <div class="modal admin-modal" id="user-modal" role="dialog" aria-modal="true" aria-label="Edit user" hidden>
+    <div class="modal__backdrop" data-close-user-modal></div>
+    <div class="modal__panel admin-modal__panel glass-card">
+      <h2 class="export-modal__title" id="user-modal-title">Edit User</h2>
+      <form id="user-form">
+        <input type="hidden" id="user-id">
+        <div class="admin-modal__field">
+          <label for="user-name">Full Name</label>
+          <input class="settings-input" type="text" id="user-name" required>
+        </div>
+        <div class="admin-modal__field">
+          <label for="user-email">Email</label>
+          <input class="settings-input" type="email" id="user-email" required>
+        </div>
+        <div class="admin-modal__field">
+          <label for="user-role">Role</label>
+          <select class="admin-select" id="user-role" style="width:100%;">
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Viewer">Viewer</option>
+          </select>
+        </div>
+        <div class="admin-modal__field">
+          <label for="user-status">Status</label>
+          <select class="admin-select" id="user-status" style="width:100%;">
+            <option value="active">Active</option>
+            <option value="disabled">Disabled</option>
+          </select>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn--primary" type="submit">Save Changes</button>
+          <button class="btn btn--secondary" type="button" data-close-user-modal>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Org Modal -->
+  <div class="modal admin-modal" id="org-modal" role="dialog" aria-modal="true" aria-label="Edit organization" hidden>
+    <div class="modal__backdrop" data-close-org-modal></div>
+    <div class="modal__panel admin-modal__panel glass-card">
+      <h2 class="export-modal__title" id="org-modal-title">Edit Organization</h2>
+      <form id="org-form">
+        <input type="hidden" id="org-id">
+        <div class="admin-modal__field">
+          <label for="org-name">Name</label>
+          <input class="settings-input" type="text" id="org-name" required>
+        </div>
+        <div class="admin-modal__field">
+          <label for="org-industry">Industry</label>
+          <input class="settings-input" type="text" id="org-industry">
+        </div>
+        <div class="admin-modal__field">
+          <label for="org-size">Size</label>
+          <input class="settings-input" type="text" id="org-size">
+        </div>
+        <div class="admin-modal__field">
+          <label for="org-status">Status</label>
+          <select class="admin-select" id="org-status" style="width:100%;">
+            <option value="active">Active</option>
+            <option value="disabled">Disabled</option>
+          </select>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn--primary" type="submit">Save Changes</button>
+          <button class="btn btn--secondary" type="button" data-close-org-modal>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal admin-modal" id="confirm-modal" role="dialog" aria-modal="true" aria-label="Confirm action" hidden>
+    <div class="modal__backdrop" data-close-confirm></div>
+    <div class="modal__panel admin-modal__panel glass-card">
+      <h2 class="export-modal__title">Confirm Action</h2>
+      <p id="confirm-message" class="settings-row__hint" style="margin-bottom: var(--space-5);"></p>
+      <div class="btn-group">
+        <button class="btn btn--primary" type="button" id="confirm-yes">Confirm</button>
+        <button class="btn btn--secondary" type="button" data-close-confirm>Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="../js/pages/admin.js"></script>
+</body>
+</html>

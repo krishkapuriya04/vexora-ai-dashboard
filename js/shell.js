@@ -25,7 +25,15 @@ const NAV_SECONDARY = [
  * @param {string} activePage - Current page identifier
  * @returns {string}
  */
-function renderSidebar(activePage) {
+function renderSidebar(activePage, user) {
+  const adminNav = (user?.role === 'Admin' || user?.role === 'Manager') ? `
+    <a href="admin.html"
+       class="sidebar__link sidebar__link--secondary${activePage === 'admin' ? ' is-active' : ''}"
+       ${activePage === 'admin' ? 'aria-current="page"' : ''}>
+      <span class="sidebar__icon" aria-hidden="true">🛡</span>
+      <span class="sidebar__label">Admin</span>
+    </a>
+  ` : '';
   const mainNav = NAV_ITEMS.map((item) => `
     <a href="${item.href}"
        class="sidebar__link${item.id === activePage ? ' is-active' : ''}"
@@ -60,7 +68,7 @@ function renderSidebar(activePage) {
 
       <div class="sidebar__divider" role="separator"></div>
 
-      <nav class="sidebar__nav sidebar__nav--secondary">${secondaryNav}</nav>
+      <nav class="sidebar__nav sidebar__nav--secondary">${adminNav}${secondaryNav}</nav>
 
       <div class="sidebar__footer">
         <div class="sidebar__upgrade glass-card">
@@ -283,7 +291,7 @@ export function initShell({ activePage, pageTitle, user }) {
   const topbarSlot = document.getElementById('topbar-slot');
   const modalsSlot = document.getElementById('modals-slot');
 
-  if (sidebarSlot) sidebarSlot.innerHTML = renderSidebar(activePage);
+  if (sidebarSlot) sidebarSlot.innerHTML = renderSidebar(activePage, user);
   if (topbarSlot) topbarSlot.innerHTML = renderTopbar(pageTitle, user);
 
   if (modalsSlot) {

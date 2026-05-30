@@ -34,6 +34,10 @@ export async function protect(req, res, next) {
       throw new AppError('User not found', 401);
     }
 
+    if (user.status === 'disabled') {
+      throw new AppError('Account has been disabled', 403);
+    }
+
     req.user = user;
     req.token = token;
     next();
