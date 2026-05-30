@@ -82,24 +82,27 @@ Fonts: **Inter** (body), **Plus Jakarta Sans** (headings)
 
 ## Phase 2 — Complete
 
-- [x] Dashboard application (`pages/dashboard.html`)
-- [x] Analytics page with heatmap visualization
-- [x] AI Insights page with risk analysis & forecasting
-- [x] Reports library with export UI
-- [x] Sidebar navigation with collapse animation
-- [x] Topbar with search, notifications, profile menu
-- [x] Command search modal (⌘K)
-- [x] Theme switcher (dark/light)
-- [x] Product demo video section with modal player
-- [x] Skeleton loading states & page transitions
-- [x] Aurora backgrounds & glowing border effects
+- [x] Dashboard, Analytics, AI Insights, Reports, Settings pages
+- [x] Sidebar + topbar + command search + notifications + profile menu
+- [x] Theme switcher, video demo, skeleton loaders, aurora effects
+- [x] Activity timeline, geography analytics, AI recommendation feed
+- [x] Premium UI upgrade layer (`css/upgrade.css`)
+- [x] Favicon, Unsplash visuals, automated QA script
+
+## Quality Assurance
+
+Run automated verification:
+
+```bash
+npx serve . -p 3456
+node scripts/verify.mjs
+```
 
 ## Next Steps (Phase 3)
 
-- [ ] Settings & profile pages
-- [ ] Client-side routing (SPA mode)
-- [ ] Favicon & Open Graph assets
+- [ ] Client-side SPA routing
 - [ ] PWA support & offline caching
+- [ ] Open Graph social preview image
 
 ## License
 

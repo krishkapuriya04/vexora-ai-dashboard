@@ -10,6 +10,7 @@ Production SaaS application pages for the VEXORA platform.
 | Analytics | `analytics.html` | Traffic, heatmap, engagement, geography |
 | AI Insights | `insights.html` | AI recommendations, risk analysis, forecasting |
 | Reports | `reports.html` | Report library, executive summaries, export |
+| Settings | `settings.html` | Profile, workspace, security, integrations, billing |
 
 ## Shared Infrastructure
 

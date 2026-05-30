@@ -14,8 +14,8 @@ const NAV_ITEMS = [
 ];
 
 const NAV_SECONDARY = [
-  { id: 'settings', label: 'Settings', href: '#', icon: '⚙' },
-  { id: 'help', label: 'Help Center', href: '#', icon: '?' },
+  { id: 'settings', label: 'Settings', href: 'settings.html', icon: '⚙' },
+  { id: 'help', label: 'Help Center', href: 'settings.html#help', icon: '?' },
 ];
 
 /**
@@ -35,7 +35,8 @@ function renderSidebar(activePage) {
   `).join('');
 
   const secondaryNav = NAV_SECONDARY.map((item) => `
-    <a href="${item.href}" class="sidebar__link sidebar__link--secondary">
+    <a href="${item.href}" class="sidebar__link sidebar__link--secondary${item.id === activePage ? ' is-active' : ''}"
+       ${item.id === activePage ? 'aria-current="page"' : ''}>
       <span class="sidebar__icon" aria-hidden="true">${item.icon}</span>
       <span class="sidebar__label">${item.label}</span>
     </a>
@@ -185,7 +186,7 @@ function renderNotificationPanel() {
       </div>
       <div class="dropdown-panel__body">${items}</div>
       <div class="dropdown-panel__footer">
-        <a href="#" class="dropdown-panel__link">View all notifications</a>
+        <a href="insights.html" class="dropdown-panel__link">View all notifications</a>
       </div>
     </div>
   `;
@@ -206,10 +207,10 @@ function renderProfileMenu() {
         </div>
       </div>
       <nav class="profile-panel__nav" aria-label="Profile menu">
-        <a href="#" class="profile-panel__link">👤 My Profile</a>
-        <a href="#" class="profile-panel__link">⚙ Account Settings</a>
-        <a href="#" class="profile-panel__link">👥 Team Members</a>
-        <a href="#" class="profile-panel__link">💳 Billing</a>
+        <a href="settings.html#profile" class="profile-panel__link">👤 My Profile</a>
+        <a href="settings.html" class="profile-panel__link">⚙ Account Settings</a>
+        <a href="settings.html#workspace" class="profile-panel__link">👥 Team Members</a>
+        <a href="settings.html#billing" class="profile-panel__link">💳 Billing</a>
       </nav>
       <div class="profile-panel__divider"></div>
       <a href="../index.html" class="profile-panel__link profile-panel__link--logout">↩ Back to Website</a>

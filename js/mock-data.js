@@ -112,6 +112,10 @@ export const DASHBOARD_CHARTS = {
     labels: ['Visitors', 'Sign-ups', 'Trials', 'Activated', 'Paid'],
     values: [100, 68, 42, 28, 18],
   },
+  geography: {
+    labels: ['United States', 'United Kingdom', 'Germany', 'Canada', 'Australia', 'Other'],
+    values: [38, 18, 12, 10, 8, 14],
+  },
 };
 
 export const ANALYTICS_DATA = {
@@ -295,10 +299,12 @@ export const SEARCH_ITEMS = [
   { label: 'Analytics', href: 'analytics.html', icon: '📈', category: 'Pages' },
   { label: 'AI Insights', href: 'insights.html', icon: '✦', category: 'Pages' },
   { label: 'Reports', href: 'reports.html', icon: '📋', category: 'Pages' },
+  { label: 'Settings', href: 'settings.html', icon: '⚙', category: 'Pages' },
   { label: 'Revenue Report', href: 'reports.html', icon: '💰', category: 'Reports' },
   { label: 'User Growth Chart', href: 'dashboard.html', icon: '👥', category: 'Quick Actions' },
   { label: 'Export Data', href: 'reports.html', icon: '⬇', category: 'Quick Actions' },
   { label: 'View AI Forecast', href: 'insights.html', icon: '🔮', category: 'Quick Actions' },
+  { label: 'Account Settings', href: 'settings.html', icon: '⚙', category: 'Quick Actions' },
 ];
 
 /** Video demo config — replace URL to swap demo video */
@@ -308,3 +314,40 @@ export const VIDEO_CONFIG = {
   title: 'VEXORA Product Walkthrough',
   duration: '3:42',
 };
+
+/** Recent activity timeline for dashboard */
+export const ACTIVITY_TIMELINE = [
+  { id: 1, type: 'revenue', title: 'Revenue milestone reached', desc: 'Monthly revenue exceeded $2.8M target', time: '5 min ago', icon: '💰' },
+  { id: 2, type: 'user', title: '1,680 new users this week', desc: '18.2% growth vs previous week', time: '22 min ago', icon: '👥' },
+  { id: 3, type: 'ai', title: 'AI insight generated', desc: 'Enterprise segment opportunity detected', time: '1 hr ago', icon: '✦' },
+  { id: 4, type: 'report', title: 'Report exported', desc: 'Executive Summary — May 2026 downloaded', time: '2 hrs ago', icon: '📋' },
+  { id: 5, type: 'integration', title: 'Salesforce sync complete', desc: '12,400 records synchronized', time: '3 hrs ago', icon: '🔗' },
+  { id: 6, type: 'alert', title: 'Churn risk flagged', desc: '142 accounts require review', time: '4 hrs ago', icon: '⚠' },
+];
+
+/** Compact AI feed for dashboard widget */
+export const DASHBOARD_AI_FEED = [
+  { tag: 'Opportunity', type: 'opportunity', title: 'Enterprise segment +34% uplift', text: 'Target enterprise campaign recommended for Q3.' },
+  { tag: 'Alert', type: 'alert', title: 'Churn risk in Segment B', text: '142 accounts match previous churn patterns.' },
+  { tag: 'Trend', type: 'trend', title: 'Mobile traffic at 58%', text: 'Mobile converts at 2.1% vs 6.4% desktop.' },
+];
+
+/** Settings page configuration */
+export const SETTINGS_SECTIONS = [
+  { id: 'profile', label: 'Profile', icon: '👤' },
+  { id: 'workspace', label: 'Workspace', icon: '🏢' },
+  { id: 'notifications', label: 'Notifications', icon: '🔔' },
+  { id: 'appearance', label: 'Appearance', icon: '🎨' },
+  { id: 'security', label: 'Security', icon: '🔒' },
+  { id: 'integrations', label: 'Integrations', icon: '🔗' },
+  { id: 'billing', label: 'Billing', icon: '💳' },
+];
+
+export const INTEGRATIONS = [
+  { id: 'salesforce', name: 'Salesforce', desc: 'CRM data sync', connected: true, icon: '☁' },
+  { id: 'stripe', name: 'Stripe', desc: 'Payment analytics', connected: true, icon: '💳' },
+  { id: 'slack', name: 'Slack', desc: 'Team notifications', connected: true, icon: '💬' },
+  { id: 'google', name: 'Google Analytics', desc: 'Web traffic data', connected: false, icon: '📊' },
+  { id: 'hubspot', name: 'HubSpot', desc: 'Marketing automation', connected: false, icon: '🎯' },
+  { id: 'snowflake', name: 'Snowflake', desc: 'Data warehouse', connected: false, icon: '❄' },
+];

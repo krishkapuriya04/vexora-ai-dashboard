@@ -20,6 +20,7 @@
   <meta name="twitter:description" content="Transform your data into actionable insights with AI-powered analytics.">
 
   <title>VEXORA — AI-Powered Business Intelligence & Analytics Platform</title>
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +32,7 @@
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/upgrade.css">
 
 </head>
 <body>
@@ -60,7 +62,7 @@
   <!-- Navigation Bar -->
   <header id="navbar" class="navbar">
     <div class="container navbar__inner">
-      <a href="#" class="navbar__logo" aria-label="VEXORA Home">
+      <a href="index.html" class="navbar__logo" aria-label="VEXORA Home">
         <div class="navbar__logo-icon" aria-hidden="true">V</div>
         <span>VEXORA</span>
       </a>
@@ -482,6 +484,49 @@
       </div>
     </section>
 
+    <!-- Live Demo Showcase -->
+    <section id="demo" class="section demo-showcase" aria-labelledby="demo-title">
+      <div class="container">
+        <div class="demo-showcase__grid">
+          <div class="reveal reveal--left">
+            <span class="section-label">Live Demo</span>
+            <h2 id="demo-title" class="section-title">Experience VEXORA in Action</h2>
+            <p class="section-description" style="text-align: left; margin-inline: 0;">
+              Explore the full dashboard with real-time KPIs, AI-powered insights, advanced analytics,
+              and automated reports — no signup required.
+            </p>
+            <div class="demo-showcase__features">
+              <div class="demo-showcase__feature">
+                <span class="demo-showcase__feature-icon" aria-hidden="true">📊</span>
+                Interactive charts with realistic business data
+              </div>
+              <div class="demo-showcase__feature">
+                <span class="demo-showcase__feature-icon" aria-hidden="true">✦</span>
+                AI recommendations and risk analysis
+              </div>
+              <div class="demo-showcase__feature">
+                <span class="demo-showcase__feature-icon" aria-hidden="true">⌘</span>
+                Command search, notifications, and theme switcher
+              </div>
+            </div>
+            <div class="btn-group" style="margin-top: var(--space-8);">
+              <a href="pages/dashboard.html" class="btn btn--primary btn--lg">Open Live Dashboard</a>
+              <a href="pages/analytics.html" class="btn btn--secondary btn--lg">View Analytics →</a>
+            </div>
+          </div>
+          <div class="demo-showcase__visual reveal reveal--right premium-border">
+            <span class="badge demo-showcase__badge badge--accent">Interactive Demo</span>
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+                 alt="VEXORA dashboard interface preview"
+                 loading="lazy"
+                 width="800"
+                 height="500">
+            <div class="mesh-overlay" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Testimonials -->
     <section id="testimonials" class="section section--sm" aria-labelledby="testimonials-title">
       <div class="container">
@@ -664,7 +709,7 @@
             </p>
             <div class="btn-group cta__actions">
               <a href="pages/dashboard.html" class="btn btn--primary btn--lg">Start Free Trial</a>
-              <a href="#" class="btn btn--secondary btn--lg">Schedule Demo</a>
+              <a href="pages/dashboard.html" class="btn btn--secondary btn--lg">Schedule Demo</a>
             </div>
           </div>
         </div>
@@ -694,28 +739,28 @@
             <li><a href="#analytics" class="footer__link">Analytics</a></li>
             <li><a href="#ai-insights" class="footer__link">AI Insights</a></li>
             <li><a href="#pricing" class="footer__link">Pricing</a></li>
-            <li><a href="#" class="footer__link">Integrations</a></li>
+            <li><a href="pages/dashboard.html" class="footer__link">Integrations</a></li>
           </ul>
         </div>
 
         <div>
           <h4 class="footer__column-title">Company</h4>
           <ul class="footer__links">
-            <li><a href="#" class="footer__link">About</a></li>
-            <li><a href="#" class="footer__link">Blog</a></li>
-            <li><a href="#" class="footer__link">Careers</a></li>
-            <li><a href="#" class="footer__link">Press</a></li>
-            <li><a href="#" class="footer__link">Contact</a></li>
+            <li><a href="pages/settings.html" class="footer__link">About</a></li>
+            <li><a href="pages/insights.html" class="footer__link">Blog</a></li>
+            <li><a href="pages/settings.html#help" class="footer__link">Careers</a></li>
+            <li><a href="pages/reports.html" class="footer__link">Press</a></li>
+            <li><a href="pages/settings.html#help" class="footer__link">Contact</a></li>
           </ul>
         </div>
 
         <div>
           <h4 class="footer__column-title">Legal</h4>
           <ul class="footer__links">
-            <li><a href="#" class="footer__link">Privacy Policy</a></li>
-            <li><a href="#" class="footer__link">Terms of Service</a></li>
-            <li><a href="#" class="footer__link">Cookie Policy</a></li>
-            <li><a href="#" class="footer__link">Security</a></li>
+            <li><a href="pages/settings.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="pages/settings.html" class="footer__link">Terms of Service</a></li>
+            <li><a href="pages/settings.html" class="footer__link">Cookie Policy</a></li>
+            <li><a href="pages/settings.html#security" class="footer__link">Security</a></li>
           </ul>
         </div>
       </div>
@@ -723,9 +768,9 @@
       <div class="footer__bottom">
         <p class="footer__copyright">&copy; 2026 VEXORA. All rights reserved.</p>
         <div class="footer__social" aria-label="Social media links">
-          <a href="#" class="footer__social-link" aria-label="Twitter">𝕏</a>
-          <a href="#" class="footer__social-link" aria-label="LinkedIn">in</a>
-          <a href="#" class="footer__social-link" aria-label="GitHub">GH</a>
+          <a href="https://github.com/krishkapuriya04/vexora-ai-dashboard" class="footer__social-link" aria-label="GitHub" target="_blank" rel="noopener">GH</a>
+          <a href="pages/settings.html#help" class="footer__social-link" aria-label="LinkedIn">in</a>
+          <a href="pages/settings.html#help" class="footer__social-link" aria-label="Twitter">𝕏</a>
         </div>
       </div>
     </div>

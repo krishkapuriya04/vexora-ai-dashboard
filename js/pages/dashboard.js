@@ -4,7 +4,7 @@
  */
 
 import { initApp, registerChart } from '../dashboard-app.js';
-import { KPI_METRICS, DASHBOARD_CHARTS, VIDEO_CONFIG } from '../mock-data.js';
+import { KPI_METRICS, DASHBOARD_CHARTS, VIDEO_CONFIG, ACTIVITY_TIMELINE, DASHBOARD_AI_FEED } from '../mock-data.js';
 import { CHART_DEFAULTS, CHART_COLORS, createGradient, initSparkline } from '../chart-utils.js';
 import { bindVideoPreview } from '../shell.js';
 
@@ -204,6 +204,61 @@ function initFunnelChart() {
   }));
 }
 
+function initGeographyChart() {
+  const canvas = document.getElementById('chart-geography-dashboard');
+  if (!canvas) return;
+
+  const { labels, values } = DASHBOARD_CHARTS.geography;
+
+  registerChart(new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Traffic Share (%)',
+        data: values,
+        backgroundColor: CHART_COLORS.palette,
+        borderRadius: 8,
+        barPercentage: 0.65,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      ...CHART_DEFAULTS,
+      plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false } },
+    },
+  }));
+}
+
+function renderActivityTimeline() {
+  const container = document.getElementById('activity-timeline');
+  if (!container) return;
+
+  container.innerHTML = ACTIVITY_TIMELINE.map((item) => `
+    <article class="timeline__item">
+      <span class="timeline__icon" aria-hidden="true">${item.icon}</span>
+      <div class="timeline__content">
+        <h3 class="timeline__title">${item.title}</h3>
+        <p class="timeline__desc">${item.desc}</p>
+        <time class="timeline__time">${item.time}</time>
+      </div>
+    </article>
+  `).join('');
+}
+
+function renderAIFeed() {
+  const container = document.getElementById('ai-feed-compact');
+  if (!container) return;
+
+  container.innerHTML = DASHBOARD_AI_FEED.map((item) => `
+    <article class="ai-feed-compact__item">
+      <span class="ai-insight-item__tag ai-insight-item__tag--${item.type}">${item.tag}</span>
+      <h3 class="ai-feed-compact__title">${item.title}</h3>
+      <p class="ai-feed-compact__text">${item.text}</p>
+    </article>
+  `).join('');
+}
+
 function initDashboard() {
   renderKPICards();
   initRevenueChart();
@@ -211,6 +266,9 @@ function initDashboard() {
   initDeviceChart();
   initTrafficChart();
   initFunnelChart();
+  initGeographyChart();
+  renderActivityTimeline();
+  renderAIFeed();
   bindVideoPreview('#video-play-btn', VIDEO_CONFIG.videoUrl);
 }
 
