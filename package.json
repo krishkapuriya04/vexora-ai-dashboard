@@ -15,6 +15,8 @@
     "test:admin": "node scripts/test-admin.mjs",
     "test:billing": "node scripts/test-billing.mjs",
     "test:ai": "node scripts/test-ai.mjs",
+    "audit:e2e": "node scripts/audit-e2e.mjs",
+    "audit:ui": "node scripts/audit-ui.mjs",
     "seed": "node scripts/seed.mjs"
   },
   "repository": {

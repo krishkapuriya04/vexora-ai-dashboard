@@ -5,7 +5,8 @@
 
 import { SEARCH_ITEMS } from './app-config.js';
 import { getInitials, logout } from './auth-client.js';
-import { fetchNotifications, markAllNotificationsRead } from './api-client.js';
+import { fetchNotifications, markAllNotificationsRead, markNotificationRead } from './api-client.js';
+import { showToast } from './ui-feedback.js';
 
 /** Navigation routes for sidebar */
 const NAV_ITEMS = [
@@ -219,7 +220,7 @@ function renderNotificationPanel(notifications = []) {
         </div>
       </div>
       <div class="dropdown-panel__footer">
-        <a href="insights.html" class="dropdown-panel__link">View all notifications</a>
+        <a href="dashboard.html" class="dropdown-panel__link" id="notify-view-all">View all notifications</a>
       </div>
     </div>
   `;
@@ -439,6 +440,27 @@ export function bindShellEvents() {
 
   document.querySelector('.sidebar-upgrade-btn')?.addEventListener('click', () => {
     window.location.href = 'billing.html';
+  });
+
+  /* Single notification click → mark read */
+  document.getElementById('notify-body')?.addEventListener('click', async (e) => {
+    const item = e.target.closest('.notify-item');
+    if (!item?.dataset.id) return;
+    e.stopPropagation();
+    try {
+      await markNotificationRead(item.dataset.id);
+      item.classList.remove('notify-item--unread');
+      showToast('Notification marked as read');
+      await refreshNotifications();
+    } catch (err) {
+      showToast(err.message || 'Could not update notification', true);
+    }
+  });
+
+  document.getElementById('notify-view-all')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    notifyPanel?.setAttribute('hidden', '');
+    window.location.href = 'dashboard.html';
   });
 
   /* Mark all notifications read → empty state */

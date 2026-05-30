@@ -59,23 +59,23 @@
                   <div class="settings-avatar-upload" style="margin-bottom: var(--space-6);">
                     <div class="settings-avatar" aria-hidden="true">KK</div>
                     <div>
-                      <button class="btn btn--secondary btn--sm" type="button">Upload Photo</button>
+                      <button class="btn btn--secondary btn--sm" type="button" id="upload-photo-btn">Upload Photo</button>
                       <p class="settings-row__hint">JPG, PNG. Max 2MB.</p>
                     </div>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Full Name</div></div>
-                    <input class="settings-input" type="text" value="Krish Kapuriya" aria-label="Full name">
+                    <input class="settings-input" id="settings-full-name" type="text" value="" aria-label="Full name">
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Email</div></div>
-                    <input class="settings-input" type="email" value="krish@vexora.ai" aria-label="Email">
+                    <input class="settings-input" id="settings-email" type="email" value="" aria-label="Email">
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Job Title</div></div>
-                    <input class="settings-input" type="text" value="Admin" aria-label="Job title">
+                    <input class="settings-input" id="settings-job-title" type="text" value="" aria-label="Job title">
                   </div>
-                  <button class="btn btn--primary btn--sm" type="button" data-save-settings style="margin-top: var(--space-4);">Save Changes</button>
+                  <button class="btn btn--primary btn--sm" type="button" data-save-profile style="margin-top: var(--space-4);">Save Changes</button>
                 </div>
               </section>
 
@@ -86,17 +86,17 @@
                   <p class="settings-section__desc">Manage your team workspace settings.</p>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Workspace Name</div></div>
-                    <input class="settings-input" type="text" value="VEXORA HQ" aria-label="Workspace name">
+                    <input class="settings-input" id="settings-workspace-name" type="text" value="" aria-label="Workspace name">
                   </div>
                   <div class="settings-row">
-                    <div><div class="settings-row__label">Team Size</div><p class="settings-row__hint">12 members</p></div>
-                    <button class="btn btn--secondary btn--sm" type="button">Manage Team</button>
+                    <div><div class="settings-row__label">Team Size</div><p class="settings-row__hint">Manage members in Admin</p></div>
+                    <button class="btn btn--secondary btn--sm" type="button" id="manage-team-btn">Manage Team</button>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Data Region</div><p class="settings-row__hint">US East (Virginia)</p></div>
-                    <button class="btn btn--ghost btn--sm" type="button">Change</button>
+                    <button class="btn btn--ghost btn--sm" type="button" id="change-region-btn">Change</button>
                   </div>
-                  <button class="btn btn--primary btn--sm" type="button" data-save-settings style="margin-top: var(--space-4);">Save Changes</button>
+                  <button class="btn btn--primary btn--sm" type="button" data-save-workspace style="margin-top: var(--space-4);">Save Changes</button>
                 </div>
               </section>
 
@@ -107,20 +107,21 @@
                   <p class="settings-section__desc">Choose how you receive alerts and updates.</p>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Email Notifications</div><p class="settings-row__hint">Daily digest and alerts</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked aria-label="Email notifications"><span class="toggle-switch__slider"></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-email-notifications" checked aria-label="Email notifications"><span class="toggle-switch__slider"></span></label>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">AI Insight Alerts</div><p class="settings-row__hint">Real-time AI recommendations</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked aria-label="AI insight alerts"><span class="toggle-switch__slider"></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-ai-alerts" checked aria-label="AI insight alerts"><span class="toggle-switch__slider"></span></label>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Report Ready</div><p class="settings-row__hint">When reports finish generating</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked aria-label="Report ready notifications"><span class="toggle-switch__slider"></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-report-ready" checked aria-label="Report ready notifications"><span class="toggle-switch__slider"></span></label>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Slack Integration</div><p class="settings-row__hint">Push alerts to Slack</p></div>
-                    <label class="toggle-switch"><input type="checkbox" aria-label="Slack notifications"><span class="toggle-switch__slider"></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-slack" aria-label="Slack notifications"><span class="toggle-switch__slider"></span></label>
                   </div>
+                  <button class="btn btn--primary btn--sm" type="button" id="save-notifications-btn" style="margin-top: var(--space-4);">Save Preferences</button>
                 </div>
               </section>
 
@@ -135,12 +136,13 @@
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Compact Mode</div><p class="settings-row__hint">Reduce spacing in dashboards</p></div>
-                    <label class="toggle-switch"><input type="checkbox" aria-label="Compact mode"><span class="toggle-switch__slider"></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-compact" aria-label="Compact mode"><span class="toggle-switch__slider"></span></label>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Animations</div><p class="settings-row__hint">Enable motion and transitions</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked aria-label="Animations"><span class="toggle-switch__slider"></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-animations" checked aria-label="Animations"><span class="toggle-switch__slider"></span></label>
                   </div>
+                  <button class="btn btn--primary btn--sm" type="button" id="save-appearance-btn" style="margin-top: var(--space-4);">Save Appearance</button>
                 </div>
               </section>
 
@@ -151,15 +153,15 @@
                   <p class="settings-section__desc">Protect your account and data.</p>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Two-Factor Authentication</div><p class="settings-row__hint">Add an extra layer of security</p></div>
-                    <button class="btn btn--primary btn--sm" type="button">Enable 2FA</button>
+                    <button class="btn btn--primary btn--sm" type="button" id="enable-2fa-btn">Enable 2FA</button>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Password</div><p class="settings-row__hint">Last changed 30 days ago</p></div>
-                    <button class="btn btn--secondary btn--sm" type="button">Change Password</button>
+                    <button class="btn btn--secondary btn--sm" type="button" id="change-password-btn">Change Password</button>
                   </div>
                   <div class="settings-row">
-                    <div><div class="settings-row__label">Active Sessions</div><p class="settings-row__hint">3 devices logged in</p></div>
-                    <button class="btn btn--ghost btn--sm" type="button">View Sessions</button>
+                    <div><div class="settings-row__label">Active Sessions</div><p class="settings-row__hint">Manage active logins</p></div>
+                    <button class="btn btn--ghost btn--sm" type="button" id="view-sessions-btn">View Sessions</button>
                   </div>
                 </div>
               </section>
@@ -179,16 +181,16 @@
                   <h2 class="settings-section__title">Billing</h2>
                   <p class="settings-section__desc">Manage your subscription and payment methods.</p>
                   <div class="settings-row">
-                    <div><div class="settings-row__label">Current Plan</div><p class="settings-row__hint">Professional — $149/month</p></div>
-                    <button class="btn btn--primary btn--sm" type="button">Upgrade</button>
+                    <div><div class="settings-row__label">Current Plan</div><p class="settings-row__hint" id="settings-current-plan">Loading…</p></div>
+                    <button class="btn btn--primary btn--sm" type="button" id="billing-upgrade-btn">Upgrade</button>
                   </div>
                   <div class="settings-row">
-                    <div><div class="settings-row__label">Payment Method</div><p class="settings-row__hint">Visa ending in 4242</p></div>
-                    <button class="btn btn--secondary btn--sm" type="button">Update</button>
+                    <div><div class="settings-row__label">Payment Method</div><p class="settings-row__hint">Managed via Razorpay</p></div>
+                    <button class="btn btn--secondary btn--sm" type="button" id="billing-update-btn">Update</button>
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Billing History</div><p class="settings-row__hint">Download past invoices</p></div>
-                    <button class="btn btn--ghost btn--sm" type="button">View Invoices</button>
+                    <button class="btn btn--ghost btn--sm" type="button" id="view-invoices-btn">View Invoices</button>
                   </div>
                 </div>
               </section>
@@ -204,7 +206,7 @@
                   </div>
                   <div class="settings-row">
                     <div><div class="settings-row__label">Contact Support</div><p class="settings-row__hint">support@vexora.ai</p></div>
-                    <button class="btn btn--primary btn--sm" type="button">Send Message</button>
+                    <button class="btn btn--primary btn--sm" type="button" id="send-support-btn">Send Message</button>
                   </div>
                 </div>
               </section>

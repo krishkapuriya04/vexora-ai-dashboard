@@ -73,4 +73,32 @@ export async function getProfile(req, res, next) {
   }
 }
 
-export default { register, login, logout, getProfile };
+/**
+ * PATCH /api/auth/profile
+ */
+export async function updateProfile(req, res, next) {
+  try {
+    const user = await authService.updateUserProfile(req.user._id, req.body);
+    res.json({ success: true, message: 'Profile updated successfully', user });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * PATCH /api/auth/organization
+ */
+export async function updateOrganization(req, res, next) {
+  try {
+    const organization = await authService.updateUserOrganization(
+      req.user,
+      req.organizationId,
+      req.body,
+    );
+    res.json({ success: true, message: 'Workspace updated successfully', organization });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default { register, login, logout, getProfile, updateProfile, updateOrganization };

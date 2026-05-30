@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-05-30T14:04:37.604Z",
+  "totalButtons": 70,
+  "workingPages": 10,
+  "fixedInAudit": [
+    "Settings: profile/workspace/notifications/appearance save + API persistence",
+    "Reports: Create/Edit/Delete/Preview + API CRUD",
+    "Dashboard: date range toggle + PDF export",
+    "Shell: notification mark-read + profile/billing links",
+    "Admin: org details modal + create org form",
+    "Landing: preview tabs + Watch Demo video"
+  ],
+  "newlyConnected": [
+    "PATCH /api/auth/profile",
+    "PATCH /api/auth/organization",
+    "Reports CRUD UI",
+    "Settings preferences persistence"
+  ],
+  "remainingPlaceholders": [
+    "Avatar upload (coming soon toast)",
+    "2FA enable (coming soon toast)",
+    "Password change (coming soon toast)",
+    "Integration OAuth (local toggle state)"
+  ],
+  "pages": [
+    {
+      "page": "index.html",
+      "buttons": 13,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/dashboard.html",
+      "buttons": 3,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/analytics.html",
+      "buttons": 0,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/insights.html",
+      "buttons": 6,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/reports.html",
+      "buttons": 15,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/billing.html",
+      "buttons": 2,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/settings.html",
+      "buttons": 15,
+      "status": "wired",
+      "placeholders": true
+    },
+    {
+      "page": "pages/admin.html",
+      "buttons": 14,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/login.html",
+      "buttons": 1,
+      "status": "wired",
+      "placeholders": false
+    },
+    {
+      "page": "pages/signup.html",
+      "buttons": 1,
+      "status": "wired",
+      "placeholders": false
+    }
+  ]
+}

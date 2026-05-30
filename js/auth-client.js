@@ -6,18 +6,43 @@
 const TOKEN_KEY = 'vexora-auth-token';
 const USER_KEY = 'vexora-auth-user';
 const REMEMBER_KEY = 'vexora-auth-remember';
+const BACKEND_PORT = '5000';
+
+const STATIC_HOSTS = ['github.io', 'githubusercontent.com', 'gitlab.io', 'netlify.app', 'vercel.app'];
+
+function isLocalHost(hostname) {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+}
+
+function isPrivateLan(hostname) {
+  return /^(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(hostname);
+}
+
+function isStaticOnlyHost(hostname) {
+  return STATIC_HOSTS.some((h) => hostname.includes(h));
+}
 
 /** @returns {string} */
 export function getApiBase() {
-  if (window.VEXORA_API_BASE) return window.VEXORA_API_BASE.replace(/\/$/, '');
-
-  const { protocol, hostname, port } = window.location;
-
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return `${protocol}//${hostname}:5000`;
+  if (typeof window !== 'undefined' && window.VEXORA_API_BASE) {
+    return String(window.VEXORA_API_BASE).replace(/\/$/, '');
   }
 
-  return `${protocol}//${hostname}${port ? `:${port}` : ''}`;
+  const { protocol, hostname, port } = window.location;
+  const pagePort = port || '';
+
+  if (isLocalHost(hostname) || isPrivateLan(hostname)) {
+    if (!pagePort || pagePort !== BACKEND_PORT) {
+      return `${protocol}//${hostname}:${BACKEND_PORT}`;
+    }
+    return `${protocol}//${hostname}:${BACKEND_PORT}`;
+  }
+
+  if (isStaticOnlyHost(hostname)) {
+    return `http://localhost:${BACKEND_PORT}`;
+  }
+
+  return `${protocol}//${hostname}${pagePort ? `:${pagePort}` : ''}`;
 }
 
 function getActiveStorage() {
@@ -94,11 +119,31 @@ export function getInitials(name = '') {
     .toUpperCase() || 'VX';
 }
 
+function formatApiError(response, data, path) {
+  if (data?.message) return data.message;
+
+  if (response.status === 503) {
+    return 'Database unavailable. Start MongoDB and run npm start.';
+  }
+
+  if (response.status === 404 || response.status === 405) {
+    return `API not found at ${getApiBase()}${path}. Run npm start (port ${BACKEND_PORT}) and open http://localhost:${BACKEND_PORT}/pages/signup.html`;
+  }
+
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    return `Server returned an invalid response (${response.status}). Ensure the VEXORA backend is running: npm start`;
+  }
+
+  return `Request failed (${response.status})`;
+}
+
 /**
  * @param {string} path
  * @param {RequestInit} [options]
  */
 async function apiRequest(path, options = {}) {
+  const url = `${getApiBase()}${path}`;
   const token = getToken();
   const headers = {
     'Content-Type': 'application/json',
@@ -109,18 +154,29 @@ async function apiRequest(path, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${getApiBase()}${path}`, {
-    ...options,
-    headers,
-  });
+  let response;
+  try {
+    response = await fetch(url, { ...options, headers });
+  } catch {
+    throw new Error(
+      `Cannot connect to VEXORA API at ${getApiBase()}. Run npm start and ensure MongoDB is running.`,
+    );
+  }
 
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.message || 'Request failed');
+    throw new Error(formatApiError(response, data, path));
   }
 
   return data;
+}
+
+/**
+ * Verify the backend API is reachable.
+ */
+export async function checkApiHealth() {
+  return apiRequest('/api/health');
 }
 
 /**
@@ -158,6 +214,22 @@ export async function register(payload) {
 export async function login(payload) {
   return apiRequest('/api/auth/login', {
     method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+/** @param {Object} payload */
+export async function updateProfile(payload) {
+  return apiRequest('/api/auth/profile', {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+}
+
+/** @param {Object} payload */
+export async function updateWorkspace(payload) {
+  return apiRequest('/api/auth/organization', {
+    method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
@@ -206,9 +278,12 @@ export default {
   setAuth,
   clearAuth,
   isAuthenticated,
+  checkApiHealth,
   validateSession,
   register,
   login,
+  updateProfile,
+  updateWorkspace,
   logout,
   applyUserToShell,
   getInitials,

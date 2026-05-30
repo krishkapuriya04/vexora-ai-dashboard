@@ -72,6 +72,7 @@
               <button class="filter-chip" type="button" role="tab" aria-selected="false">Marketing</button>
             </div>
             <div class="reports-export-actions btn-group">
+              <button class="btn btn--primary btn--sm" id="create-report-btn" type="button">+ Create Report</button>
               <button class="btn btn--secondary btn--sm" id="export-pdf-btn" type="button">Export PDF</button>
               <button class="btn btn--secondary btn--sm" id="export-excel-btn" type="button">Export Excel</button>
               <button class="btn btn--secondary btn--sm" id="export-csv-btn" type="button">Export CSV</button>
@@ -121,6 +122,52 @@
       <div class="btn-group">
         <button class="btn btn--primary" type="button" id="export-modal-start">Start Export</button>
         <button class="btn btn--secondary" type="button" data-close-export>Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Create/Edit Modal -->
+  <div class="modal admin-modal" id="report-form-modal" role="dialog" aria-modal="true" aria-label="Report form" hidden>
+    <div class="modal__backdrop" data-close-report-modal></div>
+    <div class="modal__panel admin-modal__panel glass-card">
+      <h2 class="export-modal__title" id="report-form-title">Create Report</h2>
+      <form id="report-form">
+        <input type="hidden" id="report-form-id" value="">
+        <div class="admin-modal__field">
+          <label for="report-title">Title</label>
+          <input class="settings-input" id="report-title" type="text" required maxlength="120">
+        </div>
+        <div class="admin-modal__field">
+          <label for="report-category">Category</label>
+          <select class="settings-input" id="report-category">
+            <option value="Executive">Executive</option>
+            <option value="Financial">Financial</option>
+            <option value="Customer">Customer</option>
+            <option value="AI">AI</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Product">Product</option>
+          </select>
+        </div>
+        <div class="admin-modal__field">
+          <label for="report-description">Description</label>
+          <textarea class="settings-input" id="report-description" rows="3"></textarea>
+        </div>
+        <div class="btn-group" style="margin-top: var(--space-4);">
+          <button class="btn btn--primary" type="submit" id="report-form-submit">Save Report</button>
+          <button class="btn btn--secondary" type="button" data-close-report-modal>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Report Preview Modal -->
+  <div class="modal admin-modal" id="report-preview-modal" role="dialog" aria-modal="true" aria-label="Report preview" hidden>
+    <div class="modal__backdrop" data-close-report-preview></div>
+    <div class="modal__panel admin-modal__panel glass-card">
+      <h2 class="export-modal__title" id="report-preview-title">Report Preview</h2>
+      <p id="report-preview-body" class="settings-row__hint"></p>
+      <div class="btn-group" style="margin-top: var(--space-4);">
+        <button class="btn btn--secondary" type="button" data-close-report-preview>Close</button>
       </div>
     </div>
   </div>

@@ -117,9 +117,43 @@ function renderHistory(payments) {
   `).join('');
 }
 
+function confirmCheckout(message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('confirm-modal');
+    const msg = document.getElementById('confirm-message');
+    const yes = document.getElementById('confirm-yes');
+    if (!modal || !yes) {
+      resolve(true);
+      return;
+    }
+    if (msg) msg.textContent = message;
+    modal.removeAttribute('hidden');
+    document.body.classList.add('modal-open');
+
+    const cleanup = (result) => {
+      modal.setAttribute('hidden', '');
+      document.body.classList.remove('modal-open');
+      yes.removeEventListener('click', onYes);
+      modal.querySelectorAll('[data-close-confirm]').forEach((el) => el.removeEventListener('click', onNo));
+      resolve(result);
+    };
+    const onYes = () => cleanup(true);
+    const onNo = () => cleanup(false);
+    yes.addEventListener('click', onYes);
+    modal.querySelectorAll('[data-close-confirm]').forEach((el) => el.addEventListener('click', onNo));
+  });
+}
+
 async function startCheckout(planId) {
   if (!canManageBilling) {
     showToast('You have read-only access. Contact your admin to upgrade.', true);
+    return;
+  }
+
+  const plan = plans.find((p) => p.id === planId);
+  const ok = await confirmCheckout(`Subscribe to ${plan?.name || planId} plan for ${plan?.displayAmount || ''}/month?`);
+  if (!ok) {
+    showToast('Checkout cancelled');
     return;
   }
 

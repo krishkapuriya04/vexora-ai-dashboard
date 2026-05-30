@@ -1,0 +1,596 @@
+[
+  {
+    "category": "AUTH",
+    "name": "API Health",
+    "purpose": "Verify backend is running",
+    "test": "GET /api/health",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Signup",
+    "purpose": "Create new user account with org",
+    "test": "POST /api/auth/register",
+    "status": "PASS",
+    "notes": "Account created successfully",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Duplicate Email Block",
+    "purpose": "Prevent duplicate registration",
+    "test": "POST register same email",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Login",
+    "purpose": "Authenticate with credentials",
+    "test": "POST /api/auth/login",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Session / Profile",
+    "purpose": "Validate JWT session",
+    "test": "GET /api/auth/profile",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Protected Route",
+    "purpose": "Block unauthenticated access",
+    "test": "GET profile without token",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Logout",
+    "purpose": "Invalidate session token",
+    "test": "POST /api/auth/logout",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Token Invalidation",
+    "purpose": "Reject token after logout",
+    "test": "GET profile after logout",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AUTH",
+    "name": "Re-login",
+    "purpose": "Session persistence after logout",
+    "test": "POST login again",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "KPI Metrics",
+    "purpose": "Load 6 KPI cards from DB",
+    "test": "GET /api/dashboard/metrics",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Metrics Update",
+    "purpose": "Persist KPI changes",
+    "test": "POST /api/dashboard/metrics",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Activities",
+    "purpose": "Load activity timeline",
+    "test": "GET /api/activities",
+    "status": "PASS",
+    "notes": "6 activities",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Notifications",
+    "purpose": "Load notification center",
+    "test": "GET /api/notifications",
+    "status": "PASS",
+    "notes": "5 notifications",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Mark Notification Read",
+    "purpose": "Update notification state",
+    "test": "PATCH notification read",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "List Reports",
+    "purpose": "Load reports library",
+    "test": "GET /api/reports",
+    "status": "PASS",
+    "notes": "6 reports",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Create Report",
+    "purpose": "Add new report",
+    "test": "POST /api/reports",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Edit Report",
+    "purpose": "Update report details",
+    "test": "PATCH /api/reports/:id",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "PDF Export",
+    "purpose": "Download PDF export",
+    "test": "GET /api/export/pdf",
+    "status": "PASS",
+    "notes": "6967 bytes",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "CSV Export",
+    "purpose": "Download CSV export",
+    "test": "GET /api/export/csv",
+    "status": "PASS",
+    "notes": "1361 bytes",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Excel Export",
+    "purpose": "Download Excel export",
+    "test": "GET /api/export/excel",
+    "status": "PASS",
+    "notes": "10408 bytes",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Delete Report",
+    "purpose": "Remove report",
+    "test": "DELETE /api/reports/:id",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "BILLING",
+    "name": "List Plans",
+    "purpose": "Show subscription plans",
+    "test": "GET /api/billing/plans",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "BILLING",
+    "name": "Create Order",
+    "purpose": "Create Razorpay order",
+    "test": "POST /api/billing/create-order",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "BILLING",
+    "name": "Verify Payment",
+    "purpose": "HMAC signature verification",
+    "test": "POST /api/billing/verify-payment",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "BILLING",
+    "name": "Subscription Activation",
+    "purpose": "Activate subscription after payment",
+    "test": "GET /api/billing/subscription",
+    "status": "PASS",
+    "notes": "starter",
+    "screenshot": ""
+  },
+  {
+    "category": "BILLING",
+    "name": "Billing History",
+    "purpose": "Store payment records",
+    "test": "GET /api/billing/history",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "ADMIN",
+    "name": "Admin Stats",
+    "purpose": "Platform KPI dashboard",
+    "test": "GET /api/admin/stats",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "ADMIN",
+    "name": "User Management",
+    "purpose": "List all users",
+    "test": "GET /api/admin/users",
+    "status": "PASS",
+    "notes": "36 users",
+    "screenshot": ""
+  },
+  {
+    "category": "ADMIN",
+    "name": "Role Change",
+    "purpose": "Update user role",
+    "test": "PATCH /api/admin/users/:id",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "ADMIN",
+    "name": "Organization List",
+    "purpose": "List organizations",
+    "test": "GET /api/admin/organizations",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "ADMIN",
+    "name": "Organization Details",
+    "purpose": "View org statistics",
+    "test": "GET /api/admin/organizations/:id",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "ADMIN",
+    "name": "Audit Logs",
+    "purpose": "View platform activity log",
+    "test": "GET /api/admin/audit-logs",
+    "status": "PASS",
+    "notes": "29 logs",
+    "screenshot": ""
+  },
+  {
+    "category": "AI",
+    "name": "Executive Summary",
+    "purpose": "Generate AI performance summary",
+    "test": "POST /api/ai/generate-summary",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AI",
+    "name": "Forecast",
+    "purpose": "Generate AI forecast",
+    "test": "POST /api/ai/generate-forecast",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AI",
+    "name": "Recommendations",
+    "purpose": "Generate AI recommendations",
+    "test": "POST /api/ai/generate-recommendations",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AI",
+    "name": "Risk Analysis",
+    "purpose": "Generate AI risk report",
+    "test": "POST /api/ai/generate-risk-analysis",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "AI",
+    "name": "AI History",
+    "purpose": "Retrieve past AI generations",
+    "test": "GET /api/ai/history",
+    "status": "PASS",
+    "notes": "4 insights",
+    "screenshot": ""
+  },
+  {
+    "category": "RESPONSIVE",
+    "name": "Signup Page (Desktop)",
+    "purpose": "Signup form renders",
+    "test": "Viewport 1440x900",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\01-signup-desktop.png"
+  },
+  {
+    "category": "AUTH",
+    "name": "Login UI (Desktop)",
+    "purpose": "Browser login flow",
+    "test": "Fill login form → dashboard",
+    "status": "PASS",
+    "notes": "http://localhost:5000/pages/dashboard.html",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "KPI Cards UI (Desktop)",
+    "purpose": "Render KPI cards",
+    "test": "Count .kpi-card elements",
+    "status": "PASS",
+    "notes": "6 cards",
+    "screenshot": "portfolio-assets\\audit-screenshots\\02-dashboard-desktop.png"
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Charts UI (Desktop)",
+    "purpose": "Render Chart.js charts",
+    "test": "Count canvas elements",
+    "status": "PASS",
+    "notes": "13 charts",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Reports Library UI (Desktop)",
+    "purpose": "Display report cards",
+    "test": "Navigate to reports page",
+    "status": "PASS",
+    "notes": "6 cards",
+    "screenshot": "portfolio-assets\\audit-screenshots\\04-reports-desktop.png"
+  },
+  {
+    "category": "BILLING",
+    "name": "Billing Page UI (Desktop)",
+    "purpose": "Show plan cards & subscription",
+    "test": "Navigate to billing",
+    "status": "PASS",
+    "notes": "3 plans",
+    "screenshot": "portfolio-assets\\audit-screenshots\\05-billing-desktop.png"
+  },
+  {
+    "category": "ADMIN",
+    "name": "Admin Panel UI (Desktop)",
+    "purpose": "Admin dashboard renders",
+    "test": "Navigate to admin",
+    "status": "PASS",
+    "notes": "14 KPIs",
+    "screenshot": "portfolio-assets\\audit-screenshots\\06-admin-desktop.png"
+  },
+  {
+    "category": "AI",
+    "name": "AI Insights UI (Desktop)",
+    "purpose": "AI generation toolbar",
+    "test": "Navigate to insights",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\07-insights-desktop.png"
+  },
+  {
+    "category": "AI",
+    "name": "Generate Summary UI",
+    "purpose": "Click Generate Summary button",
+    "test": "AI output panel appears",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\08-ai-generated-desktop.png"
+  },
+  {
+    "category": "AUTH",
+    "name": "Logout UI",
+    "purpose": "Sign out via profile menu",
+    "test": "Click logout → login page",
+    "status": "PASS",
+    "notes": "http://localhost:5000/pages/login.html",
+    "screenshot": ""
+  },
+  {
+    "category": "RESPONSIVE",
+    "name": "Signup Page (Tablet)",
+    "purpose": "Signup form renders",
+    "test": "Viewport 768x1024",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\01-signup-tablet.png"
+  },
+  {
+    "category": "AUTH",
+    "name": "Login UI (Tablet)",
+    "purpose": "Browser login flow",
+    "test": "Fill login form → dashboard",
+    "status": "PASS",
+    "notes": "http://localhost:5000/pages/dashboard.html",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "KPI Cards UI (Tablet)",
+    "purpose": "Render KPI cards",
+    "test": "Count .kpi-card elements",
+    "status": "PASS",
+    "notes": "6 cards",
+    "screenshot": "portfolio-assets\\audit-screenshots\\02-dashboard-tablet.png"
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Charts UI (Tablet)",
+    "purpose": "Render Chart.js charts",
+    "test": "Count canvas elements",
+    "status": "PASS",
+    "notes": "13 charts",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Reports Library UI (Tablet)",
+    "purpose": "Display report cards",
+    "test": "Navigate to reports page",
+    "status": "PASS",
+    "notes": "6 cards",
+    "screenshot": "portfolio-assets\\audit-screenshots\\04-reports-tablet.png"
+  },
+  {
+    "category": "BILLING",
+    "name": "Billing Page UI (Tablet)",
+    "purpose": "Show plan cards & subscription",
+    "test": "Navigate to billing",
+    "status": "PASS",
+    "notes": "3 plans",
+    "screenshot": "portfolio-assets\\audit-screenshots\\05-billing-tablet.png"
+  },
+  {
+    "category": "ADMIN",
+    "name": "Admin Panel UI (Tablet)",
+    "purpose": "Admin dashboard renders",
+    "test": "Navigate to admin",
+    "status": "PASS",
+    "notes": "14 KPIs",
+    "screenshot": "portfolio-assets\\audit-screenshots\\06-admin-tablet.png"
+  },
+  {
+    "category": "AI",
+    "name": "AI Insights UI (Tablet)",
+    "purpose": "AI generation toolbar",
+    "test": "Navigate to insights",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\07-insights-tablet.png"
+  },
+  {
+    "category": "AUTH",
+    "name": "Logout UI",
+    "purpose": "Sign out via profile menu",
+    "test": "Click logout → login page",
+    "status": "PASS",
+    "notes": "http://localhost:5000/pages/login.html",
+    "screenshot": ""
+  },
+  {
+    "category": "RESPONSIVE",
+    "name": "Signup Page (Mobile)",
+    "purpose": "Signup form renders",
+    "test": "Viewport 375x812",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\01-signup-mobile.png"
+  },
+  {
+    "category": "AUTH",
+    "name": "Login UI (Mobile)",
+    "purpose": "Browser login flow",
+    "test": "Fill login form → dashboard",
+    "status": "PASS",
+    "notes": "http://localhost:5000/pages/dashboard.html",
+    "screenshot": ""
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "KPI Cards UI (Mobile)",
+    "purpose": "Render KPI cards",
+    "test": "Count .kpi-card elements",
+    "status": "PASS",
+    "notes": "6 cards",
+    "screenshot": "portfolio-assets\\audit-screenshots\\02-dashboard-mobile.png"
+  },
+  {
+    "category": "DASHBOARD",
+    "name": "Charts UI (Mobile)",
+    "purpose": "Render Chart.js charts",
+    "test": "Count canvas elements",
+    "status": "PASS",
+    "notes": "13 charts",
+    "screenshot": ""
+  },
+  {
+    "category": "RESPONSIVE",
+    "name": "Mobile Navigation",
+    "purpose": "Open mobile sidebar",
+    "test": "Click hamburger menu",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": ""
+  },
+  {
+    "category": "REPORTS",
+    "name": "Reports Library UI (Mobile)",
+    "purpose": "Display report cards",
+    "test": "Navigate to reports page",
+    "status": "PASS",
+    "notes": "6 cards",
+    "screenshot": "portfolio-assets\\audit-screenshots\\04-reports-mobile.png"
+  },
+  {
+    "category": "BILLING",
+    "name": "Billing Page UI (Mobile)",
+    "purpose": "Show plan cards & subscription",
+    "test": "Navigate to billing",
+    "status": "PASS",
+    "notes": "3 plans",
+    "screenshot": "portfolio-assets\\audit-screenshots\\05-billing-mobile.png"
+  },
+  {
+    "category": "ADMIN",
+    "name": "Admin Panel UI (Mobile)",
+    "purpose": "Admin dashboard renders",
+    "test": "Navigate to admin",
+    "status": "PASS",
+    "notes": "14 KPIs",
+    "screenshot": "portfolio-assets\\audit-screenshots\\06-admin-mobile.png"
+  },
+  {
+    "category": "AI",
+    "name": "AI Insights UI (Mobile)",
+    "purpose": "AI generation toolbar",
+    "test": "Navigate to insights",
+    "status": "PASS",
+    "notes": "",
+    "screenshot": "portfolio-assets\\audit-screenshots\\07-insights-mobile.png"
+  },
+  {
+    "category": "AUTH",
+    "name": "Logout UI",
+    "purpose": "Sign out via profile menu",
+    "test": "Click logout → login page",
+    "status": "PASS",
+    "notes": "http://localhost:5000/pages/login.html",
+    "screenshot": ""
+  }
+]

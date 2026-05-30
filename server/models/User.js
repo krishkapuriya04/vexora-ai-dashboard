@@ -41,6 +41,15 @@ const userSchema = new mongoose.Schema(
       enum: ['active', 'disabled'],
       default: 'active',
     },
+    jobTitle: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    preferences: {
+      type: mongoose.Schema.Types.Mixed,
+      default: () => ({}),
+    },
   },
   {
     timestamps: true,
@@ -67,6 +76,8 @@ userSchema.methods.toPublicJSON = function toPublicJSON() {
     role: this.role,
     status: this.status,
     organization: this.organization?.toString() || null,
+    jobTitle: this.jobTitle || '',
+    preferences: this.preferences || {},
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };

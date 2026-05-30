@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Organization from '../models/Organization.js';
 import { signToken } from '../utils/jwt.js';
 import { AppError } from '../utils/errors.js';
 import { invalidateToken, registerSession, removeSession } from './tokenService.js';
@@ -87,6 +88,51 @@ export async function getUserProfile(userId) {
 }
 
 /**
+ * Update authenticated user profile and preferences.
+ */
+export async function updateUserProfile(userId, payload) {
+  const user = await User.findById(userId);
+  if (!user) throw new AppError('User not found', 404);
+
+  if (payload.fullName !== undefined) user.fullName = payload.fullName;
+  if (payload.email !== undefined) {
+    const existing = await User.findOne({ email: payload.email.toLowerCase(), _id: { $ne: userId } });
+    if (existing) throw new AppError('Email already in use', 409);
+    user.email = payload.email;
+  }
+  if (payload.jobTitle !== undefined) user.jobTitle = payload.jobTitle;
+  if (payload.preferences !== undefined) {
+    user.preferences = { ...(user.preferences || {}), ...payload.preferences };
+    user.markModified('preferences');
+  }
+
+  await user.save();
+  return getUserProfile(userId);
+}
+
+/**
+ * Update user's organization (Admin/Manager of that org).
+ */
+export async function updateUserOrganization(user, organizationId, payload) {
+  if (!['Admin', 'Manager'].includes(user.role)) {
+    throw new AppError('Insufficient permissions', 403);
+  }
+  if (user.role === 'Manager' && String(user.organization) !== String(organizationId)) {
+    throw new AppError('Cannot update this organization', 403);
+  }
+
+  const org = await Organization.findById(organizationId);
+  if (!org) throw new AppError('Organization not found', 404);
+
+  if (payload.name !== undefined) org.name = payload.name;
+  if (payload.industry !== undefined) org.industry = payload.industry;
+  if (payload.size !== undefined) org.size = payload.size;
+
+  await org.save();
+  return org.toPublicJSON();
+}
+
+/**
  * Invalidate JWT on logout.
  */
 export async function logoutUser(token) {
@@ -98,5 +144,7 @@ export default {
   registerUser,
   loginUser,
   getUserProfile,
+  updateUserProfile,
+  updateUserOrganization,
   logoutUser,
 };

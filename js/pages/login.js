@@ -3,7 +3,7 @@
  */
 
 import VexoraTheme from '../theme.js';
-import { login, setAuth, isAuthenticated } from '../auth-client.js';
+import { login, setAuth, isAuthenticated, checkApiHealth } from '../auth-client.js';
 
 if (isAuthenticated()) {
   window.location.href = 'dashboard.html';
@@ -14,6 +14,14 @@ VexoraTheme.init();
 const form = document.getElementById('login-form');
 const errorEl = document.getElementById('auth-error');
 const submitBtn = document.getElementById('login-submit');
+
+checkApiHealth().catch((error) => {
+  if (errorEl) {
+    errorEl.textContent = error.message;
+    errorEl.hidden = false;
+  }
+  if (submitBtn) submitBtn.disabled = true;
+});
 
 form?.addEventListener('submit', async (event) => {
   event.preventDefault();

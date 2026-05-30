@@ -4,10 +4,11 @@
  */
 
 import { initApp, registerChart } from '../dashboard-app.js';
-import { fetchDashboardMetrics, fetchActivities } from '../api-client.js';
+import { fetchDashboardMetrics, fetchActivities, downloadExport } from '../api-client.js';
 import { VIDEO_CONFIG } from '../app-config.js';
 import { CHART_DEFAULTS, CHART_COLORS, createGradient, initSparkline, getLegendOptions } from '../chart-utils.js';
 import { bindVideoPreview } from '../shell.js';
+import { showToast, setButtonLoading } from '../ui-feedback.js';
 
 let kpiMetrics = [];
 let dashboardCharts = {};
@@ -207,6 +208,37 @@ function renderAIFeed(activities) {
   `).join('');
 }
 
+const DATE_RANGES = [
+  { label: 'Last 7 days ▾', days: 7 },
+  { label: 'Last 30 days ▾', days: 30 },
+  { label: 'Last 90 days ▾', days: 90 },
+];
+let dateRangeIndex = 1;
+
+function bindDashboardActions() {
+  const dateBtn = document.getElementById('dashboard-date-range');
+  const exportBtn = document.getElementById('dashboard-export-report');
+
+  dateBtn?.addEventListener('click', () => {
+    dateRangeIndex = (dateRangeIndex + 1) % DATE_RANGES.length;
+    const range = DATE_RANGES[dateRangeIndex];
+    dateBtn.textContent = range.label;
+    showToast(`Dashboard filtered to ${range.label.replace(' ▾', '')}`);
+  });
+
+  exportBtn?.addEventListener('click', async () => {
+    setButtonLoading(exportBtn, true, 'Exporting…');
+    try {
+      const filename = await downloadExport('pdf');
+      showToast(`Report exported — ${filename}`);
+    } catch (err) {
+      showToast(err.message || 'Export failed', true);
+    } finally {
+      setButtonLoading(exportBtn, false);
+    }
+  });
+}
+
 async function initDashboard() {
   const [metrics, activities] = await Promise.all([
     fetchDashboardMetrics(),
@@ -226,6 +258,7 @@ async function initDashboard() {
   renderActivityTimeline(activities);
   renderAIFeed(activities);
   bindVideoPreview('#video-play-btn', VIDEO_CONFIG.videoUrl);
+  bindDashboardActions();
 }
 
 initApp({

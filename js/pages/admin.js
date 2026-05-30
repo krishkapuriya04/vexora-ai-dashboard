@@ -257,6 +257,16 @@ async function openUserModal(userId, viewOnly = false) {
 }
 
 async function openOrgModal(orgId) {
+  if (!orgId) {
+    document.getElementById('org-id').value = '';
+    document.getElementById('org-name').value = '';
+    document.getElementById('org-industry').value = '';
+    document.getElementById('org-size').value = '';
+    document.getElementById('org-status').value = 'active';
+    document.getElementById('org-modal-title').textContent = 'Create Organization';
+    openModal('org-modal');
+    return;
+  }
   const org = await fetchAdminOrganization(orgId);
   document.getElementById('org-id').value = org.id;
   document.getElementById('org-name').value = org.name;
@@ -265,6 +275,20 @@ async function openOrgModal(orgId) {
   document.getElementById('org-status').value = org.status;
   document.getElementById('org-modal-title').textContent = 'Edit Organization';
   openModal('org-modal');
+}
+
+async function openOrgDetailsModal(orgId) {
+  const org = await fetchAdminOrganization(orgId);
+  document.getElementById('org-details-title').textContent = org.name;
+  document.getElementById('org-details-body').innerHTML = `
+    <strong>Industry:</strong> ${org.industry || '—'}<br>
+    <strong>Size:</strong> ${org.size || '—'}<br>
+    <strong>Status:</strong> ${org.status}<br>
+    <strong>Users:</strong> ${org.userCount}<br>
+    <strong>Reports:</strong> ${org.reportCount}<br>
+    <strong>Revenue:</strong> $${org.revenue.toLocaleString()}
+  `;
+  openModal('org-details-modal');
 }
 
 function bindTabs() {
@@ -338,10 +362,7 @@ function bindOrgEvents() {
     const editId = e.target.dataset.editOrg;
     const disableId = e.target.dataset.disableOrg;
 
-    if (viewId) {
-      const org = await fetchAdminOrganization(viewId);
-      alert(`${org.name}\nUsers: ${org.userCount}\nReports: ${org.reportCount}\nRevenue: $${org.revenue.toLocaleString()}`);
-    }
+    if (viewId) openOrgDetailsModal(viewId);
     if (editId) openOrgModal(editId);
     if (disableId && canWrite) {
       const ok = await confirmAction('Disable this organization?');
@@ -355,27 +376,33 @@ function bindOrgEvents() {
   document.getElementById('org-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = document.getElementById('org-id').value;
-    await updateAdminOrganization(id, {
+    const payload = {
       name: document.getElementById('org-name').value,
       industry: document.getElementById('org-industry').value,
       size: document.getElementById('org-size').value,
       status: document.getElementById('org-status').value,
-    });
+    };
+    if (id) {
+      await updateAdminOrganization(id, payload);
+      showToast('Organization updated');
+    } else {
+      await createAdminOrganization(payload);
+      showToast('Organization created');
+    }
     closeModal('org-modal');
-    showToast('Organization updated');
     renderOrganizations(await fetchAdminOrganizations());
   });
 
-  document.getElementById('create-org-btn')?.addEventListener('click', async () => {
-    const name = prompt('Organization name:');
-    if (!name) return;
-    await createAdminOrganization({ name });
-    showToast('Organization created');
-    renderOrganizations(await fetchAdminOrganizations());
+  document.getElementById('create-org-btn')?.addEventListener('click', () => {
+    openOrgModal(null);
   });
 
   document.querySelectorAll('[data-close-org-modal]').forEach((el) => {
     el.addEventListener('click', () => closeModal('org-modal'));
+  });
+
+  document.querySelectorAll('[data-close-org-details]').forEach((el) => {
+    el.addEventListener('click', () => closeModal('org-details-modal'));
   });
 }
 

@@ -8,7 +8,7 @@ import VexoraAnimations from './animations.js';
 import { initMicroInteractions } from './micro-interactions.js';
 import { getToken } from './auth-client.js';
 import { CHART_DEFAULTS, createGradient } from './chart-utils.js';
-import { LANDING_MOCK_DATA as MOCK_DATA } from './app-config.js';
+import { LANDING_MOCK_DATA as MOCK_DATA, VIDEO_CONFIG } from './app-config.js';
 
 /**
  * Initialize showcase revenue chart (Product Showcase section)
@@ -252,6 +252,42 @@ function initAnalyticsTabs() {
 }
 
 /**
+ * Dashboard preview tab switching on landing page
+ */
+function initDashboardPreviewTabs() {
+  const tabs = document.querySelectorAll('.dashboard-preview__tab');
+  if (!tabs.length) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+    });
+  });
+}
+
+/**
+ * Watch Demo CTA — scroll to showcase and open video when available
+ */
+function initWatchDemo() {
+  document.querySelectorAll('a[href="#showcase"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' });
+      if (VIDEO_CONFIG?.videoUrl) {
+        import('./shell.js').then(({ openVideoModal }) => {
+          setTimeout(() => openVideoModal(VIDEO_CONFIG.videoUrl), 400);
+        });
+      }
+    });
+  });
+}
+
+/**
  * Wire pricing CTAs to billing flow
  */
 function initPricingCTAs() {
@@ -276,6 +312,8 @@ function init() {
   VexoraAnimations.init();
   initNavbar();
   initAnalyticsTabs();
+  initDashboardPreviewTabs();
+  initWatchDemo();
   initPricingCTAs();
   initShowcaseChart();
   initAnalyticsChart();
