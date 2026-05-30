@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 32" fill="none" role="img" aria-label="VEXORA">
+  <defs>
+    <linearGradient id="logo-grad" x1="0" y1="0" x2="140" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6C63FF"/>
+      <stop offset="1" stop-color="#00E5FF"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="2" width="28" height="28" rx="7" fill="url(#logo-grad)"/>
+  <path d="M8.5 21V11h3.2l2.4 5.2 2.4-5.2H20v10h-2.5v-6.2l-2.7 5.5h-1.6l-2.7-5.5V21H8.5z" fill="#F8FAFC"/>
+  <text x="36" y="22" font-family="'Plus Jakarta Sans', Inter, sans-serif" font-size="18" font-weight="700" letter-spacing="0.12em" fill="#F8FAFC">VEXORA</text>
+</svg>

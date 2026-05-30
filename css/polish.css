@@ -1,0 +1,321 @@
+/**
+ * VEXORA Elite Polish Layer
+ * Typography, spacing, empty states, glow system, micro-interaction hooks.
+ */
+
+/* ══════════════════════════════════════
+   DESIGN TOKENS EXTENSION
+   ══════════════════════════════════════ */
+:root {
+  --glow-soft: 0 0 60px rgba(108, 99, 255, 0.08);
+  --glow-medium: 0 0 40px rgba(108, 99, 255, 0.18);
+  --glow-strong: 0 0 80px rgba(108, 99, 255, 0.28);
+  --surface-reflection: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --page-max-width: 1440px;
+  --card-padding: var(--space-6);
+  --section-gap: var(--space-6);
+}
+
+/* ══════════════════════════════════════
+   MESH GRADIENT BACKGROUND
+   ══════════════════════════════════════ */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(108, 99, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 110%, rgba(0, 229, 255, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
+}
+
+.particle-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════════
+   TYPOGRAPHY & HIERARCHY
+   ══════════════════════════════════════ */
+.page-header__title {
+  font-size: clamp(1.375rem, 2.5vw, 1.75rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
+
+.page-header__subtitle {
+  line-height: var(--leading-snug);
+  max-width: 560px;
+}
+
+.page-content {
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+}
+
+.widget__title,
+.kpi-card__label {
+  letter-spacing: -0.01em;
+}
+
+/* ══════════════════════════════════════
+   CARD CONSISTENCY
+   ══════════════════════════════════════ */
+.glass-card,
+.widget,
+.kpi-card,
+.stat-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm), var(--surface-reflection);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.glass-card:hover,
+.widget:hover,
+.kpi-card:hover {
+  box-shadow: var(--shadow-md), var(--glow-soft), var(--surface-reflection);
+}
+
+.kpi-card {
+  padding: var(--card-padding);
+}
+
+.widget {
+  padding: var(--card-padding);
+}
+
+/* ══════════════════════════════════════
+   BUTTON PRESS & HOVER
+   ══════════════════════════════════════ */
+.btn {
+  transition: transform var(--transition-fast), box-shadow var(--transition-base), background var(--transition-base);
+}
+
+.btn.is-pressed,
+.topbar__action.is-pressed,
+.sidebar__link.is-pressed {
+  transform: scale(0.97);
+}
+
+.btn--primary:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+/* ══════════════════════════════════════
+   SIDEBAR POLISH
+   ══════════════════════════════════════ */
+.sidebar__link {
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.sidebar__link.is-hovered:not(.is-active) {
+  transform: translateX(2px);
+}
+
+.sidebar__logo-icon img,
+.sidebar__logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+}
+
+/* ══════════════════════════════════════
+   PROFILE & DROPDOWN ANIMATIONS
+   ══════════════════════════════════════ */
+.dropdown-panel:not([hidden]) {
+  animation: dropdownReveal 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dropdownReveal {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.profile-panel__link,
+.notify-item {
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.profile-panel__link:hover {
+  transform: translateX(3px);
+}
+
+/* ══════════════════════════════════════
+   CHART LOADING & REVEAL
+   ══════════════════════════════════════ */
+.widget__chart,
+.analytics-preview__chart-area {
+  position: relative;
+}
+
+.chart-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: var(--radius-md);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.chart-revealed canvas {
+  animation: chartFadeIn 0.6s ease forwards;
+}
+
+@keyframes chartFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ══════════════════════════════════════
+   EMPTY STATES
+   ══════════════════════════════════════ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  min-height: 240px;
+}
+
+.empty-state__illustration {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: rgba(108, 99, 255, 0.08);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-5);
+  border: 1px solid rgba(108, 99, 255, 0.15);
+  box-shadow: var(--glow-soft);
+}
+
+.empty-state__title {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  max-width: 320px;
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-4);
+}
+
+.command-modal__empty {
+  padding: var(--space-4);
+}
+
+.notify-panel__empty {
+  padding: var(--space-6);
+}
+
+.reports-empty {
+  grid-column: 1 / -1;
+}
+
+/* ══════════════════════════════════════
+   KPI VALUE POLISH
+   ══════════════════════════════════════ */
+.kpi-card__value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.kpi-grid {
+  gap: var(--section-gap);
+}
+
+.widget-grid {
+  gap: var(--section-gap);
+}
+
+/* ══════════════════════════════════════
+   SOFT LIGHT REFLECTION ON TOPBAR
+   ══════════════════════════════════════ */
+.topbar {
+  box-shadow: var(--surface-reflection), 0 1px 0 var(--color-border);
+}
+
+.topbar__search {
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+/* ══════════════════════════════════════
+   LOGO COMPONENT
+   ══════════════════════════════════════ */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brand-logo__mark {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.brand-logo__text {
+  font-family: var(--font-secondary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: var(--text-lg);
+  letter-spacing: 0.08em;
+}
+
+/* ══════════════════════════════════════
+   SECTION SPACING NORMALIZATION
+   ══════════════════════════════════════ */
+.app-content {
+  padding: var(--space-6) var(--space-8);
+}
+
+.page-header {
+  margin-bottom: var(--space-10);
+}
+
+.video-preview {
+  margin-bottom: var(--section-gap);
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    padding: var(--space-4);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-6);
+  }
+}
+
+/* ══════════════════════════════════════
+   REDUCED MOTION
+   ══════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .chart-revealed canvas,
+  .dropdown-panel:not([hidden]) {
+    animation: none;
+  }
+
+  .magnetic-card,
+  .kpi-card,
+  .widget {
+    transform: none !important;
+  }
+}

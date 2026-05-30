@@ -5,6 +5,7 @@
 
 import VexoraTheme from './theme.js';
 import VexoraAnimations from './animations.js';
+import { initMicroInteractions } from './micro-interactions.js';
 import {
   initShell,
   bindShellEvents,
@@ -39,10 +40,13 @@ export function initApp({ activePage, pageTitle, onReady }) {
   /* Scroll-triggered reveals on app pages */
   VexoraAnimations.init();
 
-  /* Page-specific initialization */
+  /* Page-specific initialization (charts must exist before reveal) */
   if (typeof onReady === 'function') {
     onReady();
   }
+
+  /* Premium micro-interactions */
+  initMicroInteractions();
 }
 
 /**

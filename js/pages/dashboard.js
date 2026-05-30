@@ -5,7 +5,7 @@
 
 import { initApp, registerChart } from '../dashboard-app.js';
 import { KPI_METRICS, DASHBOARD_CHARTS, VIDEO_CONFIG, ACTIVITY_TIMELINE, DASHBOARD_AI_FEED } from '../mock-data.js';
-import { CHART_DEFAULTS, CHART_COLORS, createGradient, initSparkline } from '../chart-utils.js';
+import { CHART_DEFAULTS, CHART_COLORS, createGradient, initSparkline, getLegendOptions } from '../chart-utils.js';
 import { bindVideoPreview } from '../shell.js';
 
 function renderKPICards() {
@@ -13,19 +13,22 @@ function renderKPICards() {
   if (!grid) return;
 
   grid.innerHTML = KPI_METRICS.map((kpi, i) => {
-    const displayValue = kpi.format === 'currency'
-      ? `$${(kpi.value / 1000000).toFixed(2)}M`
-      : kpi.decimals !== undefined
-        ? `${kpi.prefix || ''}${kpi.value.toFixed(kpi.decimals)}${kpi.suffix || ''}`
-        : `${kpi.prefix || ''}${kpi.value.toLocaleString()}${kpi.suffix || ''}`;
+    const animateVal = kpi.format === 'currency' ? (kpi.value / 1000000) : kpi.value;
+    const animateSuffix = kpi.format === 'currency' ? 'M' : (kpi.suffix || '');
+    const animatePrefix = kpi.format === 'currency' ? '$' : (kpi.prefix || '');
+    const decimals = kpi.format === 'currency' ? 2 : (kpi.decimals || 0);
 
     return `
-      <article class="kpi-card glass-card glow-border reveal" style="transition-delay: ${i * 60}ms">
+      <article class="kpi-card glass-card glow-border magnetic-card reveal" style="transition-delay: ${i * 60}ms">
         <div class="kpi-card__header">
           <span class="kpi-card__icon" aria-hidden="true">${kpi.icon}</span>
           <span class="kpi-card__change kpi-card__change--${kpi.trend}">${kpi.change}</span>
         </div>
-        <div class="kpi-card__value">${displayValue}</div>
+        <div class="kpi-card__value"
+             data-animate="${animateVal}"
+             data-prefix="${animatePrefix}"
+             data-suffix="${animateSuffix}"
+             data-decimals="${decimals}">${animatePrefix}0${animateSuffix}</div>
         <div class="kpi-card__label">${kpi.label}</div>
         <div class="kpi-card__sparkline">
           <canvas id="spark-${kpi.id}" aria-hidden="true"></canvas>
@@ -79,7 +82,7 @@ function initRevenueChart() {
       ...CHART_DEFAULTS,
       plugins: {
         ...CHART_DEFAULTS.plugins,
-        legend: { display: true, labels: { color: '#94A3B8', boxWidth: 12, padding: 16, font: { size: 11 } } },
+        legend: getLegendOptions('top'),
       },
     },
   }));
@@ -116,7 +119,7 @@ function initUserGrowthChart() {
       ...CHART_DEFAULTS,
       plugins: {
         ...CHART_DEFAULTS.plugins,
-        legend: { display: true, labels: { color: '#94A3B8', boxWidth: 12, padding: 16, font: { size: 11 } } },
+        legend: getLegendOptions('top'),
       },
     },
   }));

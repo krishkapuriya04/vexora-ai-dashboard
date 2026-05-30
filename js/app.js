@@ -5,6 +5,7 @@
 
 import VexoraTheme from './theme.js';
 import VexoraAnimations from './animations.js';
+import { initMicroInteractions } from './micro-interactions.js';
 import { CHART_DEFAULTS, createGradient } from './chart-utils.js';
 import { LANDING_MOCK_DATA as MOCK_DATA } from './mock-data.js';
 
@@ -261,6 +262,7 @@ function init() {
   initAnalyticsChart();
   initAIInsightsChart();
   initDashboardCharts();
+  initMicroInteractions();
 }
 
 document.addEventListener('DOMContentLoaded', init);

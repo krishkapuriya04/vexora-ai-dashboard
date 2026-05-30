@@ -45,9 +45,9 @@ function renderSidebar(activePage) {
   return `
     <aside class="sidebar" id="sidebar" aria-label="Main navigation">
       <div class="sidebar__header">
-        <a href="../index.html" class="sidebar__logo" aria-label="VEXORA Home">
-          <span class="sidebar__logo-icon" aria-hidden="true">V</span>
-          <span class="sidebar__logo-text">VEXORA</span>
+        <a href="../index.html" class="sidebar__logo brand-logo" aria-label="VEXORA Home">
+          <img src="../assets/icons/logo-mark.svg" alt="" class="brand-logo__mark sidebar__logo-mark" width="32" height="32">
+          <span class="sidebar__logo-text brand-logo__text">VEXORA</span>
         </a>
         <button class="sidebar__collapse-btn" id="sidebar-collapse" type="button" aria-label="Collapse sidebar">
           <span aria-hidden="true">‹</span>
@@ -156,7 +156,16 @@ function renderSearchModal() {
                  placeholder="Search pages, reports, actions..." autocomplete="off" aria-label="Search">
           <kbd class="command-modal__kbd">ESC</kbd>
         </div>
-        <div class="command-modal__results" id="command-results">${items}</div>
+        <div class="command-modal__results" id="command-results">
+          ${items}
+          <div id="search-empty" class="command-modal__empty" hidden>
+            <div class="empty-state" role="status">
+              <div class="empty-state__illustration" aria-hidden="true">⌕</div>
+              <h3 class="empty-state__title">No results found</h3>
+              <p class="empty-state__desc">Try searching for pages, reports, or quick actions like "Dashboard" or "Export".</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -184,7 +193,14 @@ function renderNotificationPanel() {
         <h3>Notifications</h3>
         <button class="btn btn--ghost btn--sm" type="button">Mark all read</button>
       </div>
-      <div class="dropdown-panel__body">${items}</div>
+      <div class="dropdown-panel__body" id="notify-body">${items}</div>
+      <div id="notify-empty" class="notify-panel__empty" hidden>
+        <div class="empty-state" role="status">
+          <div class="empty-state__illustration" aria-hidden="true">🔔</div>
+          <h3 class="empty-state__title">All caught up</h3>
+          <p class="empty-state__desc">You have no new notifications. We'll alert you when something important happens.</p>
+        </div>
+      </div>
       <div class="dropdown-panel__footer">
         <a href="insights.html" class="dropdown-panel__link">View all notifications</a>
       </div>
@@ -392,6 +408,16 @@ export function bindShellEvents() {
   notifyPanel?.addEventListener('click', (e) => e.stopPropagation());
   profilePanel?.addEventListener('click', (e) => e.stopPropagation());
 
+  /* Mark all notifications read → empty state */
+  notifyPanel?.querySelector('.btn--ghost')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const body = document.getElementById('notify-body');
+    const empty = document.getElementById('notify-empty');
+    if (body) { body.innerHTML = ''; body.hidden = true; }
+    if (empty) empty.hidden = false;
+    notifyTrigger?.querySelector('.topbar__badge')?.remove();
+  });
+
   /* Modal close handlers */
   document.querySelectorAll('[data-close-modal]').forEach((el) => {
     el.addEventListener('click', () => {
@@ -407,10 +433,15 @@ export function bindShellEvents() {
  * @param {string} query
  */
 function filterCommandResults(query) {
+  let visible = 0;
   document.querySelectorAll('.command-item').forEach((item) => {
     const text = item.dataset.search || '';
-    item.style.display = !query || text.includes(query) ? '' : 'none';
+    const show = !query || text.includes(query);
+    item.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
+  const empty = document.getElementById('search-empty');
+  if (empty) empty.hidden = visible > 0;
 }
 
 /**

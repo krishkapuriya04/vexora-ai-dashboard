@@ -3,31 +3,54 @@
  * Shared Chart.js configuration and helper functions.
  */
 
+/** Premium tooltip styling */
+export const CHART_TOOLTIP = {
+  enabled: true,
+  backgroundColor: 'rgba(11, 16, 32, 0.96)',
+  titleColor: '#F8FAFC',
+  titleFont: { size: 12, weight: '600', family: 'Inter' },
+  bodyColor: '#94A3B8',
+  bodyFont: { size: 11, family: 'Inter' },
+  borderColor: 'rgba(108, 99, 255, 0.25)',
+  borderWidth: 1,
+  padding: 14,
+  cornerRadius: 10,
+  displayColors: true,
+  boxWidth: 8,
+  boxHeight: 8,
+  boxPadding: 4,
+  usePointStyle: true,
+  caretSize: 6,
+};
+
+/** Smooth chart entrance animation */
+export const CHART_ANIMATION = {
+  duration: 1200,
+  easing: 'easeOutQuart',
+};
+
 /** Default Chart.js options for dark-theme dashboards */
 export const CHART_DEFAULTS = {
   responsive: true,
   maintainAspectRatio: false,
+  animation: CHART_ANIMATION,
+  interaction: {
+    mode: 'index',
+    intersect: false,
+  },
   plugins: {
     legend: { display: false },
-    tooltip: {
-      backgroundColor: 'rgba(19, 26, 46, 0.95)',
-      titleColor: '#F8FAFC',
-      bodyColor: '#94A3B8',
-      borderColor: 'rgba(255, 255, 255, 0.1)',
-      borderWidth: 1,
-      padding: 12,
-      cornerRadius: 8,
-    },
+    tooltip: CHART_TOOLTIP,
   },
   scales: {
     x: {
-      grid: { color: 'rgba(255, 255, 255, 0.04)' },
-      ticks: { color: '#64748B', font: { size: 11 } },
+      grid: { color: 'rgba(255, 255, 255, 0.04)', drawBorder: false },
+      ticks: { color: '#64748B', font: { size: 11, family: 'Inter' }, padding: 8 },
       border: { display: false },
     },
     y: {
-      grid: { color: 'rgba(255, 255, 255, 0.04)' },
-      ticks: { color: '#64748B', font: { size: 11 } },
+      grid: { color: 'rgba(255, 255, 255, 0.04)', drawBorder: false },
+      ticks: { color: '#64748B', font: { size: 11, family: 'Inter' }, padding: 8 },
       border: { display: false },
     },
   },
@@ -43,6 +66,39 @@ export const CHART_COLORS = {
   danger: '#EF4444',
   palette: ['#6C63FF', '#8B5CF6', '#00E5FF', '#22C55E', '#F59E0B', '#EF4444'],
 };
+
+/**
+ * Standard legend configuration
+ * @param {'top'|'bottom'|'left'|'right'} [position='bottom']
+ * @returns {Object}
+ */
+export function getLegendOptions(position = 'bottom') {
+  return {
+    display: true,
+    position,
+    labels: {
+      color: '#94A3B8',
+      boxWidth: 10,
+      boxHeight: 10,
+      padding: 16,
+      font: { size: 11, family: 'Inter' },
+      usePointStyle: true,
+      pointStyle: 'circle',
+    },
+  };
+}
+
+/**
+ * Hover highlight for bar/line datasets
+ * @param {string} [color=CHART_COLORS.primary]
+ * @returns {Object}
+ */
+export function getHoverOptions(color = CHART_COLORS.primary) {
+  return {
+    mode: 'index',
+    intersect: false,
+  };
+}
 
 /**
  * Create a vertical gradient fill for area/line charts
@@ -128,7 +184,7 @@ export function initSparkline(canvas, data, color = CHART_COLORS.primary) {
         x: { display: false },
         y: { display: false },
       },
-      animation: { duration: 800 },
+      animation: { duration: 900, easing: 'easeOutQuart' },
     },
   });
 }

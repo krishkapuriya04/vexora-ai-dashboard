@@ -35,6 +35,7 @@ const REQUIRED_JS = [
   'js/pages/insights.js',
   'js/pages/reports.js',
   'js/pages/settings.js',
+  'js/micro-interactions.js',
 ];
 
 const REQUIRED_CSS = [
@@ -45,6 +46,7 @@ const REQUIRED_CSS = [
   'css/app.css',
   'css/pages.css',
   'css/upgrade.css',
+  'css/polish.css',
 ];
 
 function checkExists(relativePath, label) {
@@ -140,7 +142,8 @@ async function checkHttp() {
     '/pages/insights.html',
     '/pages/reports.html',
     '/pages/settings.html',
-    '/css/upgrade.css',
+    '/css/polish.css',
+    '/assets/icons/logo-mark.svg',
     '/assets/icons/favicon.svg',
   ];
 

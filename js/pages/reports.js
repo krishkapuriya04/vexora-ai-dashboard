@@ -11,7 +11,7 @@ function renderReportsLibrary() {
   if (!grid) return;
 
   grid.innerHTML = REPORTS.map((report, i) => `
-    <article class="report-card glass-card glow-border reveal" style="transition-delay: ${i * 70}ms">
+    <article class="report-card glass-card glow-border magnetic-card reveal" data-type="${report.type.toLowerCase()}" style="transition-delay: ${i * 70}ms">
       <div class="report-card__thumbnail">
         <img src="${report.thumbnail}" alt="" loading="lazy" width="400" height="225">
         <div class="report-card__overlay">
@@ -100,7 +100,39 @@ function showToast(message) {
 }
 
 function bindFilterChips() {
-  document.querySelectorAll('.filter-chip').forEach((chip) => {
+  const grid = document.getElementById('reports-grid');
+  let emptyEl = document.getElementById('reports-empty');
+
+  if (!emptyEl && grid) {
+    emptyEl = document.createElement('div');
+    emptyEl.id = 'reports-empty';
+    emptyEl.className = 'reports-empty';
+    emptyEl.hidden = true;
+    emptyEl.innerHTML = `
+      <div class="empty-state" role="status">
+        <div class="empty-state__illustration" aria-hidden="true">📋</div>
+        <h3 class="empty-state__title">No reports in this category</h3>
+        <p class="empty-state__desc">Try selecting a different filter or generate a new report from the dashboard.</p>
+        <button class="btn btn--primary btn--sm" type="button" id="reports-reset-filter">View All Reports</button>
+      </div>
+    `;
+    grid.appendChild(emptyEl);
+    emptyEl.querySelector('#reports-reset-filter')?.addEventListener('click', () => {
+      document.querySelector('.filter-chip')?.click();
+    });
+  }
+
+  const applyFilter = (type) => {
+    let visible = 0;
+    grid?.querySelectorAll('.report-card').forEach((card) => {
+      const match = type === 'all' || card.dataset.type === type;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    if (emptyEl) emptyEl.hidden = visible > 0;
+  };
+
+  document.querySelectorAll('.filter-chip').forEach((chip, idx) => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.filter-chip').forEach((c) => {
         c.classList.remove('is-active');
@@ -108,6 +140,8 @@ function bindFilterChips() {
       });
       chip.classList.add('is-active');
       chip.setAttribute('aria-selected', 'true');
+      const types = ['all', 'executive', 'financial', 'ai', 'marketing'];
+      applyFilter(types[idx] || 'all');
     });
   });
 }

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0B1020"/>
+  <circle cx="900" cy="120" r="200" fill="#6C63FF" opacity="0.15" filter="blur(80px)"/>
+  <circle cx="200" cy="500" r="180" fill="#00E5FF" opacity="0.1" filter="blur(80px)"/>
+  <rect x="80" y="80" width="48" height="48" rx="12" fill="url(#og-g)"/>
+  <path d="M96 116V92h6l4.5 9.5L111 92h6v24h-4.5v-11l-4 8h-2.5l-4-8v11H96z" fill="#F8FAFC"/>
+  <text x="140" y="118" font-family="system-ui,sans-serif" font-size="36" font-weight="700" letter-spacing="0.1em" fill="#F8FAFC">VEXORA</text>
+  <text x="80" y="200" font-family="system-ui,sans-serif" font-size="52" font-weight="700" fill="#F8FAFC">AI-Powered Business Intelligence</text>
+  <text x="80" y="260" font-family="system-ui,sans-serif" font-size="24" fill="#94A3B8">Monitor KPIs · Visualize Analytics · AI Insights</text>
+  <rect x="80" y="320" width="1040" height="240" rx="20" fill="#131A2E" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <rect x="110" y="360" width="180" height="80" rx="10" fill="rgba(108,99,255,0.2)"/>
+  <rect x="310" y="360" width="180" height="80" rx="10" fill="rgba(0,229,255,0.12)"/>
+  <rect x="510" y="360" width="180" height="80" rx="10" fill="rgba(139,92,246,0.15)"/>
+  <rect x="110" y="460" width="880" height="60" rx="8" fill="rgba(255,255,255,0.04)"/>
+  <defs>
+    <linearGradient id="og-g" x1="80" y1="80" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6C63FF"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+</svg>
