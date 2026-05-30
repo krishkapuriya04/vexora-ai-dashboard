@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEXORA AI Insights — AI-powered recommendations, risk analysis, forecasting, and business intelligence.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>AI Insights — VEXORA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="app">
+
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-bg__layer aurora-bg__layer--1"></div>
+    <div class="aurora-bg__layer aurora-bg__layer--2"></div>
+    <div class="aurora-bg__layer aurora-bg__layer--3"></div>
+  </div>
+
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--accent"></div>
+  </div>
+
+  <div class="app-layout">
+    <div id="sidebar-slot"></div>
+
+    <div class="app-main">
+      <div id="topbar-slot"></div>
+
+      <main class="app-content" id="main-content">
+        <div class="page-skeleton" aria-hidden="true">
+          <div class="skeleton" style="height: 120px; margin-bottom: 24px;"></div>
+          <div class="skeleton" style="height: 400px;"></div>
+        </div>
+
+        <div class="page-content">
+          <header class="page-header reveal">
+            <h1 class="page-header__title">AI Insights</h1>
+            <p class="page-header__subtitle">Intelligent recommendations powered by machine learning — updated continuously</p>
+            <div class="page-header__actions">
+              <span class="badge badge--accent">✦ AI Engine Active</span>
+            </div>
+          </header>
+
+          <div class="insights-layout">
+            <div>
+              <!-- AI Hero Banner -->
+              <div class="ai-hero-banner glass-card glow-border reveal" style="margin-bottom: var(--space-6);">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80"
+                     alt=""
+                     loading="lazy"
+                     width="800"
+                     height="200"
+                     style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.15; border-radius: inherit;"
+                     aria-hidden="true">
+                <div style="position: relative; z-index: 1;">
+                  <div class="ai-hero-banner__icon" aria-hidden="true">✦</div>
+                  <h2 class="ai-hero-banner__title">6 New Insights Detected</h2>
+                  <p class="ai-hero-banner__text">VEXORA AI analyzed 2.4M data points in the last hour and surfaced actionable intelligence for your team.</p>
+                </div>
+              </div>
+
+              <!-- Insights Feed -->
+              <div class="insights-feed" id="insights-feed" aria-label="AI insights feed"></div>
+            </div>
+
+            <aside class="insights-sidebar">
+              <!-- Risk Analysis -->
+              <section aria-label="Risk analysis">
+                <h2 class="widget__title" style="margin-bottom: var(--space-4);">Risk Analysis</h2>
+                <div class="risk-cards" id="risk-cards"></div>
+              </section>
+
+              <!-- Forecast Chart -->
+              <article class="widget glass-card glow-border reveal" style="margin-top: var(--space-6); padding: var(--space-5);">
+                <div class="widget__header">
+                  <h2 class="widget__title">Revenue Forecast</h2>
+                </div>
+                <div class="widget__chart widget__chart--sm">
+                  <canvas id="chart-forecast" aria-label="AI revenue forecast chart"></canvas>
+                </div>
+              </article>
+
+              <!-- Opportunity Matrix -->
+              <article class="widget glass-card glow-border reveal" style="margin-top: var(--space-4); padding: var(--space-5);">
+                <div class="widget__header">
+                  <h2 class="widget__title">Opportunity Matrix</h2>
+                </div>
+                <div class="widget__chart widget__chart--sm">
+                  <canvas id="chart-opportunity" aria-label="Opportunity impact matrix chart"></canvas>
+                </div>
+              </article>
+            </aside>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="modals-slot"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="../js/pages/insights.js"></script>
+</body>
+</html>

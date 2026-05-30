@@ -5,74 +5,8 @@
 
 import VexoraTheme from './theme.js';
 import VexoraAnimations from './animations.js';
-
-/** Shared Chart.js defaults for consistent dark-theme styling */
-const CHART_DEFAULTS = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: 'rgba(19, 26, 46, 0.95)',
-      titleColor: '#F8FAFC',
-      bodyColor: '#94A3B8',
-      borderColor: 'rgba(255, 255, 255, 0.1)',
-      borderWidth: 1,
-      padding: 12,
-      cornerRadius: 8,
-    },
-  },
-  scales: {
-    x: {
-      grid: { color: 'rgba(255, 255, 255, 0.04)' },
-      ticks: { color: '#64748B', font: { size: 11 } },
-      border: { display: false },
-    },
-    y: {
-      grid: { color: 'rgba(255, 255, 255, 0.04)' },
-      ticks: { color: '#64748B', font: { size: 11 } },
-      border: { display: false },
-    },
-  },
-};
-
-/**
- * Mock data for landing page charts
- */
-const MOCK_DATA = {
-  revenue: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    values: [42, 48, 55, 52, 61, 68, 72, 78, 85, 82, 91, 98],
-  },
-  analytics: {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    sessions: [12400, 14200, 13800, 15600, 16200, 9800, 8400],
-    conversions: [420, 510, 480, 580, 620, 340, 290],
-  },
-  aiTrends: {
-    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-    predicted: [72, 78, 85, 94],
-    actual: [70, 76, 82, 88],
-  },
-  dashboard: {
-    labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
-    values: [35, 28, 18, 12, 7],
-  },
-};
-
-/**
- * Create gradient fill for line/area charts
- * @param {CanvasRenderingContext2D} ctx
- * @param {string} colorStart
- * @param {string} colorEnd
- * @returns {CanvasGradient}
- */
-function createGradient(ctx, colorStart, colorEnd) {
-  const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-  gradient.addColorStop(0, colorStart);
-  gradient.addColorStop(1, colorEnd);
-  return gradient;
-}
+import { CHART_DEFAULTS, createGradient } from './chart-utils.js';
+import { LANDING_MOCK_DATA as MOCK_DATA } from './mock-data.js';
 
 /**
  * Initialize showcase revenue chart (Product Showcase section)

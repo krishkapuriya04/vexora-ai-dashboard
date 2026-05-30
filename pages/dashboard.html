@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VEXORA Dashboard — Monitor KPIs, revenue, user growth, and business metrics in real-time.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard — VEXORA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="app">
+
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-bg__layer aurora-bg__layer--1"></div>
+    <div class="aurora-bg__layer aurora-bg__layer--2"></div>
+    <div class="aurora-bg__layer aurora-bg__layer--3"></div>
+  </div>
+
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--secondary"></div>
+  </div>
+
+  <div class="app-layout">
+    <div id="sidebar-slot"></div>
+
+    <div class="app-main">
+      <div id="topbar-slot"></div>
+
+      <main class="app-content" id="main-content">
+        <!-- Skeleton Loading -->
+        <div class="page-skeleton" aria-hidden="true">
+          <div class="skeleton-grid">
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+          </div>
+          <div class="widget-grid">
+            <div class="skeleton skeleton-widget"></div>
+            <div class="skeleton skeleton-widget"></div>
+          </div>
+        </div>
+
+        <div class="page-content">
+          <header class="page-header reveal">
+            <h1 class="page-header__title">Dashboard Overview</h1>
+            <p class="page-header__subtitle">Real-time business intelligence across all key metrics — last updated just now</p>
+            <div class="page-header__actions">
+              <button class="btn btn--secondary btn--sm" type="button">Last 30 days ▾</button>
+              <button class="btn btn--primary btn--sm" type="button">Export Report</button>
+            </div>
+          </header>
+
+          <!-- Product Demo Video -->
+          <section class="video-preview glass-card glow-border reveal" aria-label="Product walkthrough video">
+            <img class="video-preview__image"
+                 src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
+                 alt="VEXORA analytics dashboard preview"
+                 loading="lazy"
+                 width="1200"
+                 height="320">
+            <div class="video-preview__overlay">
+              <button class="video-preview__play" id="video-play-btn" type="button" aria-label="Play product walkthrough">▶</button>
+              <span class="video-preview__title">VEXORA Product Walkthrough</span>
+              <span class="video-preview__duration">3:42 · See how teams use VEXORA</span>
+            </div>
+          </section>
+
+          <!-- KPI Metrics -->
+          <section aria-label="Key performance indicators">
+            <div class="kpi-grid" id="kpi-grid"></div>
+          </section>
+
+          <!-- Charts -->
+          <section class="widget-grid" aria-label="Analytics charts">
+            <article class="widget widget--wide glass-card glow-border reveal">
+              <div class="widget__header">
+                <h2 class="widget__title">Revenue Trend</h2>
+                <span class="badge badge--accent">Live</span>
+              </div>
+              <div class="widget__chart">
+                <canvas id="chart-revenue-trend" aria-label="Monthly revenue and profit trend chart"></canvas>
+              </div>
+            </article>
+
+            <article class="widget widget--third glass-card glow-border reveal">
+              <div class="widget__header">
+                <h2 class="widget__title">Conversion Funnel</h2>
+              </div>
+              <div class="widget__chart widget__chart--sm">
+                <canvas id="chart-funnel" aria-label="Conversion funnel chart"></canvas>
+              </div>
+            </article>
+
+            <article class="widget glass-card glow-border reveal">
+              <div class="widget__header">
+                <h2 class="widget__title">User Growth</h2>
+              </div>
+              <div class="widget__chart">
+                <canvas id="chart-user-growth" aria-label="New vs returning user growth chart"></canvas>
+              </div>
+            </article>
+
+            <article class="widget glass-card glow-border reveal">
+              <div class="widget__header">
+                <h2 class="widget__title">Device Analytics</h2>
+              </div>
+              <div class="widget__chart widget__chart--sm">
+                <canvas id="chart-devices" aria-label="Device distribution chart"></canvas>
+              </div>
+            </article>
+
+            <article class="widget glass-card glow-border reveal">
+              <div class="widget__header">
+                <h2 class="widget__title">Traffic Sources</h2>
+              </div>
+              <div class="widget__chart widget__chart--sm">
+                <canvas id="chart-traffic" aria-label="Traffic sources polar chart"></canvas>
+              </div>
+            </article>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="modals-slot"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="../js/pages/dashboard.js"></script>
+</body>
+</html>

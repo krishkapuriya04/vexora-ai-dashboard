@@ -18,6 +18,11 @@ No backend. No database. Realistic mock data for demonstration.
 ```
 vexora/
 ├── index.html              # Landing page
+├── pages/
+│   ├── dashboard.html      # Main KPI dashboard
+│   ├── analytics.html      # Advanced analytics
+│   ├── insights.html       # AI insights explorer
+│   └── reports.html        # Reports library
 ├── assets/
 │   ├── images/             # Product imagery
 │   └── icons/              # SVG icons & favicons
@@ -25,14 +30,24 @@ vexora/
 │   ├── variables.css       # Design tokens
 │   ├── global.css          # Reset, typography, utilities
 │   ├── animations.css      # Keyframes & motion
-│   └── landing.css         # Landing page sections
+│   ├── landing.css         # Landing page sections
+│   ├── app.css             # Dashboard shell & layout
+│   └── pages.css           # Page-specific components
 ├── js/
-│   ├── app.js              # Main entry point & charts
+│   ├── app.js              # Landing page entry point
+│   ├── dashboard-app.js    # App pages bootstrap
+│   ├── shell.js            # Sidebar, topbar, modals
+│   ├── mock-data.js        # Centralized mock data
+│   ├── chart-utils.js      # Shared Chart.js config
 │   ├── theme.js            # Theme management
-│   └── animations.js       # Scroll reveals & counters
-├── components/
-│   └── ui-components.js    # Reusable UI factories
-└── pages/                  # Future dashboard pages
+│   ├── animations.js       # Scroll reveals & counters
+│   └── pages/              # Page-specific chart init
+│       ├── dashboard.js
+│       ├── analytics.js
+│       ├── insights.js
+│       └── reports.js
+└── components/
+    └── ui-components.js    # Reusable UI factories
 ```
 
 ## Getting Started
@@ -65,14 +80,26 @@ Fonts: **Inter** (body), **Plus Jakarta Sans** (headings)
 - [x] Scroll animations & loading screen
 - [x] Mobile-responsive navigation
 
-## Next Steps (Phase 2)
+## Phase 2 — Complete
 
-- [ ] Dashboard application pages
-- [ ] Sidebar navigation & routing
-- [ ] Full KPI dashboard with live mock data
-- [ ] AI insights explorer page
+- [x] Dashboard application (`pages/dashboard.html`)
+- [x] Analytics page with heatmap visualization
+- [x] AI Insights page with risk analysis & forecasting
+- [x] Reports library with export UI
+- [x] Sidebar navigation with collapse animation
+- [x] Topbar with search, notifications, profile menu
+- [x] Command search modal (⌘K)
+- [x] Theme switcher (dark/light)
+- [x] Product demo video section with modal player
+- [x] Skeleton loading states & page transitions
+- [x] Aurora backgrounds & glowing border effects
+
+## Next Steps (Phase 3)
+
 - [ ] Settings & profile pages
+- [ ] Client-side routing (SPA mode)
 - [ ] Favicon & Open Graph assets
+- [ ] PWA support & offline caching
 
 ## License
 

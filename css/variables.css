@@ -122,4 +122,26 @@
   --z-modal: 400;
   --z-loader: 500;
   --z-toast: 600;
+
+  /* ── App Layout ── */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+  --topbar-height: 64px;
+}
+
+/* ── Light Theme Overrides ── */
+[data-theme="light"] {
+  --color-bg: #F1F5F9;
+  --color-bg-elevated: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-card-hover: #F8FAFC;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-hover: rgba(0, 0, 0, 0.14);
+  --color-overlay: rgba(15, 23, 42, 0.5);
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-text-subtle: #94A3B8;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
 }
